@@ -1,10 +1,10 @@
-import typescript from "@typescript-eslint/eslint-plugin";
-import typescriptParser from "@typescript-eslint/parser";
-import playwright from "eslint-plugin-playwright";
+const typescript = require("@typescript-eslint/eslint-plugin");
+const typescriptParser = require("@typescript-eslint/parser");
+const playwright = require("eslint-plugin-playwright");
 const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommended");
 const { configs: typescriptConfigs } = typescript;
 
-export default [
+module.exports = [
   eslintPluginPrettierRecommended,
   {
     files: ["pageObjects/**/*.ts", "tests/**/*.ts", "utils/**/*.ts", "data/**/*.ts"],
