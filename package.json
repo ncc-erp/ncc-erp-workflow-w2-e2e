@@ -1,0 +1,41 @@
+{
+  "name": "ncc-erp-workflow-w2-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:chrome": "playwright test --project=chromium",
+    "test:report": "playwright show-report --host=127.0.0.1",
+    "test:report2": "allure serve allure-results",
+    "test:codegen": "playwright codegen",
+    "prettier": "prettier . --check",
+    "prettier:fix": "prettier . --write",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@playwright/test": "^1.47.1",
+    "@types/node": "^22.5.5",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^3.0.0-beta.12",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.10.0",
+    "eslint-plugin-playwright": "^1.6.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "find-free-ports": "^3.1.1",
+    "husky": "^9.1.6",
+    "lighthouse": "^9.6.8",
+    "playwright-lighthouse": "^2.2.2",
+    "typescript": "^5.6.2"
+  }
+}
