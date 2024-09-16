@@ -23,6 +23,7 @@ module.exports = [
       ...typescriptConfigs.recommended.rules,
       ...playwright.configs["flat/recommended"].rules,
       "no-console": "warn",
+      "playwright/expect-expect": "off",
     },
   },
 ];
