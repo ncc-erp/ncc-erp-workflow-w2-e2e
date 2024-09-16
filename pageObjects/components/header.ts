@@ -22,6 +22,10 @@ export default class Header extends BaseComponent {
     return this.page.locator(".css-3i2zwo");
   }
 
+  async logout() {
+    await this.logoutBtn.click();
+  }
+
   async verifyPageTitle(title: string) {
     const pageTitle = this.title;
     await expect(pageTitle).toHaveText(title);
