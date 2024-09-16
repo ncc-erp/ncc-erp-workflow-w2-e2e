@@ -1,3 +1,5 @@
+import path from "path";
+
 export const users = {
   user: {
     username: "manh.nguyenvan@ncc.asia",
@@ -10,3 +12,7 @@ export const users = {
     name: "Thien Dang An",
   },
 };
+
+export const authUserFile = path.join(__dirname, "../.auth/user.json");
+export const authPmFile = path.join(__dirname, "../.auth/pm.json");
+export const authAdminFile = path.join(__dirname, "../.auth/admin.json");

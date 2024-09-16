@@ -1,4 +1,4 @@
-import { BrowserContext, test, chromium } from "@playwright/test";
+import { BrowserContext, chromium, test } from "@playwright/test";
 import findFreePorts from "find-free-ports";
 import { playAudit } from "playwright-lighthouse";
 
@@ -23,6 +23,7 @@ test.beforeAll(async () => {
 });
 
 for (const [pageName, pagePath] of Object.entries(pagePaths)) {
+  // eslint-disable-next-line playwright/no-skipped-test
   test.skip(`${pageName} @lighthouse`, async ({ baseURL }) => {
     // take times, pending implementation
     const page = await browser.newPage();

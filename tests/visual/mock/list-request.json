@@ -1,0 +1,259 @@
+{
+  "totalCount": 5,
+  "items": [
+    {
+      "definitionId": "3a05daee-8f55-1e4c-9ac3-443c04309b77",
+      "name": "Change Office Request",
+      "displayName": "Change Office Request",
+      "description": null,
+      "version": 43,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a05daee-8f55-1e4c-9ac3-443c04309b77",
+        "settings": {
+          "color": "#5dac92"
+        },
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true,
+            "isTitle": true,
+            "titleTemplate": "Change office from {{CurrentOffice}} to {{DestinationOffice}}"
+          },
+          {
+            "name": "DestinationOffice",
+            "type": "OfficeList",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Content",
+            "type": "RichText",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "StartDate",
+            "type": "DateTime",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "EndDate",
+            "type": "DateTime",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "test123",
+            "type": "Text",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": ""
+          }
+        ],
+        "id": "3a05ffba-3830-e0d4-e931-9381c70a3710"
+      },
+      "id": "3a14a8f5-ff61-26bb-012a-8d884cbae7ab"
+    },
+    {
+      "definitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "name": "Device Request",
+      "displayName": "Device Request",
+      "description": null,
+      "version": 89,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+        "settings": {
+          "color": "#17cf45"
+        },
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Project",
+            "type": "MyProject",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Device",
+            "type": "Text",
+            "isRequired": true,
+            "isTitle": true,
+            "titleTemplate": "[{{CurrentOffice}}] [{{Project}}]: {{Device}}"
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          }
+        ],
+        "id": "3a057e11-efb1-941c-e984-d72e30aa520c"
+      },
+      "id": "3a1508cb-124d-bfb5-7b1a-bca15c07f5eb"
+    },
+    {
+      "definitionId": "3a0b89d4-93b5-232f-964d-ffa129064cc6",
+      "name": "Office Equipment Request",
+      "displayName": "Office Equipment Request",
+      "description": null,
+      "version": 44,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a0b89d4-93b5-232f-964d-ffa129064cc6",
+        "settings": {
+          "color": "#a4921e"
+        },
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Project",
+            "type": "MyProject",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Device",
+            "type": "Text",
+            "isRequired": true,
+            "isTitle": true,
+            "titleTemplate": "[{{CurrentOffice}}] [{{Project}}]: {{Device}}"
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          }
+        ],
+        "id": "3a0b89d7-218a-08db-93d8-e0d5979b3ff0"
+      },
+      "id": "3a14cdf1-1fe6-3b5c-5a16-b101bfe1149a"
+    },
+    {
+      "definitionId": "3a0e34b2-9746-6a31-4bbc-e879f2c7ea99",
+      "name": "Probationary Confirmation Request",
+      "displayName": "Probationary Confirmation Request",
+      "description": null,
+      "version": 30,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a0e34b2-9746-6a31-4bbc-e879f2c7ea99",
+        "settings": {
+          "color": "#b13577"
+        },
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Project",
+            "type": "MyProject",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Device",
+            "type": "Text",
+            "isRequired": true,
+            "isTitle": true,
+            "titleTemplate": "[{{CurrentOffice}}] [{{Project}}]: {{Device}}"
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          }
+        ],
+        "id": "3a0e34b3-d20c-a265-7c8b-a0a85e92b279"
+      },
+      "id": "3a14e7a6-8dd5-8d14-1780-d18fcc6d4568"
+    },
+    {
+      "definitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+      "name": "WFH Request",
+      "displayName": "WFH Request",
+      "description": null,
+      "version": 44,
+      "isSingleton": false,
+      "isPublished": true,
+      "isLatest": true,
+      "inputDefinition": {
+        "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+        "settings": {
+          "color": "#c2709c"
+        },
+        "propertyDefinitions": [
+          {
+            "name": "CurrentOffice",
+            "type": "OfficeList",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Project",
+            "type": "MyProject",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          },
+          {
+            "name": "Device",
+            "type": "Text",
+            "isRequired": true,
+            "isTitle": true,
+            "titleTemplate": "[{{CurrentOffice}}] [{{Project}}]: {{Device}}"
+          },
+          {
+            "name": "Reason",
+            "type": "RichText",
+            "isRequired": true,
+            "isTitle": false,
+            "titleTemplate": null
+          }
+        ],
+        "id": "3a05bbcd-9728-0c18-2bb1-1dfa77590b25"
+      },
+      "id": "3a14cd7a-3f95-3399-2593-db48cb71bb4e"
+    }
+  ]
+}
