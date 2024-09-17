@@ -1,0 +1,44 @@
+{
+  "settings": {
+    "color": "#6b7ed1",
+    "titleTemplate": "Confirm for {{Staff}} ({{EndDate}})"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "Staff",
+      "type": "UserList",
+      "isRequired": true,
+      "id": "43148256-9dce-47cc-8861-c5902e72bd23"
+    },
+    {
+      "name": "Project",
+      "type": "MyProject",
+      "isRequired": true,
+      "id": "1a924a88-54fb-4c5c-afbe-8008e4fc004c"
+    },
+    {
+      "name": "CurrentOffice",
+      "type": "OfficeList",
+      "isRequired": true,
+      "id": "ea496d77-f9ef-4d41-aaed-756b99cc5f87"
+    },
+    {
+      "name": "Content",
+      "type": "RichText",
+      "isRequired": false,
+      "id": "edf60dc1-4894-41fb-976a-8c78650cd360"
+    },
+    {
+      "name": "StartDate",
+      "type": "DateTime",
+      "isRequired": true,
+      "id": "8d447f10-7c7f-434a-83fd-51ccef02cd6d"
+    },
+    {
+      "name": "EndDate",
+      "type": "DateTime",
+      "isRequired": true,
+      "id": "53cadbe9-cb0d-42a9-94c6-1c293e0b9e78"
+    }
+  ]
+}

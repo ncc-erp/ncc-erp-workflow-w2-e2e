@@ -1,8 +1,8 @@
 import { DeviceRequestData } from "../../data/deviceRequests.data";
-import { authPmFile, authUserFile, users } from "../../data/users.data";
+import { authItFile, authPmFile, authUserFile, users } from "../../data/users.data";
 import { DeviceRequestForm } from "../../pageObjects/components/deviceRequest";
-import { test } from "../../pageObjects/page.fixture";
-import { userCreateRequestSteps } from "./../../steps/deviceRequest.step";
+import { BrowserControl, test } from "../../pageObjects/page.fixture";
+import { pmApproveDeviceRequestSteps, userCreateDeviceRequestSteps } from "./../../steps/deviceRequest.step";
 
 // create
 test.describe("As user, I want to create a Device Request", () => {
@@ -10,40 +10,73 @@ test.describe("As user, I want to create a Device Request", () => {
   test.use({ storageState: authUserFile });
   const dataNewRequest = DeviceRequestData.user.getRandomDeviceRequest();
   test("When user create a new request, should be success", async ({ PageObjects }) => {
-    await userCreateRequestSteps(PageObjects, dataNewRequest);
+    await userCreateDeviceRequestSteps(PageObjects, dataNewRequest);
     /// verify get request
     await PageObjects.MyRequestPage.open();
-    await PageObjects.MyRequestPage.table.verifyCellOfRow(1, 0, dataNewRequest.device);
+    await PageObjects.MyRequestPage.table.verifyTextInCol(0, dataNewRequest.device);
   });
 });
 
 // case PM login
+// test.describe.configure({ mode: "serial" });
 test.describe("As pm, I want to received a Device Request from my project", () => {
-  test.use({ storageState: authUserFile });
   let dataNewRequest: DeviceRequestForm;
-  test.beforeEach(async ({ PageObjects }) => {
-    dataNewRequest = await userCreateRequestSteps(PageObjects);
+  test.use({ storageState: authPmFile }); // main context auth
+  test.beforeEach(async ({ browser }) => {
+    await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
+      dataNewRequest = await userCreateDeviceRequestSteps(PageObjects);
+    });
   });
-  test.describe("when user in my project, create a new request", () => {
-    test.use({ storageState: authPmFile });
-    test("should see the request on my tasks", async ({ PageObjects }) => {
+  test.describe("when user in my project create a new request", () => {
+    test.beforeEach(async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
+    });
+    // test.describe.configure({ mode: "parallel" });
+    test("should see the request on my tasks", async ({ PageObjects }) => {
       await PageObjects.TaskPage.verifyHasPendingTask(dataNewRequest.device, users.user.name, "PM Reviews");
     });
     test("should approve success", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.open();
       await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.device);
       await PageObjects.TaskPage.detailTaskPopup.approve();
-      await PageObjects.TaskPage.verifyHasApproveTask(dataNewRequest.device, users.pm.name, "PM Reviews");
+      await PageObjects.TaskPage.verifyHasApproveTask(dataNewRequest.device, users.user.name, "PM Reviews");
     });
-  });
-  test.describe("when user in my project, create a new request", () => {
-    test.use({ storageState: authPmFile });
     test("should reject success", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.open();
       await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.device);
       await PageObjects.TaskPage.detailTaskPopup.reject("reason");
-      await PageObjects.TaskPage.verifyHasRejectTask(dataNewRequest.device, users.pm.name, "PM Reviews");
+      await PageObjects.TaskPage.verifyHasRejectTask(dataNewRequest.device, users.user.name, "PM Reviews");
+    });
+  });
+});
+
+// case IT
+test.describe("As IT, I want to received a Device Request after PM approved", () => {
+  test.use({ storageState: authItFile });
+  let dataNewRequest: DeviceRequestForm;
+  test.beforeEach(async ({ browser }) => {
+    await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
+      dataNewRequest = await userCreateDeviceRequestSteps(PageObjects);
+    });
+    await BrowserControl.withAuth(browser, authPmFile, async ({ PageObjects }) => {
+      await pmApproveDeviceRequestSteps(PageObjects, dataNewRequest);
+    });
+  });
+  test.describe("when PM approve a request successfully", () => {
+    test.beforeEach(async ({ PageObjects }) => {
+      await PageObjects.TaskPage.open();
+    });
+    // test.describe.configure({ mode: "parallel" });
+    test("should see the request on my tasks", async ({ PageObjects }) => {
+      await PageObjects.TaskPage.verifyHasPendingTask(dataNewRequest.device, users.user.name, "IT Reviews");
+    });
+    test("should approve success", async ({ PageObjects }) => {
+      await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.device);
+      await PageObjects.TaskPage.detailTaskPopup.approve();
+      await PageObjects.TaskPage.verifyHasApproveTask(dataNewRequest.device, users.user.name, "IT Reviews");
+    });
+    test("should reject success", async ({ PageObjects }) => {
+      await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.device);
+      await PageObjects.TaskPage.detailTaskPopup.reject("reason");
+      await PageObjects.TaskPage.verifyHasRejectTask(dataNewRequest.device, users.user.name, "IT Reviews");
     });
   });
 });

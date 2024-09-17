@@ -1,0 +1,26 @@
+{
+  "settings": {
+    "color": "#a4921e",
+    "titleTemplate": "[{{CurrentOffice}}]: {{Equipment}}"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "CurrentOffice",
+      "type": "OfficeList",
+      "isRequired": true,
+      "id": "5a1c6f2c-978e-44cc-99c9-7b73ff273ac7"
+    },
+    {
+      "name": "Equipment",
+      "type": "Text",
+      "isRequired": true,
+      "id": "bc6a4409-d831-4b8b-825c-488cb1c5b7d5"
+    },
+    {
+      "name": "Reason",
+      "type": "RichText",
+      "isRequired": true,
+      "id": "94c63f8f-5ac3-41f9-8cc5-b6f35a1f4bd4"
+    }
+  ]
+}

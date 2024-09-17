@@ -1,0 +1,38 @@
+{
+  "settings": {
+    "color": "#344cb7",
+    "titleTemplate": "Change office from {{CurrentOffice}} to {{DestinationOffice}}"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "CurrentOffice",
+      "type": "OfficeList",
+      "isRequired": true,
+      "id": "e448fa37-3278-4d0e-9f48-9657b9f4430e"
+    },
+    {
+      "name": "DestinationOffice",
+      "type": "OfficeList",
+      "isRequired": true,
+      "id": "72341bed-8a65-4f4b-b2a2-97ae0d61c729"
+    },
+    {
+      "name": "Content",
+      "type": "RichText",
+      "isRequired": true,
+      "id": "01e38533-ed11-4767-8a28-d4ff2fb21c47"
+    },
+    {
+      "name": "StartDate",
+      "type": "DateTime",
+      "isRequired": true,
+      "id": "0946a404-8b3a-4326-8b74-32d4da299133"
+    },
+    {
+      "name": "EndDate",
+      "type": "DateTime",
+      "isRequired": false,
+      "id": "59ccd688-e6e3-4583-85e5-bc8daa77038e"
+    }
+  ]
+}

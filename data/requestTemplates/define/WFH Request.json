@@ -1,0 +1,32 @@
+{
+  "settings": {
+    "color": "#c2709c",
+    "titleTemplate": "[{{CurrentOffice}}][{{Project}}]: {{Dates}}"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "CurrentOffice",
+      "type": "OfficeList",
+      "isRequired": true,
+      "id": "fdf6a0ab-52b2-48b4-a5a9-c83268daf24d"
+    },
+    {
+      "name": "Project",
+      "type": "MyProject",
+      "isRequired": true,
+      "id": "883ac347-02f8-4f62-969a-7a90e2fc0e0e"
+    },
+    {
+      "name": "Reason",
+      "type": "RichText",
+      "isRequired": true,
+      "id": "f405595c-a89a-42d1-8387-8df6fd07604d"
+    },
+    {
+      "name": "Dates",
+      "type": "MultiDatetime",
+      "isRequired": true,
+      "id": "aced94c4-730a-4f41-ad32-3734ea72b64c"
+    }
+  ]
+}

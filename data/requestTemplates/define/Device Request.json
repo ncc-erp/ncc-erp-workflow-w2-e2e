@@ -1,0 +1,32 @@
+{
+  "settings": {
+    "color": "#13a036",
+    "titleTemplate": "[{{CurrentOffice}}] [{{Project}}]: {{Device}}"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "CurrentOffice",
+      "type": "OfficeList",
+      "isRequired": true,
+      "id": "4d336cc5-22d5-4a60-9820-92221657aded"
+    },
+    {
+      "name": "Project",
+      "type": "MyProject",
+      "isRequired": true,
+      "id": "338e391b-8f6c-45d5-bbbb-aad6d6a7d7ae"
+    },
+    {
+      "name": "Device",
+      "type": "Text",
+      "isRequired": true,
+      "id": "4471dd67-cbc8-474b-8353-11d62248e100"
+    },
+    {
+      "name": "Reason",
+      "type": "RichText",
+      "isRequired": true,
+      "id": "31d37bce-226c-4f1e-9bc4-9e4b81b762ca"
+    }
+  ]
+}
