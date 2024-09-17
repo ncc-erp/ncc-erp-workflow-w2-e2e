@@ -8,8 +8,8 @@ test.describe.skip("Accessibility Scans", () => {
   // more fail just skip
   test.describe.configure({ retries: 0 });
 
-  test("login page a11y", async ({ page, LoginPage }) => {
-    await LoginPage.open();
+  test("login page a11y", async ({ page, PageObjects }) => {
+    await PageObjects.LoginPage.open();
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
     expect(accessibilityScanResults.violations).toEqual([]);
   });

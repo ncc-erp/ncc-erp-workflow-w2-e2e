@@ -12,4 +12,8 @@
 3. npm run test:report (For showing the report by html)
 4. npm run test:codegen (For showing the recording mode)
 
+## Notes
+
+1. Development setup mock send mail from https://www.smtpbucket.com/
+
 ## How to write the test cases

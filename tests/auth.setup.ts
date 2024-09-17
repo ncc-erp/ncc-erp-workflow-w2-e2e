@@ -1,18 +1,15 @@
 import { test as setup } from "../pageObjects/page.fixture";
-import { authAdminFile, authUserFile, users } from "./../data/users";
+import { authAdminFile, authPmFile, authUserFile, users } from "./../data/users";
+import { loginAndVerify } from "./../steps/login.step";
 
-setup("As user, I want to login to w2", async ({ page, LoginPage, RequestTemplatePage }) => {
-  await LoginPage.open();
-  await LoginPage.login(users.user.username, users.user.password);
-  await page.waitForURL(RequestTemplatePage.path);
-  await RequestTemplatePage.header.verifyUsername(users.user.name);
-  await page.context().storageState({ path: authUserFile });
+setup("As user, I want to login to w2", async ({ PageObjects }) => {
+  await loginAndVerify(PageObjects, users.user.username, users.user.password, users.user.name, authUserFile);
 });
 
-setup("As admin, I want to login to w2", async ({ page, LoginPage, RequestTemplatePage }) => {
-  await LoginPage.open();
-  await LoginPage.login(users.admin.username, users.admin.password);
-  await page.waitForURL(RequestTemplatePage.path);
-  await RequestTemplatePage.header.verifyUsername(users.admin.name);
-  await page.context().storageState({ path: authAdminFile });
+setup("As pm, I want to login to w2", async ({ PageObjects }) => {
+  await loginAndVerify(PageObjects, users.pm.username, users.pm.password, users.pm.name, authPmFile);
+});
+
+setup("As admin, I want to login to w2", async ({ PageObjects }) => {
+  await loginAndVerify(PageObjects, users.admin.username, users.admin.password, users.admin.name, authAdminFile);
 });

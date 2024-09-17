@@ -3,23 +3,23 @@ import { BaseComponent } from "../base.component";
 
 export default class Header extends BaseComponent {
   public get title() {
-    return this.page.locator("h1");
+    return this.host.locator("h1");
   }
   public get username() {
-    return this.page.locator(".css-bdvyq0 h2");
+    return this.host.locator(".css-bdvyq0 h2");
   }
   public get logoutBtn() {
-    return this.page.getByTitle("Log out");
+    return this.host.getByTitle("Log out");
   }
   public get releaseNoteBtn() {
-    return this.page.getByTitle("Release note");
+    return this.host.getByTitle("Release note");
   }
   public get userGuideBtn() {
-    return this.page.getByTitle("User guide");
+    return this.host.getByTitle("User guide");
   }
 
   public get themeBtn() {
-    return this.page.locator(".css-3i2zwo");
+    return this.host.locator(".css-3i2zwo");
   }
 
   async logout() {

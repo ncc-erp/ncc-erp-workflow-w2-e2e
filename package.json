@@ -14,7 +14,7 @@
     "prettier": "prettier . --check",
     "prettier:fix": "prettier . --write",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint . --fix && npm run prettier:fix",
     "prepare": "husky"
   },
   "keywords": [],

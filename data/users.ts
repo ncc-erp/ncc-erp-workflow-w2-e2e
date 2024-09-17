@@ -6,6 +6,11 @@ export const users = {
     password: "1q2w3E*",
     name: "Manh Nguyen Van",
   },
+  pm: {
+    username: "thu.leanh@ncc.asia",
+    password: "1q2w3E*",
+    name: "Thu Le Anh",
+  },
   admin: {
     username: "thien.dang@ncc.asia",
     password: "1q2w3E*",

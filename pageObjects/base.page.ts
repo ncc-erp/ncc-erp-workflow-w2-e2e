@@ -7,7 +7,8 @@ export abstract class BasePage {
   public navBar: NavBar;
   constructor(
     readonly page: Page,
-    public path: string
+    public path: string,
+    public title: string = ""
   ) {
     this.header = new Header(this.page);
     this.navBar = new NavBar(this.page);
@@ -19,5 +20,7 @@ export abstract class BasePage {
 
   async verifyPageLocated() {
     await expect(this.page).toHaveURL(this.path);
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    this.title && (await this.header.verifyPageTitle(this.title));
   }
 }
