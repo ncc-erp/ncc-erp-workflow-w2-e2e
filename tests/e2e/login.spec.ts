@@ -1,4 +1,4 @@
-import { authUserFile, users } from "../../data/users";
+import { authUserFile, users } from "../../data/users.data";
 import { test } from "../../pageObjects/page.fixture";
 
 test.describe("As user, I want to login to w2", () => {

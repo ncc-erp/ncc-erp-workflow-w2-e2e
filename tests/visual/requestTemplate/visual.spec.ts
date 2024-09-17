@@ -1,4 +1,4 @@
-import { authAdminFile, authUserFile } from "../../../data/users";
+import { authAdminFile, authUserFile } from "../../../data/users.data";
 import { expect, test } from "../../../pageObjects/page.fixture";
 import requests from "../mock/list-request.json";
 

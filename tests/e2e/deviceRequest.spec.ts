@@ -1,9 +1,8 @@
-import { authPmFile, authUserFile } from "../../data/users";
+import { DeviceRequestData } from "../../data/deviceRequests.data";
+import { authPmFile, authUserFile, users } from "../../data/users.data";
 import { DeviceRequestForm } from "../../pageObjects/components/deviceRequest";
 import { test } from "../../pageObjects/page.fixture";
-import { users } from "./../../data/users";
 import { userCreateRequestSteps } from "./../../steps/deviceRequest.step";
-import { DeviceRequestData } from "./deviceRequest.data";
 
 // create
 test.describe("As user, I want to create a Device Request", () => {

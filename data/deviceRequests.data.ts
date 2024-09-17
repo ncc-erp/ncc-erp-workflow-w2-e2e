@@ -1,4 +1,4 @@
-import { DeviceRequestForm } from "../../pageObjects/components/deviceRequest";
+import { DeviceRequestForm } from "../pageObjects/components/deviceRequest";
 
 export const DeviceRequestData = {
   user: {

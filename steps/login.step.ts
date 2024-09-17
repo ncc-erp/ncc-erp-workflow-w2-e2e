@@ -1,6 +1,6 @@
 import { PageObjects } from "../pageObjects/page.fixture";
 
-export const loginAndVerify = async (
+export const loginAndVerifySteps = async (
   pageObjects: PageObjects,
   username: string,
   password: string,

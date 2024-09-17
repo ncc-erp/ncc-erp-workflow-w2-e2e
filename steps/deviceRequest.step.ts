@@ -1,6 +1,6 @@
+import { DeviceRequestData } from "../data/deviceRequests.data";
 import { DeviceRequestForm } from "../pageObjects/components/deviceRequest";
 import { PageObjects } from "./../pageObjects/page.fixture";
-import { DeviceRequestData } from "./../tests/e2e/deviceRequest.data";
 
 export const userCreateRequestSteps = async (pages: PageObjects, _dataNewRequest?: DeviceRequestForm) => {
   const dataNewRequest = _dataNewRequest || DeviceRequestData.user.getRandomDeviceRequest();
