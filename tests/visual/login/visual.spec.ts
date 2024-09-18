@@ -1,12 +1,12 @@
 import { expect, test } from "../../../pageObjects/page.fixture";
 
 // eslint-disable-next-line playwright/no-skipped-test
-test.describe.skip("login page @S4e2152fc", () => {
+test.describe.skip("login page", () => {
   test.beforeEach(async ({ PageObjects }) => {
     await PageObjects.LoginPage.open();
   });
 
-  test("snapshot @T20fec06e", async ({ PageObjects }) => {
+  test("snapshot", async ({ PageObjects }) => {
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
     });
