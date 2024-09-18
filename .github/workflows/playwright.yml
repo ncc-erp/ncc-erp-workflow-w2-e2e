@@ -22,12 +22,16 @@ jobs:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
         run: npm run test:check
       - name: Update Testomat ids to source
+        env:
+          TESTOMATIO: ${{ secrets.TESTOMATIO }}
         run: npm run test:check:update
       - name: Configure Git
         run: |
           git config --local user.email "thien.dang@ncc.asia"
           git config --local user.name "thiendangncc"
       - name: Commit changes
+        env:
+            GH_PAT: ${{ github.token }}
         run: |
           git add .
           git commit -m "Automated update Testomat ids" || echo "No changes to commit"
