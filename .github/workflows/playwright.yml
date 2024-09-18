@@ -30,7 +30,7 @@ jobs:
           npm run test:check:update
           git status  # Check if files were modified
           git config --local user.email "thien.dang@ncc.asia"
-          git config --local user.name "thiendangncc"
+          git config --local user.name "githubaction"
           git add .
           git commit -m "Automated update Testomat ids" --no-verify
           git push
