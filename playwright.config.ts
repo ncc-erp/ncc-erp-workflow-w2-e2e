@@ -27,6 +27,12 @@ export default defineConfig({
     // ['line'],
     ["list"],
     ["html", { open: "never" }],
+    [
+      "@testomatio/reporter/lib/adapter/playwright.js",
+      {
+        apiKey: process.env.TESTOMATIO,
+      },
+    ],
     // ["allure-playwright"]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

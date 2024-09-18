@@ -1,7 +1,7 @@
 import { authUserFile, users } from "../../data/users.data";
 import { test } from "../../pageObjects/page.fixture";
 
-test.describe("As user, I want to login to w2", () => {
+test.describe("As user, I want to login to w2 @user", () => {
   test.beforeEach(async ({ PageObjects }) => {
     await PageObjects.LoginPage.open();
   });
@@ -11,7 +11,7 @@ test.describe("As user, I want to login to w2", () => {
   });
 });
 
-test.describe("As user, I want to logout", () => {
+test.describe("As user, I want to logout @user", () => {
   test.beforeEach(async ({ PageObjects }) => {
     await PageObjects.RequestTemplatePage.open();
   });
