@@ -21,7 +21,7 @@ jobs:
         env:
           GH_PAT: ${{ github.token }}
           BASE_URL: ${{ secrets.BASE_URL }}
-          TESTOMATIO: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
+          TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
         run: npx playwright test
       - uses: actions/upload-artifact@v4
