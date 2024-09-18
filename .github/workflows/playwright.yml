@@ -19,7 +19,9 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         env:
-          BASE_URL: http://w2-dev2.nccsoft.vn/
+          BASE_URL: ${{ secrets.BASE_URL }}
+          TESTOMATIO: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
+          TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
         run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: always()
