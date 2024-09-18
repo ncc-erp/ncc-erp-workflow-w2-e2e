@@ -12,10 +12,10 @@ test.beforeEach(async ({ PageObjects, page }) => {
 });
 
 // eslint-disable-next-line playwright/no-skipped-test
-test.describe.skip("as user, request template page", () => {
+test.describe.skip("as user, request template page @S45e38fca", () => {
   test.use({ storageState: authUserFile });
 
-  test("snapshot", async ({ PageObjects }) => {
+  test("snapshot @T4b56d1ee", async ({ PageObjects }) => {
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
     });
@@ -26,7 +26,7 @@ test.describe.skip("as user, request template page", () => {
 test.describe.skip("as admin, request template page", () => {
   test.use({ storageState: authAdminFile });
 
-  test("snapshot", async ({ PageObjects }) => {
+  test("snapshot @T410bd47b", async ({ PageObjects }) => {
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
     });
