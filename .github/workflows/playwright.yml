@@ -29,21 +29,22 @@ jobs:
         run: |
           npm run test:check:update
           git status  # Check if files were modified
+          git config --global core.autocrlf false
           git config --local user.email "thien.dang@ncc.asia"
           git config --local user.name "githubaction"
-          git add .
+          git add -A
+          if [[ -n $(git diff --cached) ]]; then
+            echo "changes=true" >> $GITHUB_ENV
+          else
+            echo "changes=false" >> $GITHUB_ENV
+          fi
           git commit -m "Automated update Testomat ids" --no-verify
           git push
       - name: Run tests
+        if: env.changes == 'false'  # Only run if there are no changes
         env:
           GH_PAT: ${{ github.token }}
           BASE_URL: ${{ secrets.BASE_URL }}
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
         run: npx playwright test
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
