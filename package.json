@@ -9,7 +9,7 @@
     "test:ui": "playwright test --ui",
     "test:chrome": "playwright test --project=chromium",
     "test:report": "playwright show-report --host=127.0.0.1",
-    "test:check:": "check-tests Playwright \"**/*{.,_}{test,spec,cy}.ts\" --typescript",
+    "test:check": "check-tests Playwright \"**/*{.,_}{test,spec,cy}.ts\" --typescript",
     "test:check:update": "check-tests Playwright \"**/*{.,_}{test,spec,cy}.ts\" --typescript --update-ids",
     "test:codegen": "playwright codegen",
     "prettier": "prettier . --check",
