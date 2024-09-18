@@ -19,10 +19,6 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Update Testcases to Testomat
-        env:
-          TESTOMATIO: ${{ secrets.TESTOMATIO }}
-        run: npm run test:check
       - name: Update Testomat ids to source
         env:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
