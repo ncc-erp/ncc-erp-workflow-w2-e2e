@@ -4,6 +4,7 @@
 
 1. git clone project
 2. npm i
+3. create .env file (see .env.example)
 
 ### Command to run
 
