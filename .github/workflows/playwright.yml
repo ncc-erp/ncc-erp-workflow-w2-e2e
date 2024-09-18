@@ -25,6 +25,9 @@ jobs:
         run: |
           npm run test:check:update
           git status  # Check if files were modified
+          git config --global core.autocrlf false
+          git config --local user.email "thien.dang@ncc.asia"
+          git config --local user.name "githubaction"
           git add -A
           if [[ -n $(git diff --cached) ]]; then
             echo "changes=true" >> $GITHUB_ENV
