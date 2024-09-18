@@ -17,13 +17,28 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
+      - name: Update Testcases to Testomat
+        env:
+          TESTOMATIO: ${{ secrets.TESTOMATIO }}
+        run: npm run test:check
+      - name: Update Testomat ids to source
+        run: npm run test:check:update
+      - name: Configure Git
+        run: |
+          git config --local user.email "thien.dang@ncc.asia"
+          git config --local user.name "thiendangncc"
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Automated update Testomat ids" || echo "No changes to commit"
+          git push
+      - name: Run tests
         env:
           GH_PAT: ${{ github.token }}
           BASE_URL: ${{ secrets.BASE_URL }}
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
-        run: npm run test:report:check && npx playwright test
+        run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: always()
         with:
