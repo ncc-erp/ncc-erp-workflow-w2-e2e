@@ -7,9 +7,9 @@ export const users = {
     name: "Manh Nguyen Van",
   },
   pm: {
-    username: "thu.leanh@ncc.asia",
+    username: "hieu.dohoang@ncc.asia",
     password: "1q2w3E*",
-    name: "Thu Le Anh",
+    name: "Hieu Do Hoang",
   },
   it: {
     username: "thiet.nguyenba@ncc.asia",
