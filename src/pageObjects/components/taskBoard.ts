@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+import { waitLoading } from "../../utils/waitLoading";
 import { BaseComponent } from "../base.component";
 
 export default class TaskBoard extends BaseComponent {
@@ -17,10 +18,7 @@ export default class TaskBoard extends BaseComponent {
   }
 
   async verifyHasTask(columnNumber: number, title: string, requestUser: string, currentStatus: string) {
-    // todo remove
-    // eslint-disable-next-line playwright/no-networkidle
-    await this.page.waitForLoadState("networkidle");
-
+    await waitLoading(this.page);
     // eslint-disable-next-line playwright/no-wait-for-timeout
     await this.page.waitForTimeout(200);
     const col = this.boardCols.nth(columnNumber);

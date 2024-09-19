@@ -8,4 +8,9 @@ export default class MyRequestPage extends BasePage {
     super(page, "/my-requests");
     this.table = new Table(page);
   }
+
+  async filterByStatus(status: string) {
+    // todo refactor
+    await this.page.getByRole("combobox").nth(1).selectOption(status);
+  }
 }

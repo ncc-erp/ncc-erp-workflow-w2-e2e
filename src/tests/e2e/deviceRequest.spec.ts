@@ -2,14 +2,14 @@ import { DeviceRequestData } from "../../data/deviceRequest.data";
 import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authItFile, authPmFile, authUserFile, users } from "../../data/users.data";
 import { BrowserControl, test } from "../../pageObjects/page.fixture";
-import { pmApproveDeviceRequestSteps, userCreateDeviceRequestSteps } from "./../../steps/deviceRequest.step";
+import { approveRequestSteps, userCreateDeviceRequestSteps } from "../../steps/request.step";
 
 // create
 test.describe("As user, I want to create a Device Request @user", () => {
   // seq this test case
   test.use({ storageState: authUserFile });
   const dataNewRequest = DeviceRequestData.user.getRandomData();
-  test("When user create a new request, should be success", async ({ PageObjects }) => {
+  test("When I create a new request, I should see the request on my requests", async ({ PageObjects }) => {
     await userCreateDeviceRequestSteps(PageObjects, dataNewRequest);
     /// verify get request
     await PageObjects.MyRequestPage.open();
@@ -18,7 +18,6 @@ test.describe("As user, I want to create a Device Request @user", () => {
 });
 
 // case PM login
-// test.describe.configure({ mode: "serial" });
 test.describe("As pm, I want to received a Device Request from my project @pm", () => {
   let dataNewRequest: DeviceRequestForm;
   test.use({ storageState: authPmFile }); // main context auth
@@ -56,7 +55,7 @@ test.describe("As IT, I want to received a Device Request after PM approved @it"
       dataNewRequest = await userCreateDeviceRequestSteps(PageObjects);
     });
     await BrowserControl.withAuth(browser, authPmFile, async ({ PageObjects }) => {
-      await pmApproveDeviceRequestSteps(PageObjects, dataNewRequest);
+      await approveRequestSteps(PageObjects, DeviceRequestData.getTitle(dataNewRequest), users.user.name, "PM Reviews");
     });
   });
   test.describe("when PM approve a request successfully", () => {

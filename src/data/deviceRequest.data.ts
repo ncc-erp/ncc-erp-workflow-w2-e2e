@@ -1,20 +1,22 @@
 import { DeviceRequestForm } from "./requestTemplate.data";
 
 export const DeviceRequestData = {
+  getTitle({ CurrentOffice, Project, Device }: DeviceRequestForm) {
+    return `[${CurrentOffice.code}] [${Project.code}]: ${Device.value}`;
+  },
   user: {
-    getTitle({ CurrentOffice, Project, Device }: DeviceRequestForm) {
-      return `[${CurrentOffice.value}] [${Project.value}]: ${Device.value}`;
-    },
     getRandomData(): DeviceRequestForm {
       const timestamp = new Date().getTime();
       return {
         CurrentOffice: {
           type: "select",
           value: "Đà Nẵng",
+          code: "ĐN",
         },
         Project: {
           type: "select",
           value: "Support",
+          code: "support",
         },
         Device: {
           type: "text",

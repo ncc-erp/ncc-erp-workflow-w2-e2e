@@ -1,8 +1,7 @@
+import { ChangeOfficeRequestData } from "../data/changeOfficeRequest.data";
 import { DeviceRequestData } from "../data/deviceRequest.data";
 import { ChangeOfficeRequestForm, DeviceRequestForm, RequestTypeData } from "../data/requestTemplate.data";
-import { users } from "../data/users.data";
-import { ChangeOfficeRequestData } from "./../data/changeOfficeRequest.data";
-import { PageObjects } from "./../pageObjects/page.fixture";
+import { PageObjects } from "../pageObjects/page.fixture";
 
 export const userCreateDeviceRequestSteps = async (pages: PageObjects, _dataNewRequest?: DeviceRequestForm) => {
   const dataNewRequest = _dataNewRequest || DeviceRequestData.user.getRandomData();
@@ -25,11 +24,11 @@ export const userCreateChangeOfficeRequestSteps = async (
   return dataNewRequest;
 };
 
-export const pmApproveDeviceRequestSteps = async (pages: PageObjects, _dataNewRequest?: DeviceRequestForm) => {
-  const dataNewRequest = _dataNewRequest || DeviceRequestData.user.getRandomData();
+export const approveRequestSteps = async (pages: PageObjects, title: string, requestUser: string, step: string) => {
+  // const dataNewRequest = _dataNewRequest || DeviceRequestData.user.getRandomData();
   await pages.TaskPage.open();
-  await pages.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.Device.value);
+  await pages.TaskPage.taskBoard.clickToBoardItemByTitle(title);
   await pages.TaskPage.detailTaskPopup.approve();
-  await pages.TaskPage.verifyHasApproveTask(dataNewRequest.Device.value, users.user.name, "PM Reviews");
-  return dataNewRequest;
+  await pages.TaskPage.verifyHasApproveTask(title, requestUser, step);
+  // return dataNewRequest;
 };

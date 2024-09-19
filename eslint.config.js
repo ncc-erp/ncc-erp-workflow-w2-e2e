@@ -7,7 +7,7 @@ const { configs: typescriptConfigs } = typescript;
 module.exports = [
   eslintPluginPrettierRecommended,
   {
-    files: ["pageObjects/**/*.ts", "tests/**/*.ts", "steps/**/*.ts", "utils/**/*.ts", "data/**/*.ts"],
+    files: ["src/**/*.ts"],
     plugins: {
       "@typescript-eslint": typescript,
       playwright: playwright,

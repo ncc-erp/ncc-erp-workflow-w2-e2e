@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { BaseComponent } from "../base.component";
+import { waitLoading } from "./../../utils/waitLoading";
 
 export default class Table extends BaseComponent {
   async getTableRows() {
@@ -16,10 +17,7 @@ export default class Table extends BaseComponent {
   }
 
   async getColumnValues(columnIndex) {
-    // eslint-disable-next-line playwright/no-networkidle
-    await this.page.waitForLoadState("networkidle");
-    // eslint-disable-next-line playwright/no-wait-for-timeout
-    await this.page.waitForTimeout(200); // todo remote
+    await waitLoading(this.page);
     const rows = await this.getTableRows();
     const values = [];
     for (let i = 0; i < (await rows.count()); i++) {
