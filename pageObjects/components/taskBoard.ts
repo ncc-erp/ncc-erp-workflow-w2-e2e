@@ -17,7 +17,7 @@ export default class TaskBoard extends BaseComponent {
   }
 
   async verifyHasTask(columnNumber: number, title: string, requestUser: string, currentStatus: string) {
-    // todo remove
+    // todo remove test
     // eslint-disable-next-line playwright/no-networkidle
     await this.page.waitForLoadState("networkidle");
     const col = this.boardCols.nth(columnNumber);
