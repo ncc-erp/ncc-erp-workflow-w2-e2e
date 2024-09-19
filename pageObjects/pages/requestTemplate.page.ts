@@ -1,25 +1,25 @@
 import { Page } from "@playwright/test";
+import { RequestFormType } from "../../data/requestTemplate.data";
 import { BasePage } from "../base.page";
 import { API } from "./../../data/apis";
-import { RequestTypeData } from "./../../data/requestTemplates/requestType";
-import DeviceRequest, { DeviceRequestForm } from "./../components/deviceRequest";
+import RequestForm from "./../components/requestForm";
 
 export default class RequestTemplatePage extends BasePage {
-  public deviceRequestForm: DeviceRequest;
+  public deviceRequestForm: RequestForm;
   constructor(readonly page: Page) {
     super(page, "/request-templates");
-    this.deviceRequestForm = new DeviceRequest(this.page);
+    this.deviceRequestForm = new RequestForm(this.page);
   }
 
   async clickAddRequest(requestName: string) {
     await this.page
-      .getByRole("row", { name: `${requestName} Popup modal` })
+      .getByRole("row", { name: `${requestName}` })
       .getByLabel("Popup modal")
       .click();
   }
 
-  async createDeviceRequest(data: DeviceRequestForm) {
-    await this.clickAddRequest(RequestTypeData.DeviceRequest.name);
+  async createRequest(name: string, data: RequestFormType) {
+    await this.clickAddRequest(name);
     await this.deviceRequestForm.fillForm(data);
     await this.deviceRequestForm.submit();
     await this.page.waitForResponse(API.createNewRequest);

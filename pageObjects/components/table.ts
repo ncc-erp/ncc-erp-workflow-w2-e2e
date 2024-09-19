@@ -10,9 +10,16 @@ export default class Table extends BaseComponent {
     return await row.locator("td").nth(columnIndex).innerText();
   }
 
+  async getCellValueByIndex(rowNum, colNum) {
+    const cell = this.host.getByRole("row").nth(rowNum).getByRole("cell").nth(colNum);
+    return await cell.innerText();
+  }
+
   async getColumnValues(columnIndex) {
     // eslint-disable-next-line playwright/no-networkidle
     await this.page.waitForLoadState("networkidle");
+    // eslint-disable-next-line playwright/no-wait-for-timeout
+    await this.page.waitForTimeout(200); // todo remote
     const rows = await this.getTableRows();
     const values = [];
     for (let i = 0; i < (await rows.count()); i++) {
@@ -26,8 +33,9 @@ export default class Table extends BaseComponent {
     const cell = this.host.getByRole("row").nth(row).getByRole("cell").nth(_cell);
     await expect(cell).toContainText(text);
   }
+
   async verifyTextInCol(col: number, text: string) {
     const cells = await this.getColumnValues(col);
-    await expect(cells.join(",")).toContain(text);
+    expect(cells.join(",")).toContain(text);
   }
 }

@@ -1,11 +1,6 @@
+import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { BaseComponent } from "../base.component";
 
-export interface DeviceRequestForm {
-  currentOffice: string;
-  project: string;
-  device: string;
-  reason: string;
-}
 export default class DeviceRequest extends BaseComponent {
   public get currentOffice() {
     return this.host.locator(".css-1xc3v61-indicatorContainer").first();
@@ -27,13 +22,13 @@ export default class DeviceRequest extends BaseComponent {
 
   async fillForm(data: DeviceRequestForm) {
     await this.currentOffice.click();
-    await this.host.getByText(data.currentOffice, { exact: true }).click();
+    await this.host.getByText(data.CurrentOffice.value, { exact: true }).click();
 
     await this.project.click();
-    await this.host.getByText(data.project, { exact: true }).click();
+    await this.host.getByText(data.Project.value, { exact: true }).click();
 
-    await this.device.fill(data.device);
-    await this.reason.fill(data.reason);
+    await this.device.fill(data.Device.value);
+    await this.reason.fill(data.Reason.value);
   }
 
   async submit() {
