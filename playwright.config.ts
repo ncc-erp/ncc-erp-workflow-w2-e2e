@@ -26,7 +26,6 @@ export default defineConfig({
   reporter: [
     ["list"],
     ["@estruyf/github-actions-reporter"],
-    ["json"],
     ["html", { open: "never" }],
     [
       "@testomatio/reporter/lib/adapter/playwright.js",
@@ -34,6 +33,7 @@ export default defineConfig({
         apiKey: process.env.TESTOMATIO,
       },
     ],
+    ["json", { outputFile: "results.json" }],
     // ["allure-playwright"]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */

@@ -6,4 +6,5 @@ node_modules/
 /playwright/.cache/
 .auth
 tests-out
+results.json
 .env

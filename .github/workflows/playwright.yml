@@ -39,7 +39,7 @@ jobs:
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
-          GH_PAT: ${{ github.token }}
+          GH_PAT: ${{ secrets.PERSONAL_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
