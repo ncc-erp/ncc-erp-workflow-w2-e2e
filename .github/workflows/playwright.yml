@@ -19,19 +19,19 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - uses: testomatio/check-tests@master
-        env:
-          TESTOMATIO: ${{ secrets.TESTOMATIO }}
-        with:
-          framework: playwright # REQUIRED - testing framework
-          tests: src/tests/**/*.spec.ts # REQUIRED - glob pattern to match test files
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          typescript: true
-      # - name: Update Testomat test cases
+      # - uses: testomatio/check-tests@stable
       #   env:
       #     TESTOMATIO: ${{ secrets.TESTOMATIO }}
-      #   run: |
-      #     npm run test:check
+      #   with:
+      #     framework: playwright # REQUIRED - testing framework
+      #     tests: src/tests/**/*.spec.ts # REQUIRED - glob pattern to match test files
+      #     token: ${{ secrets.PERSONAL_TOKEN }}
+      #     typescript: true
+      - name: Update Testomat test cases
+        env:
+          TESTOMATIO: ${{ secrets.TESTOMATIO }}
+        run: |
+          npm run test:check
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
