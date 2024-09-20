@@ -20,17 +20,19 @@ test.describe("As user, When I create a new request @user", () => {
 // case PM login
 test.describe("As pm, I want to received a Device Request from my project", () => {
   let dataNewRequest: Pointer<DeviceRequestForm> = {};
+  test.use({ storageState: authPmFile });
   test.beforeEach(async ({ browser }) => {
     await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
       dataNewRequest.value = await userCreateDeviceRequestSteps(PageObjects);
     });
   });
-  testTaskAssigned("As pm, when user in my project create a new request @pm", authPmFile, "PM Reviews", dataNewRequest);
+  testTaskAssigned("As pm, when user in my project create a new request @pm", "PM Reviews", dataNewRequest);
 });
 
 // case IT
 test.describe("As IT, I want to received a Device Request after PM approved", () => {
   let dataNewRequest: Pointer<DeviceRequestForm> = {};
+  test.use({ storageState: authItFile });
   test.beforeEach(async ({ browser }) => {
     await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
       dataNewRequest.value = await userCreateDeviceRequestSteps(PageObjects);
@@ -40,6 +42,6 @@ test.describe("As IT, I want to received a Device Request after PM approved", ()
     });
   });
 
-  testTaskAssigned("As IT, when PM approve a request successfully @it", authItFile, "IT Reviews", dataNewRequest);
+  testTaskAssigned("As IT, when PM approve a request successfully @it", "IT Reviews", dataNewRequest);
 });
 // cancel

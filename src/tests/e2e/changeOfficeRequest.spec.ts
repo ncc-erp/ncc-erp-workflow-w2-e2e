@@ -47,7 +47,6 @@ test.describe("As user, I want to create a Change Office Request @user", () => {
     });
     testTaskAssigned(
       `As ${item.user}, when user in my office create a new request @${item.user}`,
-      authPmFile,
       item.step,
       dataNewRequest
     );

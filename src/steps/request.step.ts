@@ -41,14 +41,8 @@ export const approveRequestSteps = async (pages: PageObjects, title: string, req
 };
 
 // common
-export const testTaskAssigned = (
-  action: string,
-  authFile: string,
-  step: string,
-  dataNewRequest: Pointer<RequestFormType>
-) => {
+export const testTaskAssigned = (action: string, step: string, dataNewRequest: Pointer<RequestFormType>) => {
   test.describe(`${action}`, () => {
-    test.use({ storageState: authFile }); // main context auth
     test.beforeEach(async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
     });
