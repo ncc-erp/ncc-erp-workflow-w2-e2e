@@ -35,7 +35,7 @@ jobs:
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
-          GH_PAT: ${{ secrets.PERSONAL_TOKEN }}
+          # GH_PAT: ${{ secrets.PERSONAL_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
@@ -43,7 +43,7 @@ jobs:
       - uses: daun/playwright-report-summary@v3
         if: always()
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
           report-file: results.json
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
