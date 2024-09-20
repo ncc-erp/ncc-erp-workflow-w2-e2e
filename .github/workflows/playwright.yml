@@ -19,23 +19,19 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Update Testomat test cases
+      - uses: testomatio/check-tests@latest
         env:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
-        run: |
-          npm run test:check
-          # git status  # Check if files were modified
-          # git config --global core.autocrlf false
-          # git config --local user.email "thien.dang@ncc.asia"
-          # git config --local user.name "githubaction"
-          # git add -A
-          # if [[ -n $(git diff --cached) ]]; then
-          #   echo "changes=true" >> $GITHUB_ENV
-          #   git commit -m "Automated update Testomat ids" --no-verify
-          #   git push
-          # else
-          #   echo "changes=false" >> $GITHUB_ENV
-          # fi
+        with:
+          framework: playwright # REQUIRED - testing framework
+          tests: src/tests/**/*.spec.ts # REQUIRED - glob pattern to match test files
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          typescript: true
+      # - name: Update Testomat test cases
+      #   env:
+      #     TESTOMATIO: ${{ secrets.TESTOMATIO }}
+      #   run: |
+      #     npm run test:check
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
