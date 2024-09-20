@@ -31,7 +31,7 @@ jobs:
         env:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
         run: |
-          npm run test:check
+          npx bddgen && npm run test:check
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
