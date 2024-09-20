@@ -19,8 +19,6 @@ export default class TaskBoard extends BaseComponent {
 
   async verifyHasTask(columnNumber: number, title: string, requestUser: string, currentStatus: string) {
     await waitLoading(this.page);
-    // eslint-disable-next-line playwright/no-wait-for-timeout
-    await this.page.waitForTimeout(200);
     const col = this.boardCols.nth(columnNumber);
     await expect(col).toContainText(`${title}`);
     await expect(col).toContainText(`Request user:${requestUser}`);

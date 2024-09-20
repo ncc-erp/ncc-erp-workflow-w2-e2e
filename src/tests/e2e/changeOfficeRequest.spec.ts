@@ -75,7 +75,7 @@ test.describe("As user, I want to see a Change Office Request after PM, GDVP1, G
   });
   test.describe("As user, when PM, Current/Destination HoO approve successfully @user", () => {
     // test.describe.configure({ mode: "parallel" });
-    test("I should see the request with approve status on my tasks", async ({ PageObjects }) => {
+    test("I should see the request with approve status on my requests", async ({ PageObjects }) => {
       await PageObjects.MyRequestPage.open();
       await PageObjects.MyRequestPage.filterByStatus("Approved");
       await PageObjects.MyRequestPage.table.verifyTextInCol(0, dataNewRequest.getTitle());

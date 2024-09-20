@@ -6,6 +6,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 import dotenv from "dotenv";
 import path from "path";
+import { cucumberReporter, defineBddConfig } from "playwright-bdd";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 /**
@@ -34,6 +35,7 @@ export default defineConfig({
       },
     ],
     ["json", { outputFile: "results.json" }],
+    cucumberReporter("html", { outputFile: "cucumber-report/report.html" }),
     // ["allure-playwright"]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -59,8 +61,17 @@ export default defineConfig({
       name: "cleanup",
       testMatch: /.*\.teardown\.ts/,
     },
+    // {
+    //   name: "chromium",
+    //   use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
+    //   dependencies: ["setup"],
+    // },
     {
       name: "chromium",
+      testDir: defineBddConfig({
+        features: "src/features/**/*.feature",
+        steps: ["src/features/steps/*.ts", "src/pageObjects/page.fixture.ts"],
+      }),
       use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
       dependencies: ["setup"],
     },

@@ -6,10 +6,12 @@
   "scripts": {
     "test": "playwright test",
     "test:debug": "playwright test --debug",
+    "test:bdd": "npx bddgen && npx playwright test",
+    "watch:bdd": "nodemon -w ./src/features -w ./src/steps -e feature,js,ts --exec \"npx bddgen\"",
     "test:ui": "playwright test --ui",
     "test:chrome": "playwright test --project=chromium",
     "test:report": "playwright show-report --host=127.0.0.1",
-    "test:check": "check-tests Playwright \"src/tests/**/*{.,_}{test,spec,cy}.ts\" --typescript",
+    "test:check": "check-tests Playwright \".features-gen/src/features/**/*.js\"",
     "test:check:clean": "check-tests Playwright \"**/*{.,_}{test,spec,cy}.ts\" --typescript --purge",
     "test:check:update": "check-tests Playwright \"**/*{.,_}{test,spec,cy}.ts\" --typescript --update-ids",
     "test:codegen": "playwright codegen",
@@ -40,6 +42,8 @@
     "find-free-ports": "^3.1.1",
     "husky": "^9.1.6",
     "lighthouse": "^9.6.8",
+    "nodemon": "^3.1.6",
+    "playwright-bdd": "^7.4.0",
     "playwright-lighthouse": "^2.2.2",
     "typescript": "^5.6.2"
   }
