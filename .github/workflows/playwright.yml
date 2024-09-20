@@ -19,7 +19,7 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - uses: testomatio/check-tests@latest
+      - uses: testomatio/check-tests@master
         env:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
         with:
