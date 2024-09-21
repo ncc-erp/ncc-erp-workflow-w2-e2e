@@ -26,8 +26,8 @@ Pattern: BDD, PageObject (POM), Test Data
 4. Should fix all lint/pretier
 
 ### BDD
-1. Create features file in folder `src/features` name file end with `.feature`
-2. `Given, When, Then` apply
+#### 1. Create features file in folder `src/features` name file end with `.feature`
+ `Given, When, Then` rules
 
 - Use `I` for writing and follow this format
 ```
@@ -113,7 +113,7 @@ Rule: as user, I want to login to the system
     Then I should see the title after login
 ```
 
-2. Create steps file in folder `src/features/steps` name file `<name>.step.ts`
+#### 2. Create steps file in folder `src/features/steps` name file `<name>.step.ts`
 step file should follow page by page. if any common steps should put them to `share.step.ts`
 ### POM
 #### 1. Overview
@@ -162,7 +162,7 @@ await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => 
 });
 ```
 **BrowserControl.withAuth in use:** Your main context is authenticated with normal user. but you want to make some actions in others user (Ex: pm, sale, it...). so, should handle in other context (open the new browser to handle it)
-### 3. Rule for PageObject
+#### 3. Rule for PageObject
 - Page Object should extends from BasePage
 - Properties in PageObject should present elements in page (should private property). In case, the properties are component objects we can set them public property.
 - Methods in PageObject should present user action can integrate to the page or verify method to check expectation
@@ -193,11 +193,11 @@ export default class RequestTemplatePage extends BasePage { // should extends ba
   }
 }
 ```
-4. Rules for components (almost same as Page Objects)
+#### 4. Rules for components (almost same as Page Objects)
 - Component Object should extends from BaseComponent
 - Properties and Methods has the same rules as Page Object
 
-5. Utils
+#### 5. Utils
 - waitLoading: wait for skeleton loading completely
 - BrowserControl: support open new browser and authenticated for them
 ```
@@ -213,6 +213,6 @@ await BrowserControl.withAuth(browser, authAdminFile, async ({ PageObjects }) =>
 
 ### Test Data
 // todo
-1. Use data test config
-2. Use generate data in feature file
-2. Some best practices
+#### 1. Use data test config
+#### 2. Use generate data in feature file
+#### 2. Some best practices
