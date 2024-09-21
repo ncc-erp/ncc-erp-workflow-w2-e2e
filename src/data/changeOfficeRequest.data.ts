@@ -1,9 +1,6 @@
 import { ChangeOfficeRequestForm } from "./requestTemplate.data";
 
 export const ChangeOfficeRequestData = {
-  getTitle({ CurrentOffice, DestinationOffice }: ChangeOfficeRequestForm) {
-    return `Change office from ${CurrentOffice.code} to ${DestinationOffice.code}`;
-  },
   user: {
     getRandomData(): ChangeOfficeRequestForm {
       const timestamp = new Date().getTime();
@@ -29,6 +26,9 @@ export const ChangeOfficeRequestData = {
         EndDate: {
           type: "date",
           value: `20/09/2024`,
+        },
+        getTitle() {
+          return `Change office from ${this.CurrentOffice.code} to ${this.DestinationOffice.code}`;
         },
       };
     },

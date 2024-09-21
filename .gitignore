@@ -4,6 +4,8 @@ node_modules/
 /allure-results/
 /blob-report/
 /playwright/.cache/
+.features-gen
 .auth
 tests-out
+results.json
 .env

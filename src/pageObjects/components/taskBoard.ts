@@ -13,14 +13,12 @@ export default class TaskBoard extends BaseComponent {
     return this.host.getByTestId("board-col");
   }
 
-  async clickToBoardItemByTitle(title: string) {
-    await this.host.getByTestId("board-item-title").filter({ hasText: title }).first().click();
+  async clickToBoardItemByTitle(title: string, col: number) {
+    await this.boardCols.nth(col).getByTestId("board-item-title").filter({ hasText: title }).first().click();
   }
 
   async verifyHasTask(columnNumber: number, title: string, requestUser: string, currentStatus: string) {
     await waitLoading(this.page);
-    // eslint-disable-next-line playwright/no-wait-for-timeout
-    await this.page.waitForTimeout(200);
     const col = this.boardCols.nth(columnNumber);
     await expect(col).toContainText(`${title}`);
     await expect(col).toContainText(`Request user:${requestUser}`);

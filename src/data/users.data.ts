@@ -31,13 +31,13 @@ export const users = {
     name: "Thien Dang An",
     authFile: authAdminFile,
   },
-  GDVPDN: {
+  gdvpdn: {
     username: "thien.dang@ncc.asia",
     password: "1q2w3E*",
     name: "Thien Dang An",
     authFile: authGDVPDNFile,
   },
-  GDVPV: {
+  gdvpv: {
     username: "dai.trinhduc@ncc.asia",
     password: "1q2w3E*",
     name: "Dai Trinh Duc",

@@ -21,11 +21,15 @@ type InputItem = {
   code?: string;
 };
 
+export interface Pointer<T> {
+  value?: T;
+}
 export interface DeviceRequestForm {
   CurrentOffice: InputItem;
   Project: InputItem;
   Device: InputItem;
   Reason: InputItem;
+  getTitle: () => string;
 }
 export interface ChangeOfficeRequestForm {
   CurrentOffice: InputItem;
@@ -33,6 +37,7 @@ export interface ChangeOfficeRequestForm {
   Content: InputItem;
   StartDate: InputItem;
   EndDate: InputItem;
+  getTitle: () => string;
 }
 
 export type RequestFormType = DeviceRequestForm | ChangeOfficeRequestForm;

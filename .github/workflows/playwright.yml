@@ -19,31 +19,32 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      # - uses: testomatio/check-tests@stable
+      #   env:
+      #     TESTOMATIO: ${{ secrets.TESTOMATIO }}
+      #   with:
+      #     framework: playwright # REQUIRED - testing framework
+      #     tests: src/tests/**/*.spec.ts # REQUIRED - glob pattern to match test files
+      #     token: ${{ secrets.PERSONAL_TOKEN }}
+      #     typescript: true
       - name: Update Testomat test cases
         env:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
         run: |
-          npm run test:check
-          # git status  # Check if files were modified
-          # git config --global core.autocrlf false
-          # git config --local user.email "thien.dang@ncc.asia"
-          # git config --local user.name "githubaction"
-          # git add -A
-          # if [[ -n $(git diff --cached) ]]; then
-          #   echo "changes=true" >> $GITHUB_ENV
-          #   git commit -m "Automated update Testomat ids" --no-verify
-          #   git push
-          # else
-          #   echo "changes=false" >> $GITHUB_ENV
-          # fi
+          npx bddgen && npm run test:check
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
-          GH_PAT: ${{ github.token }}
+          # GH_PAT: ${{ secrets.PERSONAL_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
-        run: npx playwright test
+        run: PLAYWRIGHT_JSON_OUTPUT_NAME=results.json npx playwright test
+      - uses: daun/playwright-report-summary@v3
+        if: always()
+        with:
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
+          report-file: results.json
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
