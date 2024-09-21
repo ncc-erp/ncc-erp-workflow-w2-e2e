@@ -13,8 +13,8 @@ export default class TaskBoard extends BaseComponent {
     return this.host.getByTestId("board-col");
   }
 
-  async clickToBoardItemByTitle(title: string) {
-    await this.host.getByTestId("board-item-title").filter({ hasText: title }).first().click();
+  async clickToBoardItemByTitle(title: string, col: number) {
+    await this.boardCols.nth(col).getByTestId("board-item-title").filter({ hasText: title }).first().click();
   }
 
   async verifyHasTask(columnNumber: number, title: string, requestUser: string, currentStatus: string) {

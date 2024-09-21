@@ -16,7 +16,7 @@ Feature: Change Office Request
       When I reject request by title "__globalData[co1].getTitle" with reason "test reason"
       Then I should see request is "reject" with title "__globalData[co1].getTitle" and state "PM Reviews" on tasks page
 
-    @GDVPDN
+    @gdvpdn
   Rule: As gdvp, I want to received a Change Office Request from my office
     Background:
       Given User create "Change Office Request" with "__testData[random_change_office_request]__global-co2" success
@@ -34,7 +34,7 @@ Feature: Change Office Request
       Then I should see request is "reject" with title "__globalData[co2].getTitle" and state "Current HoO Reviews" on tasks page
 
 
-    @GDVPV
+    @gdvpv
   Rule: As gdvp, I want to received a Change Office Request if anyone come to my office
     Background:
       Given User create "Change Office Request" with "__testData[random_change_office_request]__global-co3" success

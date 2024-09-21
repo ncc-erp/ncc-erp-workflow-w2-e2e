@@ -20,14 +20,14 @@ Then(
 );
 
 When("I approve request by title {TestData}", async ({ PageObjects }, title: string) => {
-  await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title);
+  await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
   await PageObjects.TaskPage.detailTaskPopup.approve();
 });
 
 When(
   "I reject request by title {TestData} with reason {string}",
   async ({ PageObjects }, title: string, reason: string) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title);
+    await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
     await PageObjects.TaskPage.detailTaskPopup.reject(reason);
   }
 );
@@ -41,7 +41,7 @@ Given("{string} approve the request {TestData} success", async ({ browser }, use
   };
   await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
     await PageObjects.TaskPage.open();
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title);
+    await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
     await PageObjects.TaskPage.detailTaskPopup.approve();
     await PageObjects.TaskPage.verifyHasApproveTask(title, users.user.name, stateData[userType.toLowerCase()]);
   });
