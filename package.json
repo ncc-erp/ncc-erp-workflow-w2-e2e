@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
+    "test": "npm run test:bdd",
     "test:debug": "playwright test --debug",
     "test:bdd": "npx bddgen && npx playwright test",
     "watch:bdd": "nodemon -w ./src/features -w ./src/steps -e feature,js,ts --exec \"npx bddgen\"",
