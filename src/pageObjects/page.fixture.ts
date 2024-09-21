@@ -63,7 +63,7 @@ export const test = base.extend<{ PageObjects: PageObjects }>({
 export { expect, Locator, Page, Response } from "@playwright/test";
 
 export const { Given: GivenBase, When: WhenBase, Then: ThenBase } = createBdd(test);
-
+// override support bdd
 type FixtureType = { PageObjects: PageObjects; page: Page; browser: Browser };
 export const Given = (
   pattern: DefineStepPattern,

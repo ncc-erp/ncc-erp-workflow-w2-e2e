@@ -5,7 +5,7 @@ Feature: Change Office Request
       Given User create "Change Office Request" with "__testData[random_change_office_request]__global-co1" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[co1].getTitle" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
@@ -22,7 +22,7 @@ Feature: Change Office Request
       Given User create "Change Office Request" with "__testData[random_change_office_request]__global-co2" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[co2].getTitle" and state "Current HoO Reviews" on tasks page
 
     Scenario: I can approve the request success
@@ -40,7 +40,7 @@ Feature: Change Office Request
       Given User create "Change Office Request" with "__testData[random_change_office_request]__global-co3" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[co3].getTitle" and state "Destination HoO Reviews" on tasks page
 
     Scenario: I can approve the request success

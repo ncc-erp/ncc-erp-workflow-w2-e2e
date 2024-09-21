@@ -6,7 +6,7 @@ Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
 });
 
-Then("I see in title {string}", async ({ PageObjects }, title: string) => {
+Then("I should see in title {string}", async ({ PageObjects }, title: string) => {
   await PageObjects.LoginPage.verifyTitle(title);
 });
 

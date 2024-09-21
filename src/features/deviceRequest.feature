@@ -5,7 +5,7 @@ Feature: Device Request
       Given User create "Device Request" with "__testData[random_device_request]__global-deviceRequest2" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[deviceRequest2].getTitle" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
@@ -23,7 +23,7 @@ Feature: Device Request
       And "PM" approve the request "__globalData[deviceRequest3].getTitle" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[deviceRequest3].getTitle" and state "IT Reviews" on tasks page
 
     Scenario: I can approve the request success

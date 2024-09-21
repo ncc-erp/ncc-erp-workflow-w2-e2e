@@ -1,11 +1,11 @@
-Feature: Device Request
+Feature: WFH Request
   @pm
   Rule: As pm, I want to received a WFH Request from my project
     Background:
       Given User create "WFH Request" with "__testData[random_wfh_request]__global-wfhRequest2" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[wfhRequest2].getTitle" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
@@ -23,7 +23,7 @@ Feature: Device Request
       And "PM" approve the request "__globalData[wfhRequest3].getTitle" success
       And I am on "TaskPage"
 
-    Scenario: I see the request with pending status on my tasks
+    Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pennding" with title "__globalData[wfhRequest3].getTitle" and state "Branch Manager Reviews" on tasks page
 
     Scenario: I can approve the request success
