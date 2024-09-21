@@ -11,3 +11,4 @@ Feature: User create a new request
       | request               | fn_data                      | unique_key |
       | Device Request        | random_device_request        | d_r_1      |
       | Change Office Request | random_change_office_request | c_o_r_1    |
+      | WFH Request           | random_wfh_request           | w_r_1      |

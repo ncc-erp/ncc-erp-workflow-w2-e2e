@@ -16,7 +16,7 @@ export const RequestTypeData = {
   },
 };
 type InputItem = {
-  type: "text" | "textarea" | "select" | "date" | "mutildate";
+  type: "text" | "textarea" | "select" | "date" | "mutidate";
   value: string;
   code?: string;
 };
@@ -37,6 +37,14 @@ export interface ChangeOfficeRequestForm {
   Content: InputItem;
   StartDate: InputItem;
   EndDate: InputItem;
+  getTitle: () => string;
+}
+
+export interface WFHRequestForm {
+  CurrentOffice: InputItem;
+  Project: InputItem;
+  Reason: InputItem;
+  Dates: InputItem;
   getTitle: () => string;
 }
 

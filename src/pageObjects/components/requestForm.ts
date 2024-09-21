@@ -20,6 +20,9 @@ export default class RequestForm extends BaseComponent {
           await field.locator('[aria-selected="true"]').click();
           break;
         case "mutidate":
+          await field.locator("input").fill(data[key].value);
+          await field.getByText("Close").click();
+          break;
         case "text":
           await field.locator("input").fill(data[key].value);
           break;
