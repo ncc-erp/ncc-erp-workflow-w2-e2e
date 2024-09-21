@@ -116,21 +116,103 @@ Rule: as user, I want to login to the system
 2. Create steps file in folder `src/features/steps` name file `<name>.step.ts`
 step file should follow page by page. if any common steps should put them to `share.step.ts`
 ### POM
-// todo
-1. trying to reuse test steps
+#### 1. Overview
 
-- POM in pageObjects
-- write common steps in steps folder (multiple steps combine)
-- if you want to handle multiple authenticated in one testcase, you can use BrowserControl object
+- PageObjects: Located in `src/pageObjects/pages`
+- Components: Located in `src/pageObjects/components`
 
+#### 2. How to use PageObjects
+- Create a new PageObject: Create a new file with format `<name>.page.ts` in `src/pageObjects/pages`. Then you have to add them to `page.fixture.ts` Example:
+```
+# src/pageObjects/page.fixture.ts
+# example I create new page object `TaskPage` in file `task.page.ts`
+
+export type PageObjects = {
+  LoginPage: LoginPage;
+  RequestTemplatePage: RequestTemplatePage;
+  MyRequestPage: MyRequestPage;
+  # should add your page object in here
+  TaskPage: TaskPage;
+};
+const convertToPageObjects = (page: Page): PageObjects => {
+  return {
+    LoginPage: new LoginPage(page),
+    RequestTemplatePage: new RequestTemplatePage(page),
+    MyRequestPage: new MyRequestPage(page),
+    # should create new your page object in here
+    TaskPage: new TaskPage(page),
+  };
+};
+```
+- Use pageObject in steps. You can get them in callback function. Example:
+```
+When( // same way for Given, Then
+  "I login with username {string} and password {string}",
+  async ({ PageObjects }, username: string, password: string) => {
+    await PageObjects.LoginPage.login(username, password);
+  }
+);
+```
+- Use pageObject with BrowserControl.withAuth. You can get them in callback function. Example:
 ```
 await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
-  // user authenticated as user in this context
-  await userCreateDeviceRequestSteps(PageObjects);
+  await PageObjects.RequestTemplatePage.open();
+  await PageObjects.RequestTemplatePage.verifyPageLocated();
+  await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
+});
+```
+**BrowserControl.withAuth in use:** Your main context is authenticated with normal user. but you want to make some actions in others user (Ex: pm, sale, it...). so, should handle in other context (open the new browser to handle it)
+### 3. Rule for PageObject
+- Page Object should extends from BasePage
+- Properties in PageObject should present elements in page (should private property). In case, the properties are component objects we can set them public property.
+- Methods in PageObject should present user action can integrate to the page or verify method to check expectation
+
+Example:
+```
+export default class RequestTemplatePage extends BasePage { // should extends base page
+  public table: Table; // component in page, It's custom components in ./components folder
+  public form: TemplateForm; // component in page, It's custom components in ./components folder
+  private get createBtn() { // element in page
+    return this.page.getByRole("button", { name: "Create" }); // use playwright locator
+  }
+  constructor(readonly page: Page) {
+    super(page, "/my-requests"); // set path of page
+    this.table = new Table(page, this.page.getByTestId("request-table")); // new component you want to set
+    
+    this.form = new TemplateForm(page, this.page.getByTestId("request-form")); // new component you want to set
+  }
+
+  async createNewTemplate(data: TemplateForm) { // user action - create new template
+    await this.createBtn.click(); // click create btn
+    await this.form.fill(data); // fill form
+    await this.form.submit(); // click submit
+  }
+
+  async verifyTemplateByTitle(title: string) { // verify method to check expectation
+    await this.table.verifyTextInCol(0, title)
+  }
+}
+```
+4. Rules for components (almost same as Page Objects)
+- Component Object should extends from BaseComponent
+- Properties and Methods has the same rules as Page Object
+
+5. Utils
+- waitLoading: wait for skeleton loading completely
+- BrowserControl: support open new browser and authenticated for them
+```
+// authAdminFile ==> is the path to auth user (setup in users.data.ts)
+await BrowserControl.withAuth(browser, authAdminFile, async ({ PageObjects }) => {
+  // in this callback. You can action as Admin user
+  await PageObjects.RequestTemplatePage.open();
+  await PageObjects.RequestTemplatePage.verifyPageLocated();
+  // create a new template (only admin have permission)
+  await PageObjects.RequestTemplatePage.createNewTemplate(templateData);
 });
 ```
 
 ### Test Data
 // todo
-1. prepare test data in folder data
-2. trying dynamic data for you test cases
+1. Use data test config
+2. Use generate data in feature file
+2. Some best practices
