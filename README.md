@@ -1,75 +1,109 @@
+
 # Setup
 
 ### Install
 
-1. git clone project
-2. npm i
-3. create .env file (see .env.example)
+1. Clone the project:  
+   `git clone <repository-url>`
+2. Install dependencies:  
+   `npm install`
+3. Create a `.env` file (based on `.env.example`).
 
-### Command to run
+### Commands to Run
 
-1. npm run test (For headless mode)
-2. npm run test:ui (For ui mode)
-3. npm run test:report (For showing the report by html)
-4. npm run test:codegen (For showing the recording mode)
+1. Run tests in headless mode:  
+   `npm run test`
+2. Run tests with UI mode:  
+   `npm run test:ui`
+3. View test reports in HTML:  
+   `npm run test:report`
+4. Start recording mode:  
+   `npm run test:codegen`
 
 ## Notes
 
-1. Development setup mock send mail from https://www.smtpbucket.com/
+1. Development environment uses [SMTPBucket](https://www.smtpbucket.com/) to mock sending emails.
 
-## How to write the test cases
-Pattern: BDD, PageObject (POM), Test Data
+## Writing Test Cases
+
+Tests follow the **BDD** and **Page Object Model (POM)** patterns with structured test data.
+
 ### Conventions
-1. All folder and file name use camelCase
-2. Class use CapitalCase
-3. All variable should have specify type
-4. Should fix all lint/pretier
+
+1. Folder and file names should use `camelCase`.
+2. Classes should use `CapitalCase`.
+3. All variables should have explicit types.
+4. Ensure all lint and Prettier rules are adhered to (fix linting issues using the provided configuration).
 
 ### BDD
-#### 1. Create features file in folder `src/features` name file end with `.feature`
- `Given, When, Then` rules
 
-- Use `I` for writing and follow this format
-```
-Feature: `Feature you want to test`
-  Rule: `User story in your feature`
-  Scenario: `I can|should ...` the specify expectation in the story
-    Given: `Initial context or setup`
-    When: `I <action> ... (Action taken by the user)`
-    Then: `I should ... (Expected outcome)`
-```
-- Use `And` instead of `When ... When` or `Then ... Then` or `Given ... Given`
-```
-Scenario: I should login success
-  Given I navigate to the Website
-  When I enters credentials
-  When I clicks on the sign-in button
-  Then I should see the title after login
-In this case `When ... When` should be change to `When ... And`
-Scenario: I should login success
-  Given I navigate to the Website
-  When I enters credentials
-  And I clicks on the sign-in button
-  Then I should see the title after login
-```
-- Use `Background` `Scenario Outline` to reduce time cost
-- Use a Data Table to verify sets of Similar Data
-```
-Scenario: Login as a new sign-up user with valid data
-  When I entered valid credential
-  | email                     | validpassword |title   |
-  | qatubeupdate1@yopmail.com | 12345         | Home   |
-  | qatubeupdate2@yopmail.com | 12345         | Home   |
-  | qatubeupdate3@yopmail.com | 12345         | Home   |
-  | qatubeupdate4@yopmail.com | 12345         | Home   |
+#### 1. Overview
 
-  When User click on sign-in button
-  Then Validate the title after login
+- **Features**: Located in `src/features`.
+- **Step Definitions**: Located in `src/features/steps`.
+
+#### 2. Creating Feature Files
+
+Feature files should be placed in `src/features` and have a `.feature` extension.
+
+Use the `Given, When, Then` format to define steps:
+
 ```
-- Use tags you can use with Feature/Rule/Scenario
-1. Link to ticket number. Example: `@W-212`
-2. Mark as user authenticated `@user` `@pm` `@hpm` `@sale` `@it` `@gdvpdn` `@gdvpv` (keep this tags lower case)
-If you want to create the new tag for user. Example: create the new tag `@gdvphn1`. Please add a new object `gdvphn1` to file `src/data/users.data.ts`
+Feature: Feature you want to test
+  Rule: Describe the user story or functionality
+  Scenario: I can/should... (the expected behavior)
+    Given I <initial setup>
+    When I <action>
+    Then I should <expected outcome>
+```
+
+- Use `And` for subsequent steps instead of repeating `Given`, `When`, or `Then`.
+
+### Example of Incorrect and Correct Usage
+
+**Wrong Example:**
+
+```
+Scenario: I should log in successfully
+  Given I navigate to the Website
+  When I enter credentials
+  When I click on the sign-in button
+  Then I should see the title after login
+```
+
+**Correct Example:**
+
+```
+Scenario: I should log in successfully
+  Given I navigate to the Website
+  When I enter credentials
+  And I click on the sign-in button
+  Then I should see the title after login
+```
+
+- Leverage `Background` and `Scenario Outline` for reusable steps and reduce code duplication.
+- Use a **Data Table** for similar data sets.
+
+**Correct Data Table Example:**
+
+```
+Scenario: Log in as a newly registered user with valid data
+  When I enter valid credentials
+    | email                      | password | title  |
+    | user1@example.com           | pass123  | Home   |
+    | user2@example.com           | pass123  | Home   |
+  And I click the sign-in button
+  Then I should see the homepage
+```
+
+#### 4. tags
+
+Use tags with Feature, Rule, or Scenario:
+
+- Link to ticket number. Example: @W-212
+- Mark user authentication levels: @user, @pm, @hpm, @sale, @it, @gdvpdn, @gdvpv (keep these tags lowercase)
+
+If you need to create a new tag for the new user type. Example: To create a new tag @gdvphn1, add a new object to the file src/data/users.data.ts
 ```
 export const authGDVPVFile = path.join(__dirname, "../.auth/GDVPHN1.json");
 export const users = {
@@ -81,94 +115,96 @@ export const users = {
   },
 };
 ```
-- Avoid Conjunctive Steps for reusing. **Conjunctive Steps:** These are steps that combine multiple actions or conditions into one. 
-Example:
+#### 3. Avoiding Conjunctive Steps
+
+Avoid combining multiple actions into one step. This will improve reusability and readability.
+
+### Example of Incorrect and Correct Usage
+
+**Wrong Example:**
+
 ```
 Given the user is logged in and on the dashboard and has notifications
+```
 
-Should be change to this way: 
-Given the user is logged in
-And the user is on the dashboard
+**Correct Example:**
+
+```
+Given the user is logged in  
+And the user is on the dashboard  
 And the user has notifications
 ```
-- Should keep scenarios are easy to read and understand. Write in a declarative way, not Imperative (dont need put more more detail steps). 
-Example: 
+
+#### 4. Writing Declarative Scenarios
+
+Focus on **what** happens, not **how** it happens.
+
+### Example of Incorrect and Correct Usage
+
+**Wrong Example (Imperative):**
+
 ```
-# Declarative scenario
-Rule: as user, I want to login to the system
-  Scenario: I should login success
-    Given I navigate to the Website
-    When I enters credentials
-    And I clicks on the sign-in button
-    Then I should see the title after login
-  -------------------------------------------
-# Imperative scenario
-Rule: as user, I want to login to the system
-  Scenario: I should login success
-    Given I navigate to the Website
-    When I enter “username” # more detail
-    And I enter “password” # more detail
-    And I check the “Remember me” check box # more detail
-    And I user clicks on the sign-in button
-    Then I should see the title after login
+Scenario: I should log in successfully
+  Given I navigate to the Website
+  When I enter “username”
+  And I enter “password”
+  And I check the “Remember me” check box
+  And I click on the sign-in button
+  Then I should see the title after login
 ```
 
-#### 2. Create steps file in folder `src/features/steps` name file `<name>.step.ts`
-step file should follow page by page. if any common steps should put them to `share.step.ts`
-### POM
+**Correct Example (Declarative):**
+
+```
+Scenario: I should log in successfully
+  Given I navigate to the Website
+  When I enter credentials
+  And I click the sign-in button
+  Then I should see the title after login
+```
+
+#### 3. Step Definitions
+
+Step definition files are located in `src/features/steps`. Each step file should map to a specific page. Common steps should be placed in `share.step.ts`.
+
+### Page Object Model (POM)
+
 #### 1. Overview
 
-- PageObjects: Located in `src/pageObjects/pages`
-- Components: Located in `src/pageObjects/components`
+- **Page Objects**: Located in `src/pageObjects/pages`.
+- **Components**: Located in `src/pageObjects/components`.
 
-#### 2. How to use PageObjects
-- Create a new PageObject: Create a new file with format `<name>.page.ts` in `src/pageObjects/pages`. Then you have to add them to `page.fixture.ts` Example:
-```
-# src/pageObjects/page.fixture.ts
-# example I create new page object `TaskPage` in file `task.page.ts`
+#### 2. Creating Page Objects
 
-export type PageObjects = {
-  LoginPage: LoginPage;
-  RequestTemplatePage: RequestTemplatePage;
-  MyRequestPage: MyRequestPage;
-  # should add your page object in here
-  TaskPage: TaskPage;
-};
-const convertToPageObjects = (page: Page): PageObjects => {
-  return {
-    LoginPage: new LoginPage(page),
-    RequestTemplatePage: new RequestTemplatePage(page),
-    MyRequestPage: new MyRequestPage(page),
-    # should create new your page object in here
-    TaskPage: new TaskPage(page),
-  };
-};
-```
-- Use pageObject in steps. You can get them in callback function. Example:
-```
-When( // same way for Given, Then
-  "I login with username {string} and password {string}",
-  async ({ PageObjects }, username: string, password: string) => {
-    await PageObjects.LoginPage.login(username, password);
-  }
-);
-```
-- Use pageObject with BrowserControl.withAuth. You can get them in callback function. Example:
-```
-await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
-  await PageObjects.RequestTemplatePage.open();
-  await PageObjects.RequestTemplatePage.verifyPageLocated();
-  await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
-});
-```
-**BrowserControl.withAuth in use:** Your main context is authenticated with normal user. but you want to make some actions in others user (Ex: pm, sale, it...). so, should handle in other context (open the new browser to handle it)
-#### 3. Rule for PageObject
-- Page Object should extends from BasePage
-- Properties in PageObject should present elements in page (should private property). In case, the properties are component objects we can set them public property.
-- Methods in PageObject should present user action can integrate to the page or verify method to check expectation
+To create a new Page Object:
+
+1. Create a new file in `src/pageObjects/pages` with the format `<name>.page.ts`.
+2. Register the new Page Object in `page.fixture.ts`.
 
 Example:
+
+```ts
+export type PageObjects = {
+  LoginPage: LoginPage;
+  MyRequestPage: MyRequestPage;
+  TaskPage: TaskPage;
+};
+const convertToPageObjects = (page: Page): PageObjects => ({
+  LoginPage: new LoginPage(page),
+  MyRequestPage: new MyRequestPage(page),
+  TaskPage: new TaskPage(page),
+});
 ```
+
+#### 3. Page Object Rules
+
+- Page Objects should extend `BasePage`.
+- Properties representing page elements should be private, except when they are component objects.
+- Methods should describe user actions or verification steps.
+
+Example:
+
+```ts
 export default class RequestTemplatePage extends BasePage { // should extends base page
   public table: Table; // component in page, It's custom components in ./components folder
   public form: TemplateForm; // component in page, It's custom components in ./components folder
@@ -193,13 +229,11 @@ export default class RequestTemplatePage extends BasePage { // should extends ba
   }
 }
 ```
-#### 4. Rules for components (almost same as Page Objects)
-- Component Object should extends from BaseComponent
-- Properties and Methods has the same rules as Page Object
 
-#### 5. Utils
-- waitLoading: wait for skeleton loading completely
-- BrowserControl: support open new browser and authenticated for them
+### Utilities
+
+- `waitLoading`: Wait for skeleton loading to complete.
+- `BrowserControl`: Supports opening a new browser session with user authentication.
 ```
 // authAdminFile ==> is the path to auth user (setup in users.data.ts)
 await BrowserControl.withAuth(browser, authAdminFile, async ({ PageObjects }) => {
@@ -212,7 +246,5 @@ await BrowserControl.withAuth(browser, authAdminFile, async ({ PageObjects }) =>
 ```
 
 ### Test Data
-// todo
-#### 1. Use data test config
-#### 2. Use generate data in feature file
-#### 2. Some best practices
+
+- Data configuration and best practices: **(To be completed)**.
