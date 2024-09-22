@@ -3,7 +3,8 @@ import { DeviceRequestData } from "./deviceRequest.data";
 import { users } from "./users.data";
 import { WfhRequestData } from "./wfhRequest.data";
 
-export const dataTest = {
+// data public for using in features file
+export const testData = {
   users,
   // DeviceRequestData,
   // ChangeOfficeRequestData,
@@ -19,4 +20,4 @@ export const dataTest = {
   },
 };
 
-export const dataTestContainer = {};
+export const testDataContainer = {};

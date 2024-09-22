@@ -1,7 +1,7 @@
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
 
-//I should see request is "reject" with title "__globalData[deviceRequest2].getTitle" and state "PM Reviews" on tasks page
+//I should see request is "reject" with title "*global[deviceRequest2].getTitle" and state "PM Reviews" on tasks page
 Then(
   "I should see request is {string} with title {TestData} and state {string} on tasks page",
   async ({ PageObjects }, status: "pending" | "approve" | "reject", title: string, state: string) => {

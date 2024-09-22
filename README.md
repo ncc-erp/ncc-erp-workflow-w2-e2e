@@ -20,6 +20,17 @@
 4. Start recording mode:  
    `npm run test:codegen`
 
+### Vscode Extensions should be have
+- Prettier
+- Spell Checker
+- ESLint
+- Git Lens
+- Cucumber (Gherkin) Full Support
+- Playwright Test for VSCode 
+- Quokka.js
+- TypeScript Toolbox
+- TypeScript Importer
+
 ## Notes
 
 1. Development environment uses [SMTPBucket](https://www.smtpbucket.com/) to mock sending emails.
@@ -245,6 +256,43 @@ await BrowserControl.withAuth(browser, authAdminFile, async ({ PageObjects }) =>
 });
 ```
 
-### Test Data
+### Test Data Management
 
-- Data configuration and best practices: **(To be completed)**.
+#### Data test in config
+- All test data should locate in `src/data`
+- All data or function you want to call in feature files, should public in file `src/data/features.data.ts`
+
+#### Use data test in feature file
+1. Accessing Config Data:
+When test data is configured in src/data and made public in features.data.ts, you can access functions or properties of the testData object using the following syntax: `*testData[<property or method of testData object>].<next property or method>`
+
+Example:
+```
+Feature: As user, I want to login to w2
+  Scenario: Login success
+    Given I am on "LoginPage"
+    When I login with username "*testData[users].user.username" and password "*testData[users].user.password"
+    Then I should see "RequestTemplatePage"
+```
+2. Dynamic Data and Global Storage:
+- To call a method for dynamic data from the testData object and save it to global data for use in subsequent steps, use this syntax: `*testData[<method of testData object>]__global[<key in global object>]`
+- To get data from global data, use this syntax: `*global[<key in global object>].<method or property>`
+
+Example: 
+
+```
+Feature: Device Request
+  Rule: As pm, I want to received a Device Request from my project
+    Background:
+      Given User create "Device Request" with "*testData[random_device_request]__global[drkey1]" success
+      And I am on "TaskPage"
+
+    Scenario: I should see the request with pending status on my tasks
+      Then I should see request is "pending" with title "*global[drkey1].getTitle" and state "PM Reviews" on tasks page
+```
+3. Best practices
+- Utilize dynamic data as much as possible
+- Make extensive use of data tables in features
+- Configure test data on a feature-by-feature
+
+

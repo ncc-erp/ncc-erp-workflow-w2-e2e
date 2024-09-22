@@ -1,10 +1,11 @@
 import { Browser, Page } from "@playwright/test";
+import get from "lodash.get";
 import { test as base, createBdd } from "playwright-bdd";
 
 import { DefineStepPattern } from "playwright-bdd/dist/steps/registry";
 import { StepConfig } from "playwright-bdd/dist/steps/stepConfig";
 import { ParametersExceptFirst } from "playwright-bdd/dist/utils/types";
-import { dataTest, dataTestContainer } from "../data";
+import { testData, testDataContainer } from "../data/features.data";
 import { users } from "../data/users.data";
 import LoginPage from "./pages/login.page";
 import MyRequestPage from "./pages/myRequest.page";
@@ -104,89 +105,64 @@ const proxyPattern = (pattern: DefineStepPattern) => {
   return patternTemp;
 };
 
-// Function to convert key string to get data from dataTest
+// Function to convert key string to get data from testData
 function convertKeyToDataTest(key: string): void {
-  // Check if the key starts with "__testData["
-  if (!key.startsWith("__testData[")) {
-    throw new Error('Key must start with "__testData[<property name here>]".');
+  // Check if the key starts with "*testData["
+  if (!key.startsWith("*testData")) {
+    throw new Error('Key must start with "*testData[<property name here>]".');
+  }
+  const keyTestDatas = key.match(/^\*(.*?)(?:__.*)?$/);
+  const keyTestData = keyTestDatas ? keyTestDatas[1] : key; // Return the captured group or the original string
+  const valueOrFunction = get({ testData }, keyTestData);
+
+  // Get the value from testData
+  // const value = typeof valueOrFunction === "function" ? valueOrFunction() : valueOrFunction;
+  let value = valueOrFunction;
+  // Get the value from testData
+  if (typeof valueOrFunction === "function") {
+    value = valueOrFunction.apply(get({ testData }, keyTestData.split(".").slice(0, -1).join("."))); // Keep context
   }
 
-  // Extract the property name from the key
-  const propertyMatch = key.match(/__testData\[(.*?)\]/);
-  if (!propertyMatch || propertyMatch.length < 2) {
-    throw new Error("Invalid key format. Could not extract property name.");
+  // Check if the key includes '__global[key]'
+  const globalMatch = key.match(/__global\[(.+)\]/);
+  if (globalMatch) {
+    const containerKey = globalMatch[1]; // Extract the key for testDataContainer
+    // Set the value to testDataContainer
+    testDataContainer[containerKey] = value;
   }
 
-  const propertyName = propertyMatch[1];
-
-  // Check if the property exists in dataTest
-  if (dataTest.hasOwnProperty(propertyName)) {
-    // Get the value from dataTest
-    const value = typeof dataTest[propertyName] === "function" ? dataTest[propertyName]() : dataTest[propertyName];
-
-    // Check if the key includes '__global-'
-    const globalMatch = key.match(/__global-(.+)/);
-    if (globalMatch) {
-      const containerKey = globalMatch[1]; // Extract the key for dataTestContainer
-      // Set the value to dataTestContainer
-      dataTestContainer[containerKey] = value;
-    }
-
-    // Return the value regardless of whether it was set in dataTestContainer
-    return value;
-  } else {
-    throw new Error(`Property "${propertyName}" does not exist in dataTest.`);
-  }
+  // Return the value regardless of whether it was set in testDataContainer
+  return value;
 }
-// Function to get data or call method from dataTestContainer by key string
+// Function to get data or call method from testDataContainer by key string
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getDataFromGlobalData(key: string): any {
-  // Check if the key starts with "__globalData["
-  if (!key.startsWith("__globalData[") || !key.includes("]")) {
-    throw new Error('Key must be in the format "__globalData[key in dataTestContainer][.property]".');
+  // Check if the key starts with "*global["
+  if (!key.startsWith("*global")) {
+    throw new Error('Key must be in the format "*global[key in testDataContainer][.property]".');
+  }
+  const keyTestDatas = key.match(/^\*(.*?)(?:__.*)?$/);
+  const keyTestData = keyTestDatas ? keyTestDatas[1] : key; // Return the captured group or the original string
+
+  const valueOrFunction = get({ global: testDataContainer }, keyTestData);
+
+  let value = valueOrFunction;
+  // Get the value from testData
+  if (typeof valueOrFunction === "function") {
+    value = valueOrFunction.apply(get({ global: testDataContainer }, keyTestData.split(".").slice(0, -1).join("."))); // Keep context
   }
 
-  // Extract the key name and property/method
-  const keyMatch = key.match(/__globalData\[(.*?)\](?:\.(.*))?/);
-  if (!keyMatch || keyMatch.length < 2) {
-    throw new Error("Invalid key format. Could not extract key name.");
-  }
-
-  const containerKey = keyMatch[1];
-  const propertyName = keyMatch[2]; // This may be undefined if no property is specified
-
-  // Check if the key exists in dataTestContainer
-  if (containerKey in dataTestContainer) {
-    const containerValue = dataTestContainer[containerKey];
-
-    // If propertyName is defined, try to access it
-    if (propertyName) {
-      if (typeof containerValue[propertyName] === "function") {
-        // If the property is a function, call it and return the result
-        return containerValue[propertyName]();
-      } else if (propertyName in containerValue) {
-        // If it's a property, return its value
-        return containerValue[propertyName];
-      } else {
-        throw new Error(`Property "${propertyName}" does not exist on "${containerKey}".`);
-      }
-    }
-
-    // If no property is specified, return the whole object
-    return containerValue;
-  } else {
-    throw new Error(`Key "${containerKey}" does not exist in dataTestContainer.`);
-  }
+  return value;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const convertDataTest = (keys: any[]) => {
   return keys.map((key) => {
-    if (typeof key !== "string" || !key.startsWith("__")) {
-      return key;
+    if (typeof key === "string" && key.startsWith("*testData")) {
+      return convertKeyToDataTest(key);
     }
-    if (key.startsWith("__globalData")) {
+    if (typeof key === "string" && key.startsWith("*global")) {
       return getDataFromGlobalData(key);
     }
-    return convertKeyToDataTest(key);
+    return key;
   });
 };

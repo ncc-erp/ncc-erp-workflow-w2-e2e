@@ -1,24 +1,20 @@
-import { authUserFile, users } from "../../data/users.data";
 import { test } from "../../pageObjects/page.fixture";
 
-test.describe("As user, I want to login to w2 @user", () => {
-  test.beforeEach(async ({ PageObjects }) => {
-    await PageObjects.LoginPage.open();
+// raw code apply todo
+test.describe("As user, I want to login to w2", () => {
+  test("Login success", async ({ Given, PageObjects, page, browser, When, Then }) => {
+    await Given('I am on "LoginPage"', null, { PageObjects, page, browser });
+    await When('I login with username "manh.nguyenvan@ncc.asia" and password "1q2w3E*"', null, {
+      PageObjects,
+      page,
+      browser,
+    });
+    await Then('I should see "RequestTemplatePage"', null, { PageObjects, page, browser });
   });
-  test("should login success", async ({ PageObjects }) => {
-    await PageObjects.LoginPage.login(users.user.username, users.user.password);
-    await PageObjects.RequestTemplatePage.verifyPageLocated();
-  });
-});
 
-test.describe("As user, I want to logout @user", () => {
-  test.beforeEach(async ({ PageObjects }) => {
-    await PageObjects.RequestTemplatePage.open();
-  });
-  test.use({ storageState: authUserFile });
-
-  test("should logout success", async ({ PageObjects }) => {
-    await PageObjects.RequestTemplatePage.header.logout();
-    await PageObjects.LoginPage.verifyPageLocated();
+  test("Logout success", { tag: ["@user"] }, async ({ Given, PageObjects, page, browser, When, Then }) => {
+    await Given('I am on "RequestTemplatePage"', null, { PageObjects, page, browser });
+    await When("I logout", null, { PageObjects, page, browser });
+    await Then('I should see "LoginPage"', null, { PageObjects, page, browser });
   });
 });

@@ -2,7 +2,7 @@ import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authUserFile, users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
 
-// User create Device Request "__testData[random_device_request]__global-deviceRequest2" success
+// User create Device Request "*testData[random_device_request]__global[deviceRequest2]" success
 Given(
   "User create {string} with {TestData} success",
   async ({ browser }, name: string, deviceRequest: DeviceRequestForm) => {
@@ -13,7 +13,7 @@ Given(
     });
   }
 );
-// I should see request "__globalData[deviceRequest2]" on tasks page
+// I should see request "*global[deviceRequest2]" on tasks page
 Then("I should see request {TestData} on tasks page", async ({ PageObjects }, deviceRequest: DeviceRequestForm) => {
   await PageObjects.TaskPage.verifyHasPendingTask(deviceRequest.getTitle(), users.user.name, "PM Reviews");
 });

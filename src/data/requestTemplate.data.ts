@@ -15,6 +15,7 @@ export const RequestTypeData = {
     name: "WFH Request",
   },
 };
+
 type InputItem = {
   type: "text" | "textarea" | "select" | "date" | "mutidate";
   value: string;

@@ -5,5 +5,7 @@
     "source.organizeImports": "explicit"
   },
   "editor.formatOnSave": true,
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "cucumberautocomplete.steps": ["src/features/steps/*.ts"],
+  "cucumberautocomplete.syncfeatures": "src/features/*feature"
 }
