@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       grep:
-        description: 'tests to grep'
+        description: "tests to grep"
         required: false
-        default: ''
+        default: ""
       run:
         required: false
       testomatio:
@@ -29,4 +29,4 @@ jobs:
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUN: "${{ github.event.inputs.run }}"
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}
-        run: npx playwright test --grep "${{ github.event.inputs.grep }}"
+        run: npx bddgen && npx playwright test --grep "${{ github.event.inputs.grep }}"
