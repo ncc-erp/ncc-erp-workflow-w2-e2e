@@ -1,6 +1,6 @@
 import { Browser, Page } from "@playwright/test";
 import get from "lodash.get";
-import { test as base, createBdd } from "playwright-bdd";
+import { test as base, createBdd, DataTable } from "playwright-bdd";
 
 import { DefineStepPattern } from "playwright-bdd/dist/steps/registry";
 import { StepConfig } from "playwright-bdd/dist/steps/stepConfig";
@@ -154,14 +154,32 @@ function getDataFromGlobalData(key: string): any {
 
   return value;
 }
+
+const convertDataTestWithString = (key: string) => {
+  if (key.startsWith("*testData")) {
+    return convertKeyToDataTest(key);
+  }
+  if (key.startsWith("*global")) {
+    return getDataFromGlobalData(key);
+  }
+
+  return key;
+};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const convertDataTest = (keys: any[]) => {
   return keys.map((key) => {
-    if (typeof key === "string" && key.startsWith("*testData")) {
-      return convertKeyToDataTest(key);
+    if (typeof key === "string") {
+      return convertDataTestWithString(key);
     }
-    if (typeof key === "string" && key.startsWith("*global")) {
-      return getDataFromGlobalData(key);
+    if (typeof key === "object" && key instanceof DataTable) {
+      const raws = key.raw();
+      const newRaws = raws.map((cols) => {
+        return cols.map((col) => {
+          return convertDataTestWithString(col);
+        });
+      });
+
+      return new DataTable(newRaws);
     }
     return key;
   });
