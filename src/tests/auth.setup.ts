@@ -1,6 +1,6 @@
 import { users } from "../data/users.data";
 import { test as setup } from "../pageObjects/page.fixture";
-import { loginAndVerifySteps } from "./../steps/login.step";
+import { loginAndVerifySteps } from "../steps/login.step";
 
 for (let key of Object.keys(users)) {
   const user = users[key];

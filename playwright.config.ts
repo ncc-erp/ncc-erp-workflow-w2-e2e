@@ -5,10 +5,12 @@ import { defineConfig, devices } from "@playwright/test";
  * https://github.com/motdotla/dotenv
  */
 import dotenv from "dotenv";
+import os from "os";
 import path from "path";
 import { cucumberReporter, defineBddConfig } from "playwright-bdd";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
+const cpuCores = os.cpus().length; // Get the number of CPU cores
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -22,10 +24,10 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? cpuCores : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ["list"],
+    [process.env.CI ? "github" : "list"],
     ["@estruyf/github-actions-reporter"],
     ["html", { open: "never" }],
     [
@@ -55,12 +57,12 @@ export default defineConfig({
     {
       name: "setup",
       testMatch: /.*\.setup\.ts/,
-      teardown: "cleanup",
+      // teardown: "cleanup",
     },
-    {
-      name: "cleanup",
-      testMatch: /.*\.teardown\.ts/,
-    },
+    // {
+    //   name: "cleanup",
+    //   testMatch: /.*\.teardown\.ts/,
+    // },
     // {
     //   name: "chromium",
     //   use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },

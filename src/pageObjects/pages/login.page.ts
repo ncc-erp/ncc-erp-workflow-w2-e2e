@@ -1,4 +1,5 @@
 import { expect, Page } from "@playwright/test";
+import { boxedStep } from "../../utils/decorator";
 import { BasePage } from "../base.page";
 
 export default class LoginPage extends BasePage {
@@ -19,6 +20,7 @@ export default class LoginPage extends BasePage {
     super(page, "/login");
   }
 
+  @boxedStep
   async login(username: string, password: string) {
     await this.username.fill(username);
     await this.password.fill(password);
