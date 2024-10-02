@@ -43,4 +43,10 @@ export const users = {
     name: "Dai Trinh Duc",
     authFile: authGDVPVFile,
   },
+  ceo: {
+    username: "thien.dang@ncc.asia",
+    password: "1q2w3E*",
+    name: "Thien Dang An",
+    authFile: authAdminFile,
+  },
 };
