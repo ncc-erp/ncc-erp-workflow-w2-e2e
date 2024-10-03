@@ -36,8 +36,8 @@ Feature: Probationary Confirmation Request
   Rule: As ceo, I want to received a Probationary Confirmation Request after ceo approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr3]" success
-      And "PM" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "PM Reviews"
       And "GDVPDN" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "HoO Reviews"
+      And "PM" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "PM Reviews"
       And I am on "TaskPage"
 
     Scenario: I should see the request with pending status on my tasks

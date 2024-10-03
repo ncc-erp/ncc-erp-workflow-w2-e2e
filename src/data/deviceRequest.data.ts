@@ -1,9 +1,9 @@
+import { getRandomContent, getRandomDevice } from "./fakerUtils";
 import { DeviceRequestForm } from "./requestTemplate.data";
 
 export const DeviceRequestData = {
   user: {
     getRandomData(): DeviceRequestForm {
-      const timestamp = new Date().getTime();
       const data: DeviceRequestForm = {
         CurrentOffice: {
           type: "select",
@@ -17,11 +17,11 @@ export const DeviceRequestData = {
         },
         Device: {
           type: "text",
-          value: `1 pc - ${timestamp}`,
+          value: getRandomDevice(),
         },
         Reason: {
           type: "textarea",
-          value: `pc for testing- ${timestamp}`,
+          value: getRandomContent(),
         },
         getTitle() {
           return `[${this.CurrentOffice.code}] [${this.Project.code}]: ${this.Device.value}`;

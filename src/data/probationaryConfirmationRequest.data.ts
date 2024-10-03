@@ -1,9 +1,10 @@
+import { getRandomContent, getRandomDatesForProbationaryConfirmation } from "./fakerUtils";
 import { ProbationaryConfirmationRequest } from "./requestTemplate.data";
 
 export const ProbationaryConfirmationRequestData = {
   user: {
     getRandomData(): ProbationaryConfirmationRequest {
-      const timestamp = new Date().getTime();
+      const { startDate, endDate } = getRandomDatesForProbationaryConfirmation();
       return {
         Staff: {
           type: "select",
@@ -22,15 +23,15 @@ export const ProbationaryConfirmationRequestData = {
         },
         Content: {
           type: "textarea",
-          value: `test probationary request - ${timestamp}`,
+          value: getRandomContent(),
         },
         StartDate: {
           type: "date",
-          value: `30/09/2024`,
+          value: startDate,
         },
         EndDate: {
           type: "date",
-          value: `01/10/2024`,
+          value: endDate,
         },
         getTitle() {
           return `Confirm for ${this.Staff.code} (${this.EndDate.value})`;

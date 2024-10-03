@@ -1,9 +1,10 @@
+import { getRandomContent, getRandomDatesForWFH } from "./fakerUtils";
 import { WFHRequestForm } from "./requestTemplate.data";
 
 export const WfhRequestData = {
   user: {
     getRandomData(): WFHRequestForm {
-      const timestamp = new Date().getTime();
+      const { firstDate, secondDate, thirdDate } = getRandomDatesForWFH();
       const data: WFHRequestForm = {
         CurrentOffice: {
           type: "select",
@@ -17,14 +18,13 @@ export const WfhRequestData = {
         },
         Reason: {
           type: "textarea",
-          value: `wfh reason - ${timestamp}`,
+          value: getRandomContent(),
         },
         Dates: {
           type: "mutidate",
-          value: `22/11/2024, 23/11/2024, 24/11/2024`,
+          value: `${firstDate}, ${secondDate}, ${thirdDate}`,
         },
         getTitle() {
-          //[{{CurrentOffice}}][{{Project}}]: {{Dates}}
           return `[${this.CurrentOffice.code}][${this.Project.code}]: ${this.Dates.value.replaceAll(" ", "")}`;
         },
       };

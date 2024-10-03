@@ -1,9 +1,10 @@
+import { getRandomContent, getRandomDates } from "./fakerUtils";
 import { ChangeOfficeRequestForm } from "./requestTemplate.data";
 
 export const ChangeOfficeRequestData = {
   user: {
     getRandomData(): ChangeOfficeRequestForm {
-      const timestamp = new Date().getTime();
+      const { startDate, endDate } = getRandomDates();
       return {
         CurrentOffice: {
           type: "select",
@@ -17,15 +18,15 @@ export const ChangeOfficeRequestData = {
         },
         Content: {
           type: "textarea",
-          value: `test change office - ${timestamp}`,
+          value: getRandomContent(),
         },
         StartDate: {
           type: "date",
-          value: `15/09/2024`,
+          value: `${startDate}`,
         },
         EndDate: {
           type: "date",
-          value: `20/09/2024`,
+          value: `${endDate}`,
         },
         getTitle() {
           return `Change office from ${this.CurrentOffice.code} to ${this.DestinationOffice.code}`;
