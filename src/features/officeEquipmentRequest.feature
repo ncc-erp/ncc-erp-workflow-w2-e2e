@@ -37,6 +37,7 @@ Feature: Office Equipment Request
   Rule: As user, I want to see an Office Equipment Request after it approved
     Background:
       Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer3]" success
+      And "GDVPDN" approve the request "*global[oer3].getTitle" with strength points "" and weekness points "" success, current state "Branch Manager Reviews"
       And "it" approve the request "*global[oer3].getTitle" with strength points "" and weekness points "" success, current state "IT Reviews"
 
     Scenario: I should see the request with approved status on my requests

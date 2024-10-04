@@ -54,6 +54,8 @@ Feature: Probationary Confirmation Request
   Rule: As user, I want to see a Probationary Confirmation Request after CEO approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr4]" success
+      And "GDVPDN" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "HoO Reviews"
+      And "PM" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "PM Reviews"
       And "CEO" approve the request "*global[pcr4].getTitle" with strength points "" and weekness points "" success, current state "CEO Reviews"
 
     Scenario: I should see the request with approved status on my requests
