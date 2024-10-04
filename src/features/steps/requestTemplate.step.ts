@@ -12,7 +12,7 @@ Given(
       await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
     });
     if (name.includes("Probationary Confirmation Request")) {
-      await new Promise((resolve) => setTimeout(resolve, 200000));
+      await new Promise((resolve) => setTimeout(resolve, 280000));
     }
   }
 );
