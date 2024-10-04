@@ -27,7 +27,7 @@ export default defineConfig({
   workers: process.env.CI ? cpuCores : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    [process.env.CI ? "github" : "list"],
+    ["list"],
     ["@estruyf/github-actions-reporter"],
     ["html", { open: "never" }],
     [
