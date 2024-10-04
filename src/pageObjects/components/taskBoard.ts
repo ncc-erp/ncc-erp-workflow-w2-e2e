@@ -18,10 +18,6 @@ export default class TaskBoard extends BaseComponent {
   }
 
   async verifyHasTask(columnNumber: number, title: string, requestUser: string, currentStatus: string) {
-    if (title.includes("Confirm for")) {
-      await new Promise((resolve) => setTimeout(resolve, 960000));
-    }
-
     await waitLoading(this.page);
     const col = this.boardCols.nth(columnNumber);
     await expect(col).toContainText(`${title}`);

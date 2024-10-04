@@ -11,6 +11,9 @@ Given(
       await PageObjects.RequestTemplatePage.verifyPageLocated();
       await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
     });
+    if (name.includes("Probationary Confirmation Request")) {
+      await new Promise((resolve) => setTimeout(resolve, 200000));
+    }
   }
 );
 // I should see request "*global[deviceRequest2]" on tasks page

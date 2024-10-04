@@ -33,7 +33,7 @@ Feature: Probationary Confirmation Request
       Then I should see request is "reject" with title "*global[pcr2].getTitle" and state "HoO Reviews" on tasks page
 
     @ceo
-  Rule: As ceo, I want to received a Probationary Confirmation Request after ceo approved
+  Rule: As ceo, I want to received a Probationary Confirmation Request after pm, gdvp approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr3]" success
       And "GDVPDN" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "HoO Reviews"
