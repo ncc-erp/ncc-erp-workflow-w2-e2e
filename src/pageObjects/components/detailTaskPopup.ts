@@ -26,10 +26,10 @@ export default class DetailTaskPopup extends BaseComponent {
 
   async approve(strengthPoints?, weaknessPoints?) {
     await this.approveBtn.click();
-    if (strengthPoints != "") {
+    if (strengthPoints && typeof strengthPoints === "string") {
       await this.approveStrengthPoints.fill(strengthPoints);
     }
-    if (weaknessPoints != "") {
+    if (weaknessPoints && typeof weaknessPoints === "string") {
       await this.approveWeaknessPoints.fill(weaknessPoints);
     }
     await this.confirmBtn.click();

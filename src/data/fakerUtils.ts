@@ -30,6 +30,22 @@ export function getRandomDatesForProbationaryConfirmation() {
   return { startDate: start, endDate: end };
 }
 
+export function getMultiFutureDates(count) {
+  const dates = [];
+
+  for (let i = 0; i < count; i++) {
+    const date = faker.date.future();
+    const formattedDate = date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    dates.push(formattedDate);
+  }
+
+  return dates.join(", ");
+}
+
 export function getRandomContent() {
   return `${faker.lorem.lines()} - ${faker.string.uuid()}`;
 }

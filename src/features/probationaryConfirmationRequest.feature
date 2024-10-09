@@ -36,8 +36,8 @@ Feature: Probationary Confirmation Request
   Rule: As ceo, I want to received a Probationary Confirmation Request after pm, gdvp approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr3]" success
-      And "GDVPDN" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "HoO Reviews"
-      And "PM" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "PM Reviews"
+      And "GDVPDN" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
+      And "PM" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
       And I am on "TaskPage"
 
     Scenario: I should see the request with pending status on my tasks
@@ -54,9 +54,9 @@ Feature: Probationary Confirmation Request
   Rule: As user, I want to see a Probationary Confirmation Request after CEO approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr4]" success
-      And "GDVPDN" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "HoO Reviews"
-      And "PM" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success, current state "PM Reviews"
-      And "CEO" approve the request "*global[pcr4].getTitle" with strength points "" and weekness points "" success, current state "CEO Reviews"
+      And "GDVPDN" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
+      And "PM" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
+      And "CEO" approve the request "*global[pcr4].getTitle" success and current state "CEO Reviews"
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"

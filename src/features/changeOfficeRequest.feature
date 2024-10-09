@@ -9,7 +9,7 @@ Feature: Change Office Request
       Then I should see request is "pending" with title "*global[co1].getTitle" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by title "*global[co1].getTitle" with strength points "" and weekness points ""
+      When I approve request by title "*global[co1].getTitle"
       Then I should see request is "approve" with title "*global[co1].getTitle" and state "PM Reviews" on tasks page
 
     Scenario: I can reject the request success
@@ -26,7 +26,7 @@ Feature: Change Office Request
       Then I should see request is "pending" with title "*global[co2].getTitle" and state "Current HoO Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by title "*global[co2].getTitle" with strength points "" and weekness points ""
+      When I approve request by title "*global[co2].getTitle"
       Then I should see request is "approve" with title "*global[co2].getTitle" and state "Current HoO Reviews" on tasks page
 
     Scenario: I can reject the request success
@@ -44,7 +44,7 @@ Feature: Change Office Request
       Then I should see request is "pending" with title "*global[co3].getTitle" and state "Destination HoO Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by title "*global[co3].getTitle" with strength points "" and weekness points ""
+      When I approve request by title "*global[co3].getTitle"
       Then I should see request is "approve" with title "*global[co3].getTitle" and state "Destination HoO Reviews" on tasks page
 
     Scenario: I can reject the request success
@@ -54,9 +54,9 @@ Feature: Change Office Request
   Rule: As user, I want to see a Change Office Request after PM, GDVP1, GDVP2 approved
     Background:
       Given User create "Change Office Request" with "*testData[random_change_office_request]__global[co4]" success
-      And "PM" approve the request "*global[co4].getTitle" with strength points "" and weekness points "" success, current state "PM Reviews"
-      And "GDVPDN" approve the request "*global[co4].getTitle" with strength points "" and weekness points "" success, current state "Current HoO Reviews" 
-      And "GDVPV" approve the request "*global[co4].getTitle" with strength points "" and weekness points "" success, current state "Destination HoO Reviews" 
+      And "PM" approve the request "*global[co4].getTitle" success and current state "PM Reviews"
+      And "GDVPDN" approve the request "*global[co4].getTitle" success and current state "Current HoO Reviews" 
+      And "GDVPV" approve the request "*global[co4].getTitle" success and current state "Destination HoO Reviews" 
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"

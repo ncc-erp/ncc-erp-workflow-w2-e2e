@@ -19,6 +19,11 @@ Then(
   }
 );
 
+When("I approve request by title {TestData}", async ({ PageObjects }, title: string) => {
+  await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
+  await PageObjects.TaskPage.detailTaskPopup.approve();
+});
+
 When(
   "I approve request by title {TestData} with strength points {string} and weekness points {string}",
   async ({ PageObjects }, title: string, strengthPoints?: string, weeknessPoints?: string) => {
@@ -36,7 +41,20 @@ When(
 );
 
 Given(
-  "{string} approve the request {TestData} with strength points {string} and weekness points {string} success, current state {string}",
+  "{string} approve the request {TestData} success and current state {string}",
+  async ({ browser }, userType: string, title: string, currentState?: string) => {
+    const authFile = users[userType.toLowerCase()].authFile;
+    await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
+      await PageObjects.TaskPage.open();
+      await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
+      await PageObjects.TaskPage.detailTaskPopup.approve();
+      await PageObjects.TaskPage.verifyHasApproveTask(title, users.user.name, currentState);
+    });
+  }
+);
+
+Given(
+  "{string} approve the request {TestData} with strength points {string} and weekness points {string} success and current state {string}",
   async (
     { browser },
     userType: string,
