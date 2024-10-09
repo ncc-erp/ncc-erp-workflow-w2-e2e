@@ -30,14 +30,6 @@ export function getRandomDatesForProbationaryConfirmation() {
   return { startDate: start, endDate: end };
 }
 
-export function getRandomDatesForWFH() {
-  const baseDate = new Date(2024, 0, 1);
-  const randomFutureDate = faker.date.future();
-  const startDate = new Date(baseDate.getTime() + (randomFutureDate.getTime() - new Date().getTime()));
-  const [first, second, third] = getSequentialDates(startDate, 3);
-  return { firstDate: first, secondDate: second, thirdDate: third };
-}
-
 export function getRandomContent() {
   return `${faker.lorem.lines()} - ${faker.string.uuid()}`;
 }
