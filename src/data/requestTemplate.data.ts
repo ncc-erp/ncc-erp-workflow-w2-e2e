@@ -49,4 +49,25 @@ export interface WFHRequestForm {
   getTitle: () => string;
 }
 
-export type RequestFormType = DeviceRequestForm | ChangeOfficeRequestForm;
+export interface OfficeEquipmentRequestForm {
+  CurrentOffice: InputItem;
+  Equipment: InputItem;
+  Reason: InputItem;
+  getTitle: () => string;
+}
+
+export interface ProbationaryConfirmationRequest {
+  Staff: InputItem;
+  Project: InputItem;
+  CurrentOffice: InputItem;
+  Content: InputItem;
+  StartDate: InputItem;
+  EndDate: InputItem;
+  getTitle: () => string;
+}
+
+export type RequestFormType =
+  | DeviceRequestForm
+  | ChangeOfficeRequestForm
+  | OfficeEquipmentRequestForm
+  | ProbationaryConfirmationRequest;

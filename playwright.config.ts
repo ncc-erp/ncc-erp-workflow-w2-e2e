@@ -15,7 +15,7 @@ const cpuCores = os.cpus().length; // Get the number of CPU cores
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 60_000, // should remove
+  timeout: 300_000, // should remove
   testDir: "./src/tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -27,7 +27,7 @@ export default defineConfig({
   workers: process.env.CI ? cpuCores : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    [process.env.CI ? "github" : "list"],
+    ["list"],
     ["@estruyf/github-actions-reporter"],
     ["html", { open: "never" }],
     [

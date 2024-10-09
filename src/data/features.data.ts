@@ -1,5 +1,7 @@
 import { ChangeOfficeRequestData } from "./changeOfficeRequest.data";
 import { DeviceRequestData } from "./deviceRequest.data";
+import { OfficeEquipmentRequestData } from "./officeEquiqmentRequest.data";
+import { ProbationaryConfirmationRequestData } from "./probationaryConfirmationRequest.data";
 import { users } from "./users.data";
 import { WfhRequestData } from "./wfhRequest.data";
 
@@ -17,6 +19,12 @@ export const testData = {
   },
   random_wfh_request() {
     return WfhRequestData.user.getRandomData();
+  },
+  random_office_equipment_request() {
+    return OfficeEquipmentRequestData.user.getRandomData();
+  },
+  random_probationary_confirmation_request() {
+    return ProbationaryConfirmationRequestData.user.getRandomData();
   },
 };
 

@@ -16,8 +16,22 @@ export default class DetailTaskPopup extends BaseComponent {
     return this.host.getByRole("textbox");
   }
 
-  async approve() {
+  public get approveStrengthPoints() {
+    return this.host.locator('[data-testid="StrengthPoints"] textarea');
+  }
+
+  public get approveWeaknessPoints() {
+    return this.host.locator('[data-testid="WeaknessPoints"] textarea');
+  }
+
+  async approve(strengthPoints?, weaknessPoints?) {
     await this.approveBtn.click();
+    if (strengthPoints && typeof strengthPoints === "string") {
+      await this.approveStrengthPoints.fill(strengthPoints);
+    }
+    if (weaknessPoints && typeof weaknessPoints === "string") {
+      await this.approveWeaknessPoints.fill(weaknessPoints);
+    }
     await this.confirmBtn.click();
     await this.page.waitForResponse(API.approveTask);
   }

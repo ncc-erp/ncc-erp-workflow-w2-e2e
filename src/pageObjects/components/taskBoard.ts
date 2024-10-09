@@ -22,6 +22,6 @@ export default class TaskBoard extends BaseComponent {
     const col = this.boardCols.nth(columnNumber);
     await expect(col).toContainText(`${title}`);
     await expect(col).toContainText(`Request user:${requestUser}`);
-    await expect(col).toContainText(`Current State:${currentStatus}`);
+    await expect(col).toContainText(`Current State:${currentStatus || ""}`);
   }
 }

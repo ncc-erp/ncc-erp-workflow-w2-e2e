@@ -54,9 +54,9 @@ Feature: Change Office Request
   Rule: As user, I want to see a Change Office Request after PM, GDVP1, GDVP2 approved
     Background:
       Given User create "Change Office Request" with "*testData[random_change_office_request]__global[co4]" success
-      And "PM" approve the request "*global[co4].getTitle" success
-      And "GDVPDN" approve the request "*global[co4].getTitle" success
-      And "GDVPV" approve the request "*global[co4].getTitle" success
+      And "PM" approve the request "*global[co4].getTitle" success and current state "PM Reviews"
+      And "GDVPDN" approve the request "*global[co4].getTitle" success and current state "Current HoO Reviews" 
+      And "GDVPV" approve the request "*global[co4].getTitle" success and current state "Destination HoO Reviews" 
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"

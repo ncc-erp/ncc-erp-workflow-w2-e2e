@@ -20,7 +20,7 @@ Feature: Device Request
   Rule: As IT, I want to received a Device Request after PM approved
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest3]" success
-      And "PM" approve the request "*global[deviceRequest3].getTitle" success
+      And "PM" approve the request "*global[deviceRequest3].getTitle" success and current state "PM Reviews" 
       And I am on "TaskPage"
 
     Scenario: I should see the request with pending status on my tasks
