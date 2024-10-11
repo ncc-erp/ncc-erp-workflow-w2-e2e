@@ -2,6 +2,7 @@ import { ChangeOfficeRequestData } from "./changeOfficeRequest.data";
 import { DeviceRequestData } from "./deviceRequest.data";
 import { OfficeEquipmentRequestData } from "./officeEquiqmentRequest.data";
 import { ProbationaryConfirmationRequestData } from "./probationaryConfirmationRequest.data";
+import { UserManagementData } from "./userManagement.data";
 import { users } from "./users.data";
 import { WfhRequestData } from "./wfhRequest.data";
 
@@ -25,6 +26,9 @@ export const testData = {
   },
   random_probationary_confirmation_request() {
     return ProbationaryConfirmationRequestData.user.getRandomData();
+  },
+  random_user_management_data() {
+    return UserManagementData.user.getRandomData();
   },
 };
 

@@ -11,8 +11,10 @@ import LoginPage from "./pages/login.page";
 import MyRequestPage from "./pages/myRequest.page";
 import RequestTemplatePage from "./pages/requestTemplate.page";
 import TaskPage from "./pages/task.page";
+import UserManagementPage from "./pages/userManagement.page";
 
 export type PageObjects = {
+  UserManagementPage: UserManagementPage;
   LoginPage: LoginPage;
   RequestTemplatePage: RequestTemplatePage;
   MyRequestPage: MyRequestPage;
@@ -24,6 +26,7 @@ const convertToPageObjects = (page: Page): PageObjects => {
     RequestTemplatePage: new RequestTemplatePage(page),
     MyRequestPage: new MyRequestPage(page),
     TaskPage: new TaskPage(page),
+    UserManagementPage: new UserManagementPage(page),
   };
 };
 
