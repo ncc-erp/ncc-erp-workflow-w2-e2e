@@ -29,4 +29,8 @@ Then("I authenticated as {string}", async ({ PageObjects }, userType: string) =>
 Then("I logout", async ({ PageObjects }) => {
   await PageObjects.RequestTemplatePage.header.logout();
 });
+
+Given("I should wait for all the new requests to be loaded", async () => {
+  await new Promise((resolve) => setTimeout(resolve, 120000));
+});
 ///

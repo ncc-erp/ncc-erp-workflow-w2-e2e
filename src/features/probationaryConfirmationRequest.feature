@@ -4,6 +4,7 @@ Feature: Probationary Confirmation Request
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr1]" success
       And I am on "TaskPage"
+      And I should wait for all the new requests to be loaded
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with title "*global[pcr1].getTitle" and state "PM Reviews" on tasks page
@@ -20,6 +21,7 @@ Feature: Probationary Confirmation Request
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr2]" success
       And I am on "TaskPage"
+      And I should wait for all the new requests to be loaded
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with title "*global[pcr2].getTitle" and state "HoO Reviews" on tasks page
@@ -36,6 +38,7 @@ Feature: Probationary Confirmation Request
   Rule: As ceo, I want to received a Probationary Confirmation Request after pm, gdvp approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr3]" success
+      And I should wait for all the new requests to be loaded
       And "GDVPDN" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
       And "PM" approve the request "*global[pcr3].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
       And I am on "TaskPage"
@@ -54,6 +57,7 @@ Feature: Probationary Confirmation Request
   Rule: As user, I want to see a Probationary Confirmation Request after CEO approved
     Background:
       Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr4]" success
+      And I should wait for all the new requests to be loaded
       And "GDVPDN" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
       And "PM" approve the request "*global[pcr4].getTitle" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
       And "CEO" approve the request "*global[pcr4].getTitle" success and current state "CEO Reviews"
