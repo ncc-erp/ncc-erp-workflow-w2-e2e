@@ -28,7 +28,13 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"],
-    ["@estruyf/github-actions-reporter"],
+    [
+      "@estruyf/github-actions-reporter",
+      {
+        showAnnotations: false,
+        showError: true,
+      },
+    ],
     ["html", { open: "never" }],
     [
       "@testomatio/reporter/lib/adapter/playwright.js",
