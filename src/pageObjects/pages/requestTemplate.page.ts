@@ -26,7 +26,7 @@ export default class RequestTemplatePage extends BasePage {
 
     if (name == "Probationary Confirmation Request") {
       // this request not create directly
-      await new Promise<void>((r) => setTimeout(() => r(), 90000));
+      await new Promise<void>((r) => setTimeout(() => r(), 120000));
     }
     const res = await response.json();
     return {
