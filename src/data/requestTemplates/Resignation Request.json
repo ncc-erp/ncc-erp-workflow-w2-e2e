@@ -1,0 +1,1459 @@
+{
+  "settings": {
+    "color": "#de4620",
+    "titleTemplate": "Request for Resignation: Final Day {{DesiredLastWorkingDay}}"
+  },
+  "defineJson": {
+    "definitionId": "3a151f93-8f1d-5a69-b120-aceda10bc0ca",
+    "versionId": "3a157834-b4c0-71a6-7da2-bfd1d8da6efe",
+    "tenantId": null,
+    "name": "Resignation Request",
+    "displayName": "Resignation Request",
+    "description": null,
+    "channel": null,
+    "version": 21,
+    "variables": {
+      "data": {}
+    },
+    "customAttributes": {
+      "data": {}
+    },
+    "contextOptions": null,
+    "isSingleton": false,
+    "persistenceBehavior": "Suspended",
+    "deleteCompletedInstances": false,
+    "isPublished": true,
+    "isLatest": true,
+    "tag": null,
+    "createdAt": "2024-10-07T08:10:44.288903Z",
+    "activities": [
+      {
+        "activityId": "651e344f-84b9-43dd-8bf5-ced054a97ba8",
+        "type": "Fork",
+        "name": null,
+        "displayName": "PM Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"Approve\",\"Reject\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "7cc5febb-4db9-481c-8c4b-7883abf89158",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Approve",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.PMApproved"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "8929035f-1fff-4117-a7e9-04d7afe2b880",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Reject",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.PMRejected"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "4f32f89a-ccc3-409a-b7ec-aa880c029f05",
+        "type": "HttpEndpoint",
+        "name": null,
+        "displayName": "Trigger Workflow",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Path",
+            "syntax": null,
+            "expressions": {
+              "Literal": "resignation-request"
+            }
+          },
+          {
+            "name": "Methods",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"POST\"]"
+            }
+          },
+          {
+            "name": "ReadContent",
+            "syntax": null,
+            "expressions": {
+              "Literal": "true"
+            }
+          },
+          {
+            "name": "TargetType",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Schema",
+            "syntax": "Literal",
+            "expressions": {
+              "Literal": ""
+            }
+          },
+          {
+            "name": "Authorize",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Policy",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "229026d4-fda5-4c07-8fd7-23e31141f25f",
+        "type": "SetRequestUserVariable",
+        "name": null,
+        "displayName": "Set RequestUser Variable",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "f96db19f-d77d-4c14-80ce-27e25f400887",
+        "type": "SetVariable",
+        "name": null,
+        "displayName": "Set Email Template Variable",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "VariableName",
+            "syntax": null,
+            "expressions": {
+              "Literal": "EmailTemplate"
+            }
+          },
+          {
+            "name": "Value",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestInfo = getVariable('Request');\r\nconst requestUser = getVariable('RequestUser');\r\nconst currentOffice = getOfficeInfo(requestUser.BranchCode);\r\nconst projectInfo = getProjectInfo(requestUser.ProjectCode);\r\nconst pms = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pms.push(projectInfo.PM[i]);\r\n}\r\n\r\nreturn `\r\n<div style=\"margin: 13px 0\">\r\n    <b>Văn phòng đang làm việc: </b>${currentOffice.DisplayName}\r\n</div>\r\n<div style=\"margin: 13px 0\">\r\n    <b>Dự án: </b>[${projectInfo.Code}] ${projectInfo.Name}\r\n</div>\r\n<div style=\"margin: 13px 0\">\r\n    <b>PM: </b>${pms.map(x => x.FullName).join(', ')}\r\n</div>\r\n<div style=\"margin: 13px 0\">\r\n    <b>Ngày nghỉ mong muốn: </b>${requestInfo.DesiredLastWorkingDay}\r\n</div>\r\n<div style=\"margin: 13px 0;display: flex\">\r\n    <b>Lý do:</b>&#160;${requestInfo.Reason}\r\n</div>\r\n`;"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "a4844bd0-ae33-4679-b640-a580c30b38a9",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Send notification to staff/PM/Director: Request was approved",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\n// const directorEmail = userInfo.HeadOfOfficeEmail;\r\nconst directorEmails = userInfo.DirectorEmails;\r\nconst requestInfo = getVariable('Request');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn [userInfo.Email, ...directorEmails, ...pmsEmailAddress];",
+              "Json": "[\"trang.danghuyen@ncc.asia\"]"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\n\r\nreturn `[Resignation Request] Approved - [${projectInfo.Name}] - ${userInfo.Name} (${new Date().toLocaleString()})`"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const emailTemplate = getVariable('EmailTemplate');\r\nconst dynamicDataByTask = getVariable('DynamicDataByTask');\r\n\r\nconst hrTask = dynamicDataByTask?.find(task => task.Description === 'HR Reviews');\r\n\r\nconst hrLastWorkingDayDecision = hrTask?.DynamicDataList.find(\r\n  dynamicData => (dynamicData.Name === 'LastWorkingDay')\r\n)?.Data;\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Yêu cầu nghỉ việc đã được duyệt</b></div>\r\n<div style=\"margin: 13px 0\"><strong>Ngày nghỉ chính thức: </strong>${hrLastWorkingDayDecision ?? 'undefined'}</div>\r\n<div style=\"padding: 3px 10px; border-radius: 10px; background-color: aliceblue;\">\r\n    <div style=\"margin: 13px 0\"><i>Nội dung request</i></div>\r\n    ${emailTemplate}\r\n</div>\r\n`"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "ca304450-9872-4673-8864-2991b76ea558",
+        "type": "SendMailAndAssign",
+        "name": null,
+        "displayName": "PM Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ApproveSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "PMApproved",
+              "JavaScript": "workflowSignals.PMApproved"
+            }
+          },
+          {
+            "name": "RejectSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "PMRejected",
+              "JavaScript": "workflowSignals.PMRejected"
+            }
+          },
+          {
+            "name": "DynamicActionData",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestInfo = getVariable('Request');\r\n\r\nconst data = [\r\n    {\r\n    \"name\": \"LastWorkingDay\",\r\n    \"type\": \"dateTime\",\r\n    \"isRequired\": true,\r\n    \"data\": \"\",\r\n    \"defaultValue\": requestInfo.DesiredLastWorkingDay\r\n  },\r\n  {\r\n    \"name\": \"Note\",\r\n    \"type\": \"RichText\",\r\n    \"isRequired\": true,\r\n    \"data\": \"\"\r\n  }\r\n];\r\n\r\nreturn JSON.stringify(data);"
+            }
+          },
+          {
+            "name": "OtherActionSignals",
+            "syntax": null,
+            "expressions": {
+              "Json": "[]"
+            }
+          },
+          {
+            "name": "AssignTo",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "[]",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(requestUser.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn pmsEmailAddress;\r\n"
+            }
+          },
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "[\"hoa.tranthi@ncc.asia\"]",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(requestUser.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn pmsEmailAddress;\r\n"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const projectInfo = getProjectInfo(getVariable('RequestUser').ProjectCode);\r\nreturn `[Resignation Request] [${projectInfo.Name}] - ${currentUser.Name} (${new Date().toLocaleString()})`"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const rejectSignalUrl = getCustomSignalUrlWithForm(workflowSignals.PMRejected, [signalInputTypes.Reason, signalInputTypes.TriggeredBy]);\r\nconst emailTemplate = getVariable('EmailTemplate');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Người gửi:</b> ${currentUser.Name} (${currentUser.Email})</div>\r\n<div>\r\n    ${emailTemplate}\r\n</div>\r\n<div>\r\n  <a href=\"${getCustomSignalUrl(workflowSignals.PMApproved)}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #33b864; border-radius: 10px; color: white; text-decoration: none;\">Duyệt</a>\r\n  <a href=\"${rejectSignalUrl}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #FF0000; border-radius: 10px; color: white; text-decoration: none;\">Từ chối</a>\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "2ffcefae-c68d-438c-aa5b-fff95ab6187e",
+        "type": "SendEmailToInstanceCreatorAndOther",
+        "name": null,
+        "displayName": "Send notification to staff/PM/Director: Request was rejected",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\n// const directorEmail = userInfo.HeadOfOfficeEmail;\r\nconst directorEmails = userInfo.DirectorEmails; \r\nconst requestInfo = getVariable('Request');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn [userInfo.Email, ...directorEmails, ...pmsEmailAddress];"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\n\r\nreturn `[Resignation Request] Rejected - [${projectInfo.Name}] - ${userInfo.Name} (${new Date().toLocaleString()})`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const emailTemplate = getVariable('EmailTemplate');\r\nconst userInfo = getVariable('RequestUser');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Yêu cầu nghỉ việc đã bị từ chối.</b><div>\r\n<div style=\"margin: 13px 0\"><b>Lý do: </b> ${activityExecutionContext.Input.Reason}</div>\r\n<div style=\"margin: 13px 0\"><b>Từ chối bởi: </b>${activityExecutionContext.Input.TriggeredBy}</div>\r\n<div style=\"padding: 3px 10px; border-radius: 10px; background-color: aliceblue;>\r\n    <div style=\"margin: 13px 0\"><i>Nội dung request</i></div>\r\n    <div style=\"margin: 13px 0\"><strong>Người gửi:</strong> ${userInfo.Name} (${userInfo.Email})</div>\r\n    ${emailTemplate}\r\n</div>\r\n`"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "73b148ed-1487-4477-8894-ea1062086115",
+        "type": "SendMailAndAssign",
+        "name": null,
+        "displayName": "HPM Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ApproveSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "",
+              "JavaScript": "workflowSignals.HPMApproved"
+            }
+          },
+          {
+            "name": "RejectSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "",
+              "JavaScript": "workflowSignals.HPMRejected"
+            }
+          },
+          {
+            "name": "DynamicActionData",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestInfo = getVariable('Request');\r\n\r\nconst data = [\r\n    {\r\n    \"name\": \"LastWorkingDay\",\r\n    \"type\": \"dateTime\",\r\n    \"isRequired\": true,\r\n    \"data\": \"\",\r\n    \"defaultValue\": requestInfo.DesiredLastWorkingDay\r\n  },\r\n  {\r\n    \"name\": \"Note\",\r\n    \"type\": \"RichText\",\r\n    \"isRequired\": true,\r\n    \"data\": \"\"\r\n  }\r\n];\r\n\r\nreturn JSON.stringify(data);"
+            }
+          },
+          {
+            "name": "OtherActionSignals",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "AssignTo",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst hpmEmails = requestUser.HPMEmails; \r\n\r\nreturn hpmEmails;"
+            }
+          },
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "[]",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst hpmEmails = requestUser.HPMEmails; \r\n\r\nreturn hpmEmails;"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const projectInfo = getProjectInfo(getVariable('RequestUser').ProjectCode);\r\nreturn `[Resignation Request] [${projectInfo.Name}] - ${currentUser.Name} (${new Date().toLocaleString()})`"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const rejectSignalUrl = getCustomSignalUrlWithForm(workflowSignals.HPMRejected, [signalInputTypes.Reason, signalInputTypes.TriggeredBy]);\r\nconst emailTemplate = getVariable('EmailTemplate');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Người gửi:</b> ${currentUser.Name} (${currentUser.Email})</div>\r\n<div>\r\n    ${emailTemplate}\r\n</div>\r\n<div>\r\n  <a href=\"${getCustomSignalUrl(workflowSignals.HPMApproved)}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #33b864; border-radius: 10px; color: white; text-decoration: none;\">Duyệt</a>\r\n  <a href=\"${rejectSignalUrl}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #FF0000; border-radius: 10px; color: white; text-decoration: none;\">Từ chối</a>\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "62da345d-eca1-4546-bb8f-e8e78ca9daa0",
+        "type": "Fork",
+        "name": null,
+        "displayName": "HPM Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"Approve\",\"Reject\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "cacea447-b183-422b-a1f7-e4c7f5977b62",
+        "type": "Fork",
+        "name": null,
+        "displayName": "Send notifications",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"To PM\",\"To HPM\",\"To HR\",\"To Director\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "cbfda1a7-4f12-48d3-a6a5-e9fcb0d1e909",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Send notifications to Director",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "[]",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\n// const directorEmail = requestUser.HeadOfOfficeEmail;\r\nconst directorEmails = requestUser.DirectorEmails; \r\n\r\nreturn directorEmails;"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Liquid": "",
+              "JavaScript": "const projectInfo = getProjectInfo(getVariable('RequestUser').ProjectCode);\r\nreturn `[Resignation Request] [${projectInfo.Name}] - ${currentUser.Name} (${new Date().toLocaleString()})`"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const emailTemplate = getVariable('EmailTemplate');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Yêu cầu xin nghỉ việc</b></div>\r\n<div style=\"padding: 3px 10px; border-radius: 10px;\">\r\n    <div style=\"margin: 13px 0\"><b>Người gửi:</b> ${currentUser.Name} (${currentUser.Email})</div>\r\n    ${emailTemplate}\r\n</div>\r\n`"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "70fcedc9-e5e8-4028-a550-3bccc9804f2f",
+        "type": "SendMailAndAssign",
+        "name": null,
+        "displayName": "HR Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ApproveSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Approved"
+            }
+          },
+          {
+            "name": "RejectSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Rejected"
+            }
+          },
+          {
+            "name": "DynamicActionData",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestInfo = getVariable('Request');\r\n\r\nconst data = [\r\n    {\r\n    \"name\": \"LastWorkingDay\",\r\n    \"type\": \"dateTime\",\r\n    \"isRequired\": true,\r\n    \"data\": \"\",\r\n    \"defaultValue\": requestInfo.DesiredLastWorkingDay\r\n  },\r\n  {\r\n    \"name\": \"Note\",\r\n    \"type\": \"RichText\",\r\n    \"isRequired\": true,\r\n    \"data\": \"\"\r\n  }\r\n];\r\n\r\nreturn JSON.stringify(data);"
+            }
+          },
+          {
+            "name": "OtherActionSignals",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "AssignTo",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst hrEmails = requestUser.HREmails; \r\n\r\nreturn hrEmails;\r\n"
+            }
+          },
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst hrEmails = requestUser.HREmails; \r\n\r\nreturn hrEmails;\r\n"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\nreturn `[Resignation Request] [${projectInfo.Name}] - ${userInfo.Name} (${new Date().toLocaleString()})`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const rejectSignalUrl = getCustomSignalUrlWithForm(workflowSignals.Rejected, [signalInputTypes.Reason, signalInputTypes.TriggeredBy]);\r\nconst userInfo = getVariable('RequestUser');\r\nconst emailTemplate = getVariable('EmailTemplate');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Người gửi: </b>${userInfo.Name} (${userInfo.Email})</div>\r\n<div>\r\n    ${emailTemplate}\r\n</div>\r\n<div>\r\n    <a href=\"${getCustomSignalUrl(workflowSignals.Approved)}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #33b864; border-radius: 10px; color: white; text-decoration: none;\">Duyệt</a>\r\n    <a href=\"${rejectSignalUrl}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #FF0000; border-radius: 10px; color: white; text-decoration: none;\">Từ chối</a>\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "a38187db-fada-43e8-b2d1-d80b65a0a639",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Approve",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.HPMApproved"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "ebb0123c-8f0c-4c0d-9ead-7003e5072bea",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Reject",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.HPMRejected"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "ff3d01ca-64e3-4f5b-b4af-1810f8eceb2f",
+        "type": "Fork",
+        "name": null,
+        "displayName": "HR Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"Approve\",\"Reject\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "e71a68a5-8242-4acc-a79d-e0e44ef9d362",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Approve",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Approved"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "84a5d329-fb46-4524-866b-1829310db5b5",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Reject",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Rejected"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "23f7472d-f28b-4e28-b881-a7dfbc122106",
+        "type": "Join",
+        "name": null,
+        "displayName": "All approved",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Mode",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "ab6ff3da-2af6-4a12-9626-0ee450699e1e",
+        "type": "Join",
+        "name": null,
+        "displayName": "Any rejected",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Mode",
+            "syntax": null,
+            "expressions": {
+              "Literal": "WaitAny"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "066dcb21-9353-4d31-8426-5ad5e6299b92",
+        "type": "W2ApprovedPreFinish",
+        "name": null,
+        "displayName": "W2 Approved Pre Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "d2bb98de-f361-4bcb-8e1f-ec79d2e8356b",
+        "type": "Finish",
+        "name": null,
+        "displayName": "Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ActivityOutput",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "OutcomeNames",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "8d8e8e0a-6ccc-4204-b14f-49595a41c6cc",
+        "type": "W2RejectedPreFinish",
+        "name": null,
+        "displayName": "W2 Rejected Pre Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "5655a03c-fcc8-466e-8e5f-48df64a4196e",
+        "type": "Finish",
+        "name": null,
+        "displayName": "Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ActivityOutput",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "OutcomeNames",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "b4c48438-8e1d-4630-93c3-3c0f8b384cb6",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Send offboard notification to Staff/PM/Director/IT",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\n// const directorEmail = userInfo.HeadOfOfficeEmail;\r\nconst directorEmails = userInfo.DirectorEmails; \r\nconst itEmails = userInfo.ITEmails;\r\nconst requestInfo = getVariable('Request');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn [userInfo.Email, ...directorEmails, ...itEmails, ...pmsEmailAddress];"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\n\r\nreturn `Fwd: [${userInfo.BranchCode} _ Hướng dẫn offboarding ${new Date().toLocaleString()} _ ${userInfo.Name}]`"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst dynamicDataByTask = getVariable('DynamicDataByTask');\r\n\r\nconst hrTask = dynamicDataByTask?.find(task => task.Description === 'HR Reviews');\r\n\r\nconst hrLastWorkingDayDecision = hrTask?.DynamicDataList.find(\r\n  dynamicData => (dynamicData.Name === 'LastWorkingDay')\r\n)?.Data;\r\n\r\nconst [day, month, year] = hrLastWorkingDayDecision.split('/');\r\nconst desiredDate = new Date(`${year}-${month}-${day}`);\r\n\r\nconst nextYear = desiredDate.getFullYear() + 1;\r\n\r\nlet nextMonth = desiredDate.getMonth() + 2;\r\n\r\nif (nextMonth > 12) {\r\n  nextMonth = 1;\r\n}\r\n\r\nconst currentDate = new Date();\r\nconst formattedCurrentDate = \r\n    ('0' + currentDate.getDate()).slice(-2) + '/' + \r\n    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '/' + \r\n    currentDate.getFullYear();\r\n\r\nreturn `\r\n<body>\r\n    <div style=\"font-family: Arial, sans-serif; line-height: 2; margin: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;\">\r\n        <div style=\"margin: 20px 0; padding: 10px; border: 1px dashed #ccc; background-color: #f5f5f5;\">\r\n            <strong>---------- Forwarded message ---------</strong><br>\r\n            <strong>From:</strong> Giang Tran Minh Chau &lt;giang.tranminhchau@ncc.asia&gt;<br>\r\n            <strong>Date:</strong> ${new Date().toLocaleString()}<br>\r\n            <strong>Subject:</strong> Fwd: [${\r\n              userInfo.BranchCode\r\n            } _ Hướng dẫn offboarding ${formattedCurrentDate} _ ${\r\n  userInfo.Name\r\n}]<br>\r\n            <strong>To:</strong> Trinh Nguyen Thi Tuyet &lt;trinh.nguyenthituyet@ncc.asia&gt;<br>\r\n            <strong>Cc:</strong> NCC_HR &lt;hr@ncc.asia&gt;, NCC_IT &lt;it@ncc.asia&gt;, Tien Nguyen Huu &lt;tien.nguyenhuu@ncc.asia&gt;, Thien Dang An &lt;thien.dang@ncc.asia&gt;\r\n        </div>\r\n\r\n        <h2 style=\"color: #333;\">Thân gửi ${userInfo.Name},</h2>\r\n\r\n        <p>Để tiến hành các thủ tục offboard cho nhân viên, bạn vui lòng thực hiện theo các bước sau:</p>\r\n\r\n        <ol>\r\n            <li>\r\n                <strong>Ngày làm việc cuối cùng:</strong> ${hrLastWorkingDayDecision}\r\n            </li>\r\n            <li>\r\n                <strong>Bàn Giao Công Việc:</strong> Sau khi bàn giao toàn bộ công việc bạn hãy báo PM xác nhận qua luồng email này nhé.\r\n                <p>Dưới đây là mẫu bàn giao công việc để reply lại mail.</p>\r\n                <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\r\n                    <thead>\r\n                        <tr>\r\n                            <th style=\"border: 1px solid #ccc; padding: 10px; background-color: rgb(255,217,102);\">STT</th>\r\n                            <th style=\"border: 1px solid #ccc; padding: 10px; background-color: rgb(255,217,102);\">Tên dự án</th>\r\n                            <th style=\"border: 1px solid #ccc; padding: 10px; background-color: rgb(255,217,102);\">Công việc bàn giao</th>\r\n                            <th style=\"border: 1px solid #ccc; padding: 10px; background-color: rgb(255,217,102);\">Người nhận bàn giao</th>\r\n                            <th style=\"border: 1px solid #ccc; padding: 10px; background-color: rgb(255,217,102);\">Tình trạng</th>\r\n                            <th style=\"border: 1px solid #ccc; padding: 10px; background-color: rgb(255,217,102);\">PM xác nhận</th>\r\n                        </tr>\r\n                    </thead>\r\n                    <tbody>\r\n                        <tr>\r\n                            <td style=\"border: 1px solid #ccc; padding: 10px;\"></td>\r\n                            <td style=\"border: 1px solid #ccc; padding: 10px;\"></td>\r\n                            <td style=\"border: 1px solid #ccc; padding: 10px;\"></td>\r\n                            <td style=\"border: 1px solid #ccc; padding: 10px;\"></td>\r\n                            <td style=\"border: 1px solid #ccc; padding: 10px;\"></td>\r\n                            <td style=\"border: 1px solid #ccc; padding: 10px;\"></td>\r\n                        </tr>\r\n                    </tbody>\r\n                </table>\r\n            </li>\r\n            <li>\r\n                <strong>Thu Hồi Tài Sản và quyền truy cập:</strong> Bạn hãy kiểm tra và xác nhận email thu hồi tài sản thiết bị và account của bộ phận IT nhé (thường sẽ được gửi vào ngày làm việc cuối cùng). Bộ phận HR cũng cần nhận được xác nhận thu hồi thiết bị từ phía IT, nên hãy chủ động nhắc IT phản hồi vào luồng email này sau khi hoàn tất các bước thu hồi thiết bị. (IT: thiet.nguyenba hoặc cuong.nguyennngoc).\r\n            </li>\r\n            <li>\r\n                <strong>Các Thủ Tục sau khi kết thúc:</strong> Bộ phận HR sẽ hướng dẫn bạn về các thủ tục cần thiết liên quan đến việc quá trình nghỉ việc.\r\n                <ul>\r\n                    <li>\r\n                        <strong>Thuế TNCN:</strong> NCC sẽ cung cấp giấy xác nhận thu nhập trong thời gian bạn làm việc tại công ty để phục vụ cho việc quyết toán thuế TNCN của bạn. Quyết toán thuế nhận vào năm ${nextYear} (nếu có nhu cầu).\r\n                    </li>\r\n                    <li>\r\n                        <strong>Lương:</strong> Kỳ lương cuối của bạn sẽ được thanh toán từ ngày 01 - 05 của Tháng ${nextMonth} và lương sẽ được tính dựa trên số liệu từ Timesheet.\r\n                    </li>\r\n                    <li>\r\n                        <strong>Timesheet:</strong> Tài khoản của bạn sẽ được khóa lại trên hệ thống Tool nội bộ của công ty vào lúc 19h ngày ${hrLastWorkingDayDecision}. Bạn vui lòng kiểm tra lại dữ liệu trên timesheet của bạn. Vào ngày cuối cùng làm việc tại công ty để tránh xảy ra sai sót đáng tiếc liên quan đến lương, phụ cấp, phạt.\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li>\r\n                <strong>Quyết định chấm dứt hợp đồng:</strong> Sau khi hoàn tất các thủ tục về bàn giao công việc cũng như thiết bị tài sản tại công ty, bộ phận HR sẽ chuẩn bị quyết định chấm dứt hợp đồng (HR sẽ gửi sau 3-5 ngày làm việc nếu bạn có nhu cầu).\r\n            </li>\r\n        </ol>\r\n\r\n        <p>Trong quá trình tiến hành các thủ tục, nếu bạn có bất kì vướng mắc nào, hãy liên hệ ngay với bộ phận HR để được hướng dẫn.</p>\r\n\r\n        <p>NCC mong rằng bạn sẽ thành công trên con đường sự nghiệp của mình!</p>\r\n\r\n        <div style=\"margin-top: 20px; font-size: 0.9em; color: #666;\">\r\n            <p>Trân trọng.</p>\r\n            <p>--</p>\r\n            <p>Best regards!</p>\r\n            <p>------------------------------------------------------</p>\r\n            <p>Tran Minh Chau Giang</p>\r\n            <p><strong>[A]:</strong> Human Resource Department</p>\r\n            <p>4th Floor, 138 Ha Huy Tap St., Ha Huy Tap, Vinh City.</p>\r\n            <p><strong>[P]:</strong> 0944.483.701</p>\r\n            <p><strong>[E]:</strong> giang.tranminhchau@ncc.asia</p>\r\n        </div>\r\n    </div>\r\n</body>\r\n`;\r\n"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {
+              "Json": "[]"
+            }
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "602d8184-de07-4160-83bf-d827c62f2dbe",
+        "type": "SendMailAndAssign",
+        "name": null,
+        "displayName": "IT confirmed the device recall",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ApproveSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Approved"
+            }
+          },
+          {
+            "name": "RejectSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Rejected"
+            }
+          },
+          {
+            "name": "DynamicActionData",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "OtherActionSignals",
+            "syntax": null,
+            "expressions": {
+              "JavaScript": "",
+              "Json": ""
+            }
+          },
+          {
+            "name": "AssignTo",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst itEmails = requestUser.ITEmails; \r\n\r\nreturn itEmails;"
+            }
+          },
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst itEmails = requestUser.ITEmails; \r\n\r\nreturn itEmails;"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\n\r\nreturn `[Offboarding Process for Resignation] [${projectInfo.Name}] - ${userInfo.Name} (${new Date().toLocaleString()})`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst emailTemplate = getVariable('EmailTemplate');\r\nconst dynamicDataByTask = getVariable('DynamicDataByTask');\r\n\r\nconst hrTask = dynamicDataByTask?.find(task => task.Description === 'HR Reviews');\r\n\r\nconst hrLastWorkingDayDecision = hrTask?.DynamicDataList.find(\r\n  dynamicData => (dynamicData.Name === 'LastWorkingDay')\r\n)?.Data;\r\nreturn `\r\n<body>\r\n  <div style=\"margin: 13px 0\"><strong>Xác nhận thu hồi thiết bị:</strong></div>\r\n  <div style=\"margin: 13px 0\"><strong>Ngày nghỉ chính thức: </strong>${hrLastWorkingDayDecision}</div>\r\n  <div>\r\n    <div style=\"margin: 13px 0\"><strong>Người gửi:</strong> ${userInfo.Name} (${userInfo.Email})</div>\r\n    ${emailTemplate}\r\n  </div>\r\n  <div>\r\n    <a href=\"${getCustomSignalUrl(workflowSignals.Approved)}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #33b864; border-radius: 10px; color: white; text-decoration: none;\">Xác nhận</a>\r\n  </div>\r\n</body>\r\n`;\r\n"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "e1b28868-1d06-45b6-b460-4bab9aa9990d",
+        "type": "SendMailAndAssign",
+        "name": null,
+        "displayName": "PM confirms the work handover",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ApproveSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.PMApproved"
+            }
+          },
+          {
+            "name": "RejectSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.PMRejected"
+            }
+          },
+          {
+            "name": "DynamicActionData",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "OtherActionSignals",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "AssignTo",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(requestUser.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn pmsEmailAddress;\r\n"
+            }
+          },
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(requestUser.ProjectCode);\r\nconst pmsEmailAddress = [];\r\n\r\nfor (let i = 0;i < projectInfo.PM.Count;i++) {\r\n    pmsEmailAddress.push(projectInfo.PM[i].EmailAddress);\r\n}\r\n\r\nreturn pmsEmailAddress;\r\n"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\n\r\nreturn `[Offboarding Process for Resignation] - [${projectInfo.Name}] - ${userInfo.Name} (${new Date().toLocaleString()})`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const emailTemplate = getVariable('EmailTemplate');\r\nconst userInfo = getVariable('RequestUser');\r\nconst dynamicDataByTask = getVariable('DynamicDataByTask');\r\n\r\nconst hrTask = dynamicDataByTask?.find(task => task.Description === 'HR Reviews');\r\n\r\nconst hrLastWorkingDayDecision = hrTask?.DynamicDataList.find(\r\n  dynamicData => (dynamicData.Name === 'LastWorkingDay')\r\n)?.Data;\r\nreturn `\r\n<body>\r\n  <div style=\"margin: 13px 0\"><strong>Xác nhận bàn giao công việc:</strong></div>\r\n  <div style=\"margin: 13px 0\"><strong>Ngày nghỉ chính thức: </strong>${hrLastWorkingDayDecision}</div>\r\n  <div>\r\n    <div style=\"margin: 13px 0\"><strong>Người gửi:</strong> ${userInfo.Name} (${userInfo.Email})</div>\r\n    ${emailTemplate}\r\n  </div>\r\n  <div>\r\n    <a href=\"${getCustomSignalUrl(workflowSignals.PMApproved)}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #33b864; border-radius: 10px; color: white; text-decoration: none;\">Xác nhận</a>\r\n  </div>\r\n</body>\r\n`;\r\n"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "cc1642d9-79e3-464b-8193-5a058d6173f9",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Approve",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "",
+              "JavaScript": "workflowSignals.PMApproved"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "d59ee2ce-ff53-41ec-9c29-c9e35d2c49bc",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Approve",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Approved"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "eb48697a-2653-4c8f-bb74-8c540a87b0db",
+        "type": "Fork",
+        "name": null,
+        "displayName": "PM confirms the work handover",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"Approve\",\"Reject\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "949cebd1-79e4-40bd-b6f8-4d76a03bdc4d",
+        "type": "Fork",
+        "name": null,
+        "displayName": "IT confirmed the device recall",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"Approve\",\"Reject\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "c74049a8-0562-46b8-9fbe-dc7c6e833fbb",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Reject",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.PMRejected"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "67f10025-77bd-46c4-adf8-19d5da0da81b",
+        "type": "Join",
+        "name": null,
+        "displayName": "Any rejected",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Mode",
+            "syntax": null,
+            "expressions": {
+              "Literal": "WaitAny"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "de8f89f7-3041-4147-9e6d-466e8b7479b6",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Reject",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Rejected"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "6c829d6a-ec2a-4ab0-9540-244ffe3828b3",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Temp wait",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "",
+              "JavaScript": "return [''];"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "",
+              "JavaScript": "return [''];"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "return [''];"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      }
+    ],
+    "connections": [
+      {
+        "sourceActivityId": "651e344f-84b9-43dd-8bf5-ced054a97ba8",
+        "targetActivityId": "7cc5febb-4db9-481c-8c4b-7883abf89158",
+        "outcome": "Approve"
+      },
+      {
+        "sourceActivityId": "651e344f-84b9-43dd-8bf5-ced054a97ba8",
+        "targetActivityId": "8929035f-1fff-4117-a7e9-04d7afe2b880",
+        "outcome": "Reject"
+      },
+      {
+        "sourceActivityId": "ca304450-9872-4673-8864-2991b76ea558",
+        "targetActivityId": "651e344f-84b9-43dd-8bf5-ced054a97ba8",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "8929035f-1fff-4117-a7e9-04d7afe2b880",
+        "targetActivityId": "ab6ff3da-2af6-4a12-9626-0ee450699e1e",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "229026d4-fda5-4c07-8fd7-23e31141f25f",
+        "targetActivityId": "f96db19f-d77d-4c14-80ce-27e25f400887",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "cacea447-b183-422b-a1f7-e4c7f5977b62",
+        "targetActivityId": "73b148ed-1487-4477-8894-ea1062086115",
+        "outcome": "To HPM"
+      },
+      {
+        "sourceActivityId": "73b148ed-1487-4477-8894-ea1062086115",
+        "targetActivityId": "62da345d-eca1-4546-bb8f-e8e78ca9daa0",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "f96db19f-d77d-4c14-80ce-27e25f400887",
+        "targetActivityId": "cacea447-b183-422b-a1f7-e4c7f5977b62",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "cacea447-b183-422b-a1f7-e4c7f5977b62",
+        "targetActivityId": "cbfda1a7-4f12-48d3-a6a5-e9fcb0d1e909",
+        "outcome": "To Director"
+      },
+      {
+        "sourceActivityId": "cacea447-b183-422b-a1f7-e4c7f5977b62",
+        "targetActivityId": "ca304450-9872-4673-8864-2991b76ea558",
+        "outcome": "To PM"
+      },
+      {
+        "sourceActivityId": "cacea447-b183-422b-a1f7-e4c7f5977b62",
+        "targetActivityId": "70fcedc9-e5e8-4028-a550-3bccc9804f2f",
+        "outcome": "To HR"
+      },
+      {
+        "sourceActivityId": "62da345d-eca1-4546-bb8f-e8e78ca9daa0",
+        "targetActivityId": "a38187db-fada-43e8-b2d1-d80b65a0a639",
+        "outcome": "Approve"
+      },
+      {
+        "sourceActivityId": "62da345d-eca1-4546-bb8f-e8e78ca9daa0",
+        "targetActivityId": "ebb0123c-8f0c-4c0d-9ead-7003e5072bea",
+        "outcome": "Reject"
+      },
+      {
+        "sourceActivityId": "70fcedc9-e5e8-4028-a550-3bccc9804f2f",
+        "targetActivityId": "ff3d01ca-64e3-4f5b-b4af-1810f8eceb2f",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "ff3d01ca-64e3-4f5b-b4af-1810f8eceb2f",
+        "targetActivityId": "e71a68a5-8242-4acc-a79d-e0e44ef9d362",
+        "outcome": "Approve"
+      },
+      {
+        "sourceActivityId": "ff3d01ca-64e3-4f5b-b4af-1810f8eceb2f",
+        "targetActivityId": "84a5d329-fb46-4524-866b-1829310db5b5",
+        "outcome": "Reject"
+      },
+      {
+        "sourceActivityId": "84a5d329-fb46-4524-866b-1829310db5b5",
+        "targetActivityId": "ab6ff3da-2af6-4a12-9626-0ee450699e1e",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "7cc5febb-4db9-481c-8c4b-7883abf89158",
+        "targetActivityId": "23f7472d-f28b-4e28-b881-a7dfbc122106",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "a38187db-fada-43e8-b2d1-d80b65a0a639",
+        "targetActivityId": "23f7472d-f28b-4e28-b881-a7dfbc122106",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "e71a68a5-8242-4acc-a79d-e0e44ef9d362",
+        "targetActivityId": "23f7472d-f28b-4e28-b881-a7dfbc122106",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "ebb0123c-8f0c-4c0d-9ead-7003e5072bea",
+        "targetActivityId": "ab6ff3da-2af6-4a12-9626-0ee450699e1e",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "ab6ff3da-2af6-4a12-9626-0ee450699e1e",
+        "targetActivityId": "2ffcefae-c68d-438c-aa5b-fff95ab6187e",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "066dcb21-9353-4d31-8426-5ad5e6299b92",
+        "targetActivityId": "d2bb98de-f361-4bcb-8e1f-ec79d2e8356b",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "2ffcefae-c68d-438c-aa5b-fff95ab6187e",
+        "targetActivityId": "8d8e8e0a-6ccc-4204-b14f-49595a41c6cc",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "8d8e8e0a-6ccc-4204-b14f-49595a41c6cc",
+        "targetActivityId": "5655a03c-fcc8-466e-8e5f-48df64a4196e",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "cc1642d9-79e3-464b-8193-5a058d6173f9",
+        "targetActivityId": "602d8184-de07-4160-83bf-d827c62f2dbe",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "d59ee2ce-ff53-41ec-9c29-c9e35d2c49bc",
+        "targetActivityId": "066dcb21-9353-4d31-8426-5ad5e6299b92",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "a4844bd0-ae33-4679-b640-a580c30b38a9",
+        "targetActivityId": "b4c48438-8e1d-4630-93c3-3c0f8b384cb6",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "b4c48438-8e1d-4630-93c3-3c0f8b384cb6",
+        "targetActivityId": "e1b28868-1d06-45b6-b460-4bab9aa9990d",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "e1b28868-1d06-45b6-b460-4bab9aa9990d",
+        "targetActivityId": "eb48697a-2653-4c8f-bb74-8c540a87b0db",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "eb48697a-2653-4c8f-bb74-8c540a87b0db",
+        "targetActivityId": "cc1642d9-79e3-464b-8193-5a058d6173f9",
+        "outcome": "Approve"
+      },
+      {
+        "sourceActivityId": "602d8184-de07-4160-83bf-d827c62f2dbe",
+        "targetActivityId": "949cebd1-79e4-40bd-b6f8-4d76a03bdc4d",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "949cebd1-79e4-40bd-b6f8-4d76a03bdc4d",
+        "targetActivityId": "d59ee2ce-ff53-41ec-9c29-c9e35d2c49bc",
+        "outcome": "Approve"
+      },
+      {
+        "sourceActivityId": "eb48697a-2653-4c8f-bb74-8c540a87b0db",
+        "targetActivityId": "c74049a8-0562-46b8-9fbe-dc7c6e833fbb",
+        "outcome": "Reject"
+      },
+      {
+        "sourceActivityId": "c74049a8-0562-46b8-9fbe-dc7c6e833fbb",
+        "targetActivityId": "67f10025-77bd-46c4-adf8-19d5da0da81b",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "67f10025-77bd-46c4-adf8-19d5da0da81b",
+        "targetActivityId": "2ffcefae-c68d-438c-aa5b-fff95ab6187e",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "949cebd1-79e4-40bd-b6f8-4d76a03bdc4d",
+        "targetActivityId": "de8f89f7-3041-4147-9e6d-466e8b7479b6",
+        "outcome": "Reject"
+      },
+      {
+        "sourceActivityId": "de8f89f7-3041-4147-9e6d-466e8b7479b6",
+        "targetActivityId": "67f10025-77bd-46c4-adf8-19d5da0da81b",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "23f7472d-f28b-4e28-b881-a7dfbc122106",
+        "targetActivityId": "6c829d6a-ec2a-4ab0-9540-244ffe3828b3",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "6c829d6a-ec2a-4ab0-9540-244ffe3828b3",
+        "targetActivityId": "a4844bd0-ae33-4679-b640-a580c30b38a9",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "4f32f89a-ccc3-409a-b7ec-aa880c029f05",
+        "targetActivityId": "229026d4-fda5-4c07-8fd7-23e31141f25f",
+        "outcome": "Done"
+      }
+    ],
+    "id": "3a157834-b4c0-71a6-7da2-bfd1d8da6efe"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "DesiredLastWorkingDay",
+      "type": "DateTime",
+      "isRequired": true,
+      "id": "55189a51-fbca-4964-8e03-b3cd6e2e6675"
+    },
+    {
+      "name": "Reason",
+      "type": "RichText",
+      "isRequired": true,
+      "id": "fadbd5c0-0495-4a57-a917-308d1528d6f0"
+    }
+  ]
+}

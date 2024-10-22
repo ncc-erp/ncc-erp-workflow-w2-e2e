@@ -30,7 +30,7 @@ export default class RequestTemplatePage extends BasePage {
     }
     const res = await response.json();
     return {
-      id: res.id,
+      id: res.workflowInstanceId,
     };
   }
   // create new template
