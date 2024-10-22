@@ -7,7 +7,9 @@
    `git clone <repository-url>`
 2. Install dependencies:  
    `npm install`
-3. Create a `.env` file (based on `.env.example`).
+3. Install dependencies:  
+   `npx playwright install`
+4. Create a `.env` file (based on `.env.example`).
 
 ### Commands to Run
 
