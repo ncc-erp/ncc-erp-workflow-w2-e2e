@@ -28,8 +28,9 @@ export default class RequestTemplatePage extends BasePage {
       // this request not create directly
       await new Promise<void>((r) => setTimeout(() => r(), 90000));
     }
+    const res = await response.json();
     return {
-      id: await response.text(),
+      id: res.id,
     };
   }
   // create new template
