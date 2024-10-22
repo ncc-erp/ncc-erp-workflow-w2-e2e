@@ -26,9 +26,9 @@ export const users = {
     authFile: authItFile,
   },
   admin: {
-    username: "thien.dang@ncc.asia",
+    username: "cuong.nguyenngoc@ncc.asia",
     password: "1q2w3E*",
-    name: "Thien Dang An",
+    name: "Cuong Nguyen Ngoc",
     authFile: authAdminFile,
   },
   gdvpdn: {
@@ -44,9 +44,9 @@ export const users = {
     authFile: authGDVPVFile,
   },
   ceo: {
-    username: "thien.dang@ncc.asia",
+    username: "nhan.huynhba@ncc.asia",
     password: "1q2w3E*",
-    name: "Thien Dang An",
+    name: "Nhan Huynh Ba",
     authFile: authAdminFile,
   },
 };

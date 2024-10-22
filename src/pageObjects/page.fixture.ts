@@ -106,8 +106,6 @@ const proxyFn = (fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<Step
         const containerKey = globalMatch[1]; // Extract the key for testDataContainer
         // Set the value to testDataContainer
         testDataContainer[containerKey]["response"] = response;
-
-        console.log("testDataContainer[containerKey]", testDataContainer[containerKey]);
       }
     });
   };
