@@ -37,6 +37,7 @@ export default class DetailTaskPopup extends BaseComponent {
   }
 
   async reject(reason: string) {
+    // todo
     await this.rejectBtn.click();
     await this.rejectReasonField.fill(reason);
     await this.confirmBtn.click();

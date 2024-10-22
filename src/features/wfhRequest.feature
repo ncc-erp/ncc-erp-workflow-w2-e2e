@@ -9,11 +9,11 @@ Feature: WFH Request
       Then I should see request is "pending" with id "*global[wfhRequest2].response.id" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[wfhRequest2].response.id"
+      When I approve request with id "*global[wfhRequest2].response.id"
       Then I should see request is "approve" with id "*global[wfhRequest2].response.id" and state "PM Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[wfhRequest2].response.id" with reason "test reason"
+      When I reject request with id "*global[wfhRequest2].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[wfhRequest2].response.id" and state "PM Reviews" on tasks page
 
     @gdvpdn
@@ -27,11 +27,11 @@ Feature: WFH Request
       Then I should see request is "pending" with id "*global[wfhRequest3].response.id" and state "Branch Manager Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[wfhRequest3].response.id"
+      When I approve request with id "*global[wfhRequest3].response.id"
       Then I should see request is "approve" with id "*global[wfhRequest3].response.id" and state "Branch Manager Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[wfhRequest3].response.id" with reason "test reason"
+      When I reject request with id "*global[wfhRequest3].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[wfhRequest3].response.id" and state "Branch Manager Reviews" on tasks page
 
     @user

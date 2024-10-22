@@ -47,9 +47,9 @@ export function getMultiFutureDates(count) {
 }
 
 export function getRandomContent() {
-  return `${faker.lorem.lines()} - ${faker.string.uuid()}`;
+  return `${faker.lorem.lines()}`;
 }
 
 export function getRandomDevice() {
-  return `${faker.vehicle.bicycle()} - ${faker.string.uuid()}`;
+  return `${faker.vehicle.bicycle()}`;
 }

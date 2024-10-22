@@ -9,11 +9,11 @@ Feature: Device Request
       Then I should see request is "pending" with id "*global[deviceRequest2].response.id" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[deviceRequest2].response.id"
+      When I approve request with id "*global[deviceRequest2].response.id"
       Then I should see request is "approve" with id "*global[deviceRequest2].response.id" and state "PM Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[deviceRequest2].response.id" with reason "test reason"
+      When I reject request with id "*global[deviceRequest2].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[deviceRequest2].response.id" and state "PM Reviews" on tasks page
 
     @it
@@ -27,9 +27,20 @@ Feature: Device Request
       Then I should see request is "pending" with id "*global[deviceRequest3].response.id" and state "IT Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[deviceRequest3].response.id"
+      When I approve request with id "*global[deviceRequest3].response.id"
       Then I should see request is "approve" with id "*global[deviceRequest3].response.id" and state "IT Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[deviceRequest3].response.id" with reason "test reason"
+      When I reject request with id "*global[deviceRequest3].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[deviceRequest3].response.id" and state "IT Reviews" on tasks page
+
+    @user
+  Rule: As user, I want to see an Device Request after it approved
+    Background:
+      Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest4]" success
+      And "PM" approve the request "*global[deviceRequest4].response.id" success and current state "PM Reviews"
+      And "IT" approve the request "*global[deviceRequest4].response.id" success and current state "IT Reviews"
+
+    Scenario: I should see the request with approved status on my requests
+      When I am on "MyRequestPage"
+      Then I should see "*global[deviceRequest4].response.id" with status "Approved" on my request page
