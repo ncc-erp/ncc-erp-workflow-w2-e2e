@@ -6,11 +6,15 @@ import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixtur
 Given(
   "User create {string} with {TestData} success",
   async ({ browser }, name: string, deviceRequest: DeviceRequestForm) => {
-    await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
+    const response = await BrowserControl.withAuth(browser, authUserFile, async ({ PageObjects }) => {
       await PageObjects.RequestTemplatePage.open();
       await PageObjects.RequestTemplatePage.verifyPageLocated();
-      await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
+      const response = await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
+
+      return response;
     });
+
+    return response;
   }
 );
 // I should see request "*global[deviceRequest2]" on tasks page
@@ -21,6 +25,6 @@ Then("I should see request {TestData} on tasks page", async ({ PageObjects }, de
 When(
   "I create a new {string} with data {TestData}",
   async ({ PageObjects }, name: string, deviceRequest: DeviceRequestForm) => {
-    await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
+    return await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
   }
 );

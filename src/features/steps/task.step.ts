@@ -1,64 +1,60 @@
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
 
-//I should see request is "reject" with title "*global[deviceRequest2].getTitle" and state "PM Reviews" on tasks page
+// 1. Missing step definition for "src\features\changeOfficeRequest.feature:9:7"
 Then(
-  "I should see request is {string} with title {TestData} and state {string} on tasks page",
-  async ({ PageObjects }, status: "pending" | "approve" | "reject", title: string, state: string) => {
+  "I should see request is {string} with id {string} and state {string} on tasks page",
+  async ({ PageObjects }, status: "pending" | "approve" | "reject", id: string, state: string) => {
     switch (status) {
       case "pending":
-        await PageObjects.TaskPage.verifyHasPendingTask(title, users.user.name, state);
+        await PageObjects.TaskPage.taskBoard.verifyHasTaskById(0, id, users.user.name, state);
         break;
       case "approve":
-        await PageObjects.TaskPage.verifyHasApproveTask(title, users.user.name, state);
+        await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, state);
         break;
       case "reject":
-        await PageObjects.TaskPage.verifyHasRejectTask(title, users.user.name, state);
+        await PageObjects.TaskPage.taskBoard.verifyHasTaskById(2, id, users.user.name, state);
         break;
     }
   }
 );
-
-When("I approve request by title {TestData}", async ({ PageObjects }, title: string) => {
-  await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
+// 2. Missing step definition for "src\features\changeOfficeRequest.feature:12:7"
+When("I approve request by id {string}", async ({ PageObjects }, id: string) => {
+  await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
   await PageObjects.TaskPage.detailTaskPopup.approve();
+});
+// 3. Missing step definition for "src\features\changeOfficeRequest.feature:16:7"
+When("I reject request by id {string} with reason {string}", async ({ PageObjects }, id: string, reason: string) => {
+  await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
+  await PageObjects.TaskPage.detailTaskPopup.reject(reason);
 });
 
 When(
-  "I approve request by title {TestData} with strength points {string} and weekness points {string}",
-  async ({ PageObjects }, title: string, strengthPoints?: string, weeknessPoints?: string) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
+  "I approve request by id {TestData} with strength points {string} and weekness points {string}",
+  async ({ PageObjects }, id: string, strengthPoints?: string, weeknessPoints?: string) => {
+    await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
     await PageObjects.TaskPage.detailTaskPopup.approve(strengthPoints, weeknessPoints);
   }
 );
 
-When(
-  "I reject request by title {TestData} with reason {string}",
-  async ({ PageObjects }, title: string, reason: string) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
-    await PageObjects.TaskPage.detailTaskPopup.reject(reason);
-  }
-);
-
 Given(
-  "{string} approve the request {TestData} success and current state {string}",
-  async ({ browser }, userType: string, title: string, currentState?: string) => {
+  "{string} approve the request {string} success and current state {string}",
+  async ({ browser }, userType: string, id: string, currentState?: string) => {
     const authFile = users[userType.toLowerCase()].authFile;
     await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
-      await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
+      await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
       await PageObjects.TaskPage.detailTaskPopup.approve();
-      await PageObjects.TaskPage.verifyHasApproveTask(title, users.user.name, currentState);
+      await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, currentState);
     });
   }
 );
-
 Given(
   "{string} approve the request {TestData} with strength points {string} and weekness points {string} success and current state {string}",
   async (
     { browser },
     userType: string,
-    title: string,
+    id: string,
     strengthPoints?: string,
     weeknessPoints?: string,
     currentState?: string
@@ -66,9 +62,9 @@ Given(
     const authFile = users[userType.toLowerCase()].authFile;
     await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
-      await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(title, 0);
+      await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
       await PageObjects.TaskPage.detailTaskPopup.approve(strengthPoints, weeknessPoints);
-      await PageObjects.TaskPage.verifyHasApproveTask(title, users.user.name, currentState);
+      await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, currentState);
     });
   }
 );

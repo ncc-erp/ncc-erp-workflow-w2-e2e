@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Browser, Page } from "@playwright/test";
 import get from "lodash.get";
 import { test as base, createBdd, DataTable } from "playwright-bdd";
@@ -28,15 +29,16 @@ const convertToPageObjects = (page: Page): PageObjects => {
 };
 
 class BrowserControlType {
-  async withAuth(_browser: Browser, authFile: string, callback: ({ PageObjects, Page }) => Promise<void>) {
+  async withAuth(_browser: Browser, authFile: string, callback: ({ PageObjects, Page }) => Promise<any>) {
     // new page
     const context = await _browser.newContext({
       storageState: authFile, // Initial storage state
     });
     const page = await context.newPage();
     const pages = convertToPageObjects(page);
-    await callback({ Page: page, PageObjects: pages });
+    const response = await callback({ Page: page, PageObjects: pages });
     await context.close();
+    return response;
   }
 }
 
@@ -68,7 +70,7 @@ export const { Given: GivenBase, When: WhenBase, Then: ThenBase } = createBdd(te
 type FixtureType = { PageObjects: PageObjects; page: Page; browser: Browser };
 export const Given = (
   pattern: DefineStepPattern,
-  fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => void
+  fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>
 ) => {
   // pass data, config, container data
   return GivenBase(proxyPattern(pattern), proxyFn(fn));
@@ -76,7 +78,7 @@ export const Given = (
 
 export const When = (
   pattern: DefineStepPattern,
-  fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => void
+  fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>
 ) => {
   // pass data, config, container data
   return WhenBase(proxyPattern(pattern), proxyFn(fn));
@@ -84,17 +86,30 @@ export const When = (
 
 export const Then = (
   pattern: DefineStepPattern,
-  fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => void
+  fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>
 ) => {
   // pass data, config, container data
   return ThenBase(proxyPattern(pattern), proxyFn(fn));
 };
 
 // private function
-const proxyFn = (fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => void) => {
+
+const proxyFn = (fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>) => {
   return ({ PageObjects, page, browser }, ...args) => {
     const data = convertDataTest(args);
-    return fn({ PageObjects, page, browser }, ...data);
+    return fn({ PageObjects, page, browser }, ...data).then((response) => {
+      if (response) {
+        // set global
+        const key = args.find((f) => typeof f === "string" && f.match(/__global\[(.+)\]/));
+        // Check if the key includes '__global[key]'
+        const globalMatch = key.match(/__global\[(.+)\]/);
+        const containerKey = globalMatch[1]; // Extract the key for testDataContainer
+        // Set the value to testDataContainer
+        testDataContainer[containerKey]["response"] = response;
+
+        console.log("testDataContainer[containerKey]", testDataContainer[containerKey]);
+      }
+    });
   };
 };
 const proxyPattern = (pattern: DefineStepPattern) => {
@@ -135,7 +150,7 @@ function convertKeyToDataTest(key: string): void {
   return value;
 }
 // Function to get data or call method from testDataContainer by key string
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function getDataFromGlobalData(key: string): any {
   // Check if the key starts with "*global["
   if (!key.startsWith("*global")) {
@@ -165,7 +180,7 @@ const convertDataTestWithString = (key: string) => {
 
   return key;
 };
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const convertDataTest = (keys: any[]) => {
   return keys.map((key) => {
     if (typeof key === "string") {

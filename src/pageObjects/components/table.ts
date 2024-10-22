@@ -36,4 +36,8 @@ export default class Table extends BaseComponent {
     const cells = await this.getColumnValues(col);
     expect(cells.join(",")).toContain(text);
   }
+  async verifyIdInTable(id: string) {
+    const cell = this.host.locator(`[data-id="${id}"]`);
+    await expect(cell).toBeVisible();
+  }
 }

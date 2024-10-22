@@ -4,7 +4,7 @@ Feature: User create a new request
     Given I am on "RequestTemplatePage"
     When I create a new "<request>" with data "*testData[<fn_data>]__global[<unique_key>]"
     And I am on "MyRequestPage"
-    Then I should see "*global[<unique_key>].getTitle" on my request page
+    Then I should see "*global[<unique_key>].response.id" on my request page
 
     # title-format: I create a new <request> success
     Examples:

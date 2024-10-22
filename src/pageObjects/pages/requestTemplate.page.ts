@@ -22,7 +22,15 @@ export default class RequestTemplatePage extends BasePage {
     await this.clickAddRequest(name);
     await this.deviceRequestForm.fillForm(data);
     await this.deviceRequestForm.submit();
-    await this.page.waitForResponse(API.createNewRequest);
+    const response = await this.page.waitForResponse(API.createNewRequest);
+
+    if (name == "Probationary Confirmation Request") {
+      // this request not create directly
+      await new Promise<void>((r) => setTimeout(() => r(), 90000));
+    }
+    return {
+      id: await response.text(),
+    };
   }
   // create new template
 }
