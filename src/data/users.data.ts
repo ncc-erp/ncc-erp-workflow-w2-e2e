@@ -4,10 +4,9 @@ export const authUserFile = path.join(__dirname, "../.auth/user.json");
 export const authPmFile = path.join(__dirname, "../.auth/pm.json");
 export const authItFile = path.join(__dirname, "../.auth/it.json");
 export const authAdminFile = path.join(__dirname, "../.auth/admin.json");
-export const authGDVPDNFile = path.join(__dirname, "../.auth/GDVPDN.json");
-export const authGDVPVFile = path.join(__dirname, "../.auth/GDVPV.json");
+export const authGDVPDNFile = path.join(__dirname, "../.auth/gdvpdn.json");
+export const authGDVPVFile = path.join(__dirname, "../.auth/gdvpv.json");
 export const authCeoFile = path.join(__dirname, "../.auth/ceo.json");
-
 export const users = {
   user: {
     username: "manh.nguyenvan@ncc.asia",

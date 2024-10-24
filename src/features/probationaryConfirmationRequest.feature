@@ -9,11 +9,11 @@ Feature: Probationary Confirmation Request
       Then I should see request is "pending" with id "*global[pcr1].response.id" and state "PM Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[pcr1].response.id" with strength points "strength points test" and weekness points "weekness points test"
+      When I approve request with id "*global[pcr1].response.id" with strength points "strength points test" and weekness points "weekness points test"
       Then I should see request is "approve" with id "*global[pcr1].response.id" and state "PM Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[pcr1].response.id" with reason "test reason"
+      When I reject request with id "*global[pcr1].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[pcr1].response.id" and state "PM Reviews" on tasks page
     @gdvpdn
   Rule: As gdvp, I want to received a Probationary Confirmation Request from my office
@@ -25,11 +25,11 @@ Feature: Probationary Confirmation Request
       Then I should see request is "pending" with id "*global[pcr2].response.id" and state "HoO Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[pcr2].response.id" with strength points "strength points test" and weekness points "weekness points test"
+      When I approve request with id "*global[pcr2].response.id" with strength points "strength points test" and weekness points "weekness points test"
       Then I should see request is "approve" with id "*global[pcr2].response.id" and state "HoO Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[pcr2].response.id" with reason "test reason"
+      When I reject request with id "*global[pcr2].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[pcr2].response.id" and state "HoO Reviews" on tasks page
 
     @ceo
@@ -44,11 +44,11 @@ Feature: Probationary Confirmation Request
       Then I should see request is "pending" with id "*global[pcr3].response.id" and state "CEO Reviews" on tasks page
 
     Scenario: I can approve the request success
-      When I approve request by id "*global[pcr3].response.id" with strength points "" and weekness points ""
+      When I approve request with id "*global[pcr3].response.id" with strength points "" and weekness points ""
       Then I should see request is "approve" with id "*global[pcr3].response.id" and state "CEO Reviews" on tasks page
 
     Scenario: I can reject the request success
-      When I reject request by id "*global[pcr3].response.id" with reason "test reason"
+      When I reject request with id "*global[pcr3].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[pcr3].response.id" and state "CEO Reviews" on tasks page
     @user
   Rule: As user, I want to see a Probationary Confirmation Request after CEO approved

@@ -19,18 +19,18 @@ Then(
   }
 );
 // 2. Missing step definition for "src\features\changeOfficeRequest.feature:12:7"
-When("I approve request by id {string}", async ({ PageObjects }, id: string) => {
+When("I approve request with id {string}", async ({ PageObjects }, id: string) => {
   await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
   await PageObjects.TaskPage.detailTaskPopup.approve();
 });
 // 3. Missing step definition for "src\features\changeOfficeRequest.feature:16:7"
-When("I reject request by id {string} with reason {string}", async ({ PageObjects }, id: string, reason: string) => {
+When("I reject request with id {string} with reason {string}", async ({ PageObjects }, id: string, reason: string) => {
   await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
   await PageObjects.TaskPage.detailTaskPopup.reject(reason);
 });
 
 When(
-  "I approve request by id {TestData} with strength points {string} and weekness points {string}",
+  "I approve request with id {TestData} with strength points {string} and weekness points {string}",
   async ({ PageObjects }, id: string, strengthPoints?: string, weeknessPoints?: string) => {
     await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
     await PageObjects.TaskPage.detailTaskPopup.approve(strengthPoints, weeknessPoints);
@@ -66,5 +66,18 @@ Given(
       await PageObjects.TaskPage.detailTaskPopup.approve(strengthPoints, weeknessPoints);
       await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, currentState);
     });
+  }
+);
+
+// 1. Missing step definition for "src\features\task.feature:9:7"
+When("I approve request by drag with id {string}", async ({ PageObjects }, id: string) => {
+  await PageObjects.TaskPage.dragToApproveCol(id);
+});
+
+// 2. Missing step definition for "src\features\task.feature:13:7"
+When(
+  "I reject request by drag with id {string} and reason {string}",
+  async ({ PageObjects }, id: string, reason: string) => {
+    await PageObjects.TaskPage.dragToRejectCol(id, reason);
   }
 );

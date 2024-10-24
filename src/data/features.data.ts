@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { ChangeOfficeRequestData } from "./changeOfficeRequest.data";
 import { DeviceRequestData } from "./deviceRequest.data";
 import { OfficeEquipmentRequestData } from "./officeEquiqmentRequest.data";
@@ -8,6 +9,7 @@ import { WfhRequestData } from "./wfhRequest.data";
 // data public for using in features file
 export const testData = {
   users,
+  faker,
   // DeviceRequestData,
   // ChangeOfficeRequestData,
   // RequestTypeData,
