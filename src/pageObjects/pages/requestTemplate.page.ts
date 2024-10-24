@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import { RequestFormType } from "../../data/requestTemplate.data";
 import { BasePage } from "../base.page";
 import { API } from "./../../data/apis";
@@ -34,4 +34,25 @@ export default class RequestTemplatePage extends BasePage {
     };
   }
   // create new template
+
+  async verifyWorkflowDisplay(
+    expectedStatus: string,
+    expectedName: string,
+    displayName: string,
+    publishStatus: string
+  ) {
+    const rowCount = await this.page.getByRole("row").count();
+    let actualStatus = "not displayed";
+    for (let i = 0; i < rowCount; i++) {
+      if (
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(1)").innerText()) === displayName &&
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(2)").innerText()) === expectedName &&
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(4)").innerText()) === publishStatus
+      ) {
+        actualStatus = "displayed";
+        break;
+      }
+    }
+    expect(actualStatus).toBe(expectedStatus);
+  }
 }

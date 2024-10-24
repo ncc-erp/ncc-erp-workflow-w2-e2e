@@ -1,3 +1,4 @@
+import { DataTable } from "playwright-bdd";
 import { users } from "../../data/users.data";
 import { BasePage } from "../../pageObjects/base.page";
 import { Given, test, Then, When } from "../../pageObjects/page.fixture";
@@ -30,3 +31,42 @@ Then("I logout", async ({ PageObjects }) => {
   await PageObjects.RequestTemplatePage.header.logout();
 });
 ///
+
+When("I click on {string} button", async ({ page }, name: string) => {
+  await page.getByRole("button", { name: `${name}` }).click();
+});
+
+When("I fill {string} into {string} field", async ({ page }, data: string, field: string) => {
+  await page
+    .getByPlaceholder(field, {
+      exact: true,
+    })
+    .fill(data);
+});
+
+When("I click on close icon", async ({ page }) => {
+  await page.getByLabel("Workflow Detail").getByLabel("Close").click();
+});
+
+When("I click on the close icon in {string} popup", async ({ page }, popup: string) => {
+  await page.getByLabel(popup).getByLabel("Close").click();
+});
+
+Then(
+  "I should see a new record with the data below {string}",
+  async ({ PageObjects }, status: string, dataTable: DataTable) => {
+    const rows = dataTable.hashes();
+    const name = rows[0].name;
+    const displayName = rows[0].displayName;
+    const publishStatus = rows[0].publish;
+    await PageObjects.RequestTemplatePage.verifyWorkflowDisplay(status, name, displayName, publishStatus);
+  }
+);
+
+Then("I delete the record just created", async ({ page }, dataTable: DataTable) => {
+  const rows = dataTable.hashes();
+  const expectedName = rows[0].name;
+  await page.getByRole("row", { name: expectedName }).getByRole("button").first().click();
+  await page.getByRole("menuitem", { name: "Delete" }).click();
+  await page.getByRole("button", { name: "Yes" }).click();
+});
