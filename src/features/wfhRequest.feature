@@ -1,6 +1,8 @@
 Feature: WFH Request
+
   @pm
   Rule: As pm, I want to received a WFH Request from my project
+
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest2]" success
       And I am on "TaskPage"
@@ -16,8 +18,9 @@ Feature: WFH Request
       When I reject request with id "*global[wfhRequest2].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[wfhRequest2].response.id" and state "PM Reviews" on tasks page
 
-    @gdvpdn
+  @gdvpdn
   Rule: As GDVP, I want to received a WFH Request after PM approved
+
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest3]" success
       And "PM" approve the request "*global[wfhRequest3].response.id" success and current state "PM Reviews"
@@ -34,8 +37,9 @@ Feature: WFH Request
       When I reject request with id "*global[wfhRequest3].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[wfhRequest3].response.id" and state "Branch Manager Reviews" on tasks page
 
-    @user
+  @user
   Rule: As user, I want to see a WFH after PM, GDVP approved
+
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest4]" success
       And "PM" approve the request "*global[wfhRequest4].response.id" success and current state "PM Reviews"

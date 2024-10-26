@@ -1,6 +1,8 @@
 Feature: Device Request
+
   @pm
   Rule: As pm, I want to received a Device Request from my project
+
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest2]" success
       And I am on "TaskPage"
@@ -16,8 +18,9 @@ Feature: Device Request
       When I reject request with id "*global[deviceRequest2].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[deviceRequest2].response.id" and state "PM Reviews" on tasks page
 
-    @it
+  @it
   Rule: As IT, I want to received a Device Request after PM approved
+
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest3]" success
       And "PM" approve the request "*global[deviceRequest3].response.id" success and current state "PM Reviews"
@@ -34,8 +37,9 @@ Feature: Device Request
       When I reject request with id "*global[deviceRequest3].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[deviceRequest3].response.id" and state "IT Reviews" on tasks page
 
-    @user
+  @user
   Rule: As user, I want to see an Device Request after it approved
+
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest4]" success
       And "PM" approve the request "*global[deviceRequest4].response.id" success and current state "PM Reviews"

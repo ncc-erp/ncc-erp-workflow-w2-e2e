@@ -1,6 +1,8 @@
 Feature: Office Equipment Request
+
   @gdvpdn
   Rule: As gdvp, I want to received an Office Equipment Request from my office
+
     Background:
       Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer1]" success
       And I am on "TaskPage"
@@ -16,8 +18,9 @@ Feature: Office Equipment Request
       When I reject request with id "*global[oer1].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[oer1].response.id" and state "Branch Manager Reviews" on tasks page
 
-    @it
+  @it
   Rule: As it, I want to received an Office Equipment Request after gdvp approved
+
     Background:
       Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer2]" success
       And "GDVPDN" approve the request "*global[oer2].response.id" success and current state "Branch Manager Reviews"
@@ -33,8 +36,10 @@ Feature: Office Equipment Request
     Scenario: I can reject the request success
       When I reject request with id "*global[oer2].response.id" with reason "test reason"
       Then I should see request is "reject" with id "*global[oer2].response.id" and state "IT Reviews" on tasks page
-    @user
+
+  @user
   Rule: As user, I want to see an Office Equipment Request after it approved
+
     Background:
       Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer3]" success
       And "GDVPDN" approve the request "*global[oer3].response.id" success and current state "Branch Manager Reviews"
