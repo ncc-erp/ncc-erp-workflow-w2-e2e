@@ -8,5 +8,5 @@
   "files.eol": "\n",
   "cucumber.features": ["src/features/*feature"],
   "cucumber.glue": ["src/features/steps/*.ts"],
-  "cucumber.parameterTypes": [{ "name": "TestData", "regexp": ".*" }]
+  "cucumber.parameterTypes": [{ "name": "TestData", "regexp": ".*(testData|global).*" }]
 }
