@@ -23,7 +23,7 @@ Feature: WFH Request
 
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest3]" success
-      And "PM" approve the request "*global[wfhRequest3].response.id" success and current state "PM Reviews"
+      And "PM" approve the request "*global[wfhRequest3].response.id", current state "PM Reviews" success
       And I am on "TaskPage"
 
     Scenario: I should see the request with pending status on my tasks
@@ -42,8 +42,8 @@ Feature: WFH Request
 
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest4]" success
-      And "PM" approve the request "*global[wfhRequest4].response.id" success and current state "PM Reviews"
-      And "GDVPDN" approve the request "*global[wfhRequest4].response.id" success and current state "Branch Manager Reviews"
+      And "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
+      And "GDVPDN" approve the request "*global[wfhRequest4].response.id", current state "Branch Manager Reviews" success
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"

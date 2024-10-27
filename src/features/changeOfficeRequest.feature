@@ -59,10 +59,26 @@ Feature: Change Office Request
 
     Background:
       Given User create "Change Office Request" with "*testData[random_change_office_request]__global[co4]" success
-      And "PM" approve the request "*global[co4].response.id" success and current state "PM Reviews"
-      And "GDVPDN" approve the request "*global[co4].response.id" success and current state "Current HoO Reviews"
-      And "GDVPV" approve the request "*global[co4].response.id" success and current state "Destination HoO Reviews"
+      And "PM" approve the request "*global[co4].response.id", current state "PM Reviews" success
+      And "GDVPDN" approve the request "*global[co4].response.id", current state "Current HoO Reviews" success
+      And "GDVPV" approve the request "*global[co4].response.id", current state "Destination HoO Reviews" success
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[co4].response.id" with status "Approved" on my request page
+
+  @user
+  Rule: As user, I want to see a Change Office Request is rejected
+
+    Scenario Outline: I should see the request with rejected status on my requests
+      Given User create "Change Office Request" with "*testData[random_change_office_request]__global[<key>]" success
+      When "<userType>" reject the request "*global[<key>].response.id", current state "<state>" success with reason "<reason>"
+      And I am on "MyRequestPage"
+      Then I should see "*global[<key>].response.id" with status "Rejected" on my request page
+# title-format: I should see the request with rejected status when <userType> rejected
+
+      Examples:
+        | userType | state                   | reason        | key  |
+        | PM       | PM Reviews              | reason test 1 | key1 |
+        | GDVPDN   | Current HoO Reviews     | reason test 2 | key2 |
+        | GDVPV    | Destination HoO Reviews | reason test 3 | key3 |

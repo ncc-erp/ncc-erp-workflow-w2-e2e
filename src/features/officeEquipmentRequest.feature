@@ -23,7 +23,7 @@ Feature: Office Equipment Request
 
     Background:
       Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer2]" success
-      And "GDVPDN" approve the request "*global[oer2].response.id" success and current state "Branch Manager Reviews"
+      And "GDVPDN" approve the request "*global[oer2].response.id", current state "Branch Manager Reviews" success
       And I am on "TaskPage"
 
     Scenario: I should see the request with pending status on my tasks
@@ -42,8 +42,8 @@ Feature: Office Equipment Request
 
     Background:
       Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer3]" success
-      And "GDVPDN" approve the request "*global[oer3].response.id" success and current state "Branch Manager Reviews"
-      And "IT" approve the request "*global[oer3].response.id" success and current state "IT Reviews"
+      And "GDVPDN" approve the request "*global[oer3].response.id", current state "Branch Manager Reviews" success
+      And "IT" approve the request "*global[oer3].response.id", current state "IT Reviews" success
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"

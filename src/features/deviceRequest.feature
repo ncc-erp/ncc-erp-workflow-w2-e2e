@@ -23,7 +23,7 @@ Feature: Device Request
 
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest3]" success
-      And "PM" approve the request "*global[deviceRequest3].response.id" success and current state "PM Reviews"
+      And "PM" approve the request "*global[deviceRequest3].response.id", current state "PM Reviews" success
       And I am on "TaskPage"
 
     Scenario: I should see the request with pending status on my tasks
@@ -42,8 +42,8 @@ Feature: Device Request
 
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest4]" success
-      And "PM" approve the request "*global[deviceRequest4].response.id" success and current state "PM Reviews"
-      And "IT" approve the request "*global[deviceRequest4].response.id" success and current state "IT Reviews"
+      And "PM" approve the request "*global[deviceRequest4].response.id", current state "PM Reviews" success
+      And "IT" approve the request "*global[deviceRequest4].response.id", current state "IT Reviews" success
 
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"

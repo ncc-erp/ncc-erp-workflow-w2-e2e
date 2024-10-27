@@ -38,7 +38,7 @@ When(
 );
 
 Given(
-  "{string} approve the request {string} success and current state {string}",
+  "{string} approve the request {string}, current state {string} success",
   async ({ browser }, userType: string, id: string, currentState?: string) => {
     const authFile = users[userType.toLowerCase()].authFile;
     await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
@@ -46,6 +46,18 @@ Given(
       await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
       await PageObjects.TaskPage.detailTaskPopup.approve();
       await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, currentState);
+    });
+  }
+);
+Given(
+  "{string} reject the request {TestData}, current state {string} success with reason {string}",
+  async ({ browser }, userType: string, id: string, currentState?: string, reason?: string) => {
+    const authFile = users[userType.toLowerCase()].authFile;
+    await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
+      await PageObjects.TaskPage.open();
+      await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
+      await PageObjects.TaskPage.detailTaskPopup.reject(reason);
+      await PageObjects.TaskPage.taskBoard.verifyHasTaskById(2, id, users.user.name, currentState);
     });
   }
 );
