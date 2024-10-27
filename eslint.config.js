@@ -24,6 +24,7 @@ module.exports = [
       ...playwright.configs["flat/recommended"].rules,
       "no-console": "warn",
       "playwright/expect-expect": "off",
+      "playwright/no-standalone-expect": "off",
     },
   },
 ];

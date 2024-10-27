@@ -35,19 +35,14 @@ export default class RequestTemplatePage extends BasePage {
   }
   // create new template
 
-  async verifyWorkflowDisplay(
-    expectedStatus: string,
-    expectedName: string,
-    displayName: string,
-    publishStatus: string
-  ) {
+  async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
     const rowCount = await this.page.getByRole("row").count();
     let actualStatus = "not displayed";
     for (let i = 0; i < rowCount; i++) {
       if (
         (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(1)").innerText()) === displayName &&
-        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(2)").innerText()) === expectedName &&
-        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(4)").innerText()) === publishStatus
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(2)").innerText()) === name &&
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(4)").innerText()) === publish
       ) {
         actualStatus = "displayed";
         break;
