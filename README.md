@@ -27,7 +27,7 @@
 - Spell Checker
 - ESLint
 - Git Lens
-- Cucumber (Gherkin) Full Support
+- Cucumber
 - Playwright Test for VSCode 
 - Quokka.js
 - TypeScript Toolbox

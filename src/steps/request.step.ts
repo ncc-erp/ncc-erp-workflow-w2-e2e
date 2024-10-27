@@ -48,17 +48,17 @@ export const testTaskAssigned = (action: string, step: string, dataNewRequest: P
     });
     // test.describe.configure({ mode: "parallel" });
     test("I should see the request on my tasks", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.verifyHasPendingTask(dataNewRequest.value.getTitle(), users.user.name, step);
+      await PageObjects.TaskPage.taskBoard.verifyHasTask(0, dataNewRequest.value.getTitle(), users.user.name, step);
     });
     test("I should approve success", async ({ PageObjects }) => {
       await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.value.getTitle(), 0);
       await PageObjects.TaskPage.detailTaskPopup.approve();
-      await PageObjects.TaskPage.verifyHasApproveTask(dataNewRequest.value.getTitle(), users.user.name, step);
+      await PageObjects.TaskPage.taskBoard.verifyHasTask(1, dataNewRequest.value.getTitle(), users.user.name, step);
     });
     test("I should reject success", async ({ PageObjects }) => {
       await PageObjects.TaskPage.taskBoard.clickToBoardItemByTitle(dataNewRequest.value.getTitle(), 0);
       await PageObjects.TaskPage.detailTaskPopup.reject("reason");
-      await PageObjects.TaskPage.verifyHasRejectTask(dataNewRequest.value.getTitle(), users.user.name, step);
+      await PageObjects.TaskPage.taskBoard.verifyHasTask(2, dataNewRequest.value.getTitle(), users.user.name, step);
     });
   });
 };

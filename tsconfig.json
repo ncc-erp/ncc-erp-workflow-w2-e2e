@@ -9,5 +9,7 @@
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": true,
     "experimentalDecorators": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
