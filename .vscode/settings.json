@@ -6,6 +6,7 @@
   },
   "editor.formatOnSave": true,
   "files.eol": "\n",
-  "cucumberautocomplete.steps": ["src/features/steps/*.ts"],
-  "cucumberautocomplete.syncfeatures": "src/features/*feature"
+  "cucumber.features": ["src/features/*feature"],
+  "cucumber.glue": ["src/features/steps/*.ts"],
+  "cucumber.parameterTypes": [{ "name": "TestData", "regexp": ".*(testData|global).*" }]
 }

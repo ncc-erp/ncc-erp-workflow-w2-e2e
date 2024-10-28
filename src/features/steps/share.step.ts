@@ -3,6 +3,8 @@ import { users } from "../../data/users.data";
 import { BasePage } from "../../pageObjects/base.page";
 import { expect, Given, test, Then, When } from "../../pageObjects/page.fixture";
 import { chooseFile } from "../../utils/chooseFile";
+import { BasePage } from "../../pageObjects/base.page";
+import { Given, Then, When } from "../../pageObjects/page.fixture";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -21,11 +23,6 @@ When(
 
 Then("I should see {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).verifyPageLocated();
-});
-
-Then("I authenticated as {string}", async ({ PageObjects }, userType: string) => {
-  test.use({ storageState: users[userType].authFile });
-  await PageObjects.RequestTemplatePage.open();
 });
 
 Then("I logout", async ({ PageObjects }) => {

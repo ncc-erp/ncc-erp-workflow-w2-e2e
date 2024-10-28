@@ -23,14 +23,4 @@ export default class TaskPage extends BasePage {
     await this.taskBoard.dragItemIdToCol(id, 0, 2);
     await this.rejectPopup.reject(reason);
   }
-
-  async verifyHasPendingTask(title: string, requestUser: string, currentStatus: string) {
-    await this.taskBoard.verifyHasTask(0, title, requestUser, currentStatus);
-  }
-  async verifyHasApproveTask(title: string, requestUser: string, currentStatus: string) {
-    await this.taskBoard.verifyHasTask(1, title, requestUser, currentStatus);
-  }
-  async verifyHasRejectTask(title: string, requestUser: string, currentStatus: string) {
-    await this.taskBoard.verifyHasTask(2, title, requestUser, currentStatus);
-  }
 }
