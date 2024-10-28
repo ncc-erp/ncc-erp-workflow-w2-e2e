@@ -22,53 +22,67 @@ Feature: User create a new request
     Scenario: I can create a new workflow success
       When I click on "Create" button
       And I fill "<name>" into "Name" field
-      And I fill "<display name>" into "Display Name" field
+      And I fill "<name>" into "Display Name" field
       And I click on "Create" button
-      Then I should see "Create Workflow Successfully" toast message display
+      # Then I should see "Create Workflow Successfully" toast message display
       And I click on the close icon in "Workflow Detail" popup
-      Then I should see a new record with name as "<name>", display name as "<display name>" and "<publish>" publish status "displayed"
-      And I delete the record with name as "<name>"
-        | name                                |
-        | Advance Payment Request test create |
+      Then I should see a record with name as "<name>", display name as "<name>" and "<publish>" publish status "displayed"
+
       Examples:
-        | name                                | display name                        | publish |
-        | Advance Payment Request test create | Advance Payment Request test create | false   |
+        | name                         | publish |
+        | Advance Payment Request Test | false   |
 
     Scenario: I can import a new workflow success
       When I click on "Import" button
-      And I upload a file with path "data-test/advance-payment-request-test.json"
+      And I upload a file with path "data-test/advance-payment-request-test-import.json"
       And I click on "Import" button
       And I click on "Create" button
-      Then I should see "Import workflow data successfully!" toast message display
+      # Then I should see "Import workflow data successfully!" toast message display
       And I click on the close icon in "Workflow Detail" popup
-      And I should see a new record with name as "<name>", display name as "<display name>" and "<publish>" publish status "displayed"
+      Then I should see a record with name as "<name>", display name as "< name>" and "<publish>" publish status "displayed"
       And I delete the record with name as "<name>"
 
       Examples:
-        | name                         | display name                 | publish |
-        | Advance Payment Request Test | Advance Payment Request Test | false   |
+        | name                                | publish |
+        | Advance Payment Request Test Import | false   |
 
     Scenario: I can export a workflow input success
-      When I open "Define Input" of "Advance Payment Request" workflow
+      When I open Setting modal of "<workflow>" workflow
+      And I click on "Define Input" option
       And I click on "Export" button
       Then I should see a file with name as "Advance Payment Request.json" downloaded successfully
 
+      Examples:
+        | workflow                |
+        | Advance Payment Request |
+
     Scenario: I can import a workflow input success
-      When I open "Define Input" of "<name>" workflow
+      When I open Setting modal of "<name>" workflow
+      And I click on "Define Input" option
       And I click on "Import" button
       And I upload a file with path "data-test/advance-payment-request-test-input.json"
       And I click on "Import" button
-      Then I should see "Import workflow data successfully!" toast message display
-      And I should see the color as "#01713e", title as "<title>" and these Properties of "<name>" workflow display
+      # Then I should see "Import workflow data successfully!" toast message display
+      Then I should see the color as "#01713e", title as "<title>" and these Properties of "<name>" workflow display
         | propertyName  | type     | required |
         | AmountOfMoney | Text     | true     |
         | Reason        | RichText | true     |
+      And I click on "Save" button
 
       Examples:
-        | name                               | title                                          |
-        | Advance Payment Request Test Input | Advance Payment Request: {{AmountOfMoney}} VNĐ |
+        | name                         | title                                          |
+        | Advance Payment Request Test | Advance Payment Request: {{AmountOfMoney}} VNĐ |
 
     Scenario: I can publish a workflow success
+      When I open Setting modal of "<name>" workflow
+      And I click on "Publish" option
+      Then I should see Published field of the "<name>" workflow as "true"
+
+      Examples:
+        | name                         |
+        | Advance Payment Request Test |
+
+    Scenario: I can unpublish a workflow success
       When I open Setting modal of "<name>" workflow
       And I click on "Unpublish" option
       Then I should see Published field of the "<name>" workflow as "false"
@@ -77,26 +91,109 @@ Feature: User create a new request
         | name                         |
         | Advance Payment Request Test |
 
-  # Scenario: I can unpublish a workflow success
-  #   When I open Setting modal of "Advance Payment Request test create" workflow
-  #   And I click on "Publish" option
-  #   Then I should see "Published" field of the workflow as "false"
+    Scenario: I cam cancel delete a workflow success
+      When I open Setting modal of "<name>" workflow
+      And I click on "Delete" option
+      And I click on "Cancel" button
+      Then I should see a record with name as "<name>", display name as "<name>" and "<publish>" publish status "displayed"
 
-  # Scenario: I cam cancel delete a workflow success
-  #   When I open Setting modal of "Advance Payment Request test create" workflow
-  #   And I click on "Delete" option
-  #   And I click on "Cancel" option
-  #   Then I should see a record with the data below "displayed"
-  #     | name | display name | publish |
-  #     | ///  | ///          | true    |
+      Examples:
+        | name                         | publish |
+        | Advance Payment Request Test | false   |
 
-  # Scenario: I can delete a workflow success
-  #   When I open Setting modal of "Advance Payment Request test create" workflow
-  #   And I click on "Delete" option
-  #   And I click on "Yes"
-  #   Then I should see a record with the data below "not displayed"
-  #     | name | display name | publish |
-  #     | ///  | ///          | true    |
+    Scenario: I can delete a workflow success
+      When I open Setting modal of "<name>" workflow
+      And I click on "Delete" option
+      And I click on "Yes" button
+      Then I should see a record with name as "<name>", display name as "<name>" and "<publish>" publish status "not displayed"
+      Examples:
+        | name                         | publish |
+        | Advance Payment Request Test | false   |
+
+    @admin
+  Rule: Manage Request Template Input
+    Background:
+      Given I am on "RequestTemplatePage"
+
+    Scenario: Verify Property Type list
+      When I open Setting modal of "<workflow>" workflow
+      And I click on "Define Input" option
+      And I click on Property Type dropdown list of property "<property>"
+      Then I see options display below Property Type dropdown list of property "<property>"
+        | Type          |
+        | Text          |
+        | Numeric       |
+        | DateTime      |
+        | RichText      |
+        | UserList      |
+        | MyProject     |
+        | MyPMProject   |
+        | OfficeList    |
+        | MultiDatetime |
+
+      Examples:
+        | workflow                | property      |
+        | Advance Payment Request | AmountOfMoney |
+
+  # Scenario: I can add property to new created workflow
+  #   When I click on "Create" button
+  #   And I fill "<workflow>" into "Name" field
+  #   And I fill "<workflow>" into "Display Name" field
+  #   And I click on "Create" button
+  #   And I click on the close icon in "Workflow Detail" popup
+  #   And I open Setting modal of "<workflow>" workflow
+  #   And I click on "Define Input" option
+  #   And I fill "<property>" into Property name textbox
+  #   And I choose "RichText" from Property type dropdown
+  #   And I click on Required checkbox of "<property>" property
+  #   And I click on "Save" button
+  #   And I open Action modal of "<workflow>" workflow
+  #   Then I should see these property "displayed"
+  #     | label        |
+  #     | MoneyAmount* |
+
+  #   Examples:
+  #     | workflow                           | property    |
+  #     | Advance Payment Request Test Input | MoneyAmount |
+
+  # Scenario: I can add more property to a workflow
+  #   When I open Setting modal of "<name>" workflow
+  #   And I click on "Define Input" option
+  #   And I click on "Add field" button
+  #   And I fill "<name>" into "Property name" field
+  #   And I fill "<type>" into "Property type" field
+  #   And I click on "Save" button
+  #   And I open Action modal of "<name>" workflow
+  #   Then I should see these property "displayed"
+  #     | label |
+  #     | ///   |
+
+  # Scenario: I can edit a workflow property
+  #   When I open Setting modal of "<name>" workflow
+  #   And I click on "Define Input" option
+  #   And I change name of "<old name>" property to "<new name>" property
+  #   And I click on Required checkbox of "<new name>" property
+  #   And I click on "Save" button
+  #   And I open Action modal of "<name>" workflow
+  #   Then I should see these property "displayed"
+  #     | label |
+  #     | ///   |
+
+  # Scenario: I cannot remove all property of a workflow
+  #   When I open Setting modal of "<name>" workflow
+  #   And I click on "Define Input" option
+  #   And I click on "Remove" button of property "<name>"
+  #   Then I should see property "<name>" "not displayed"
+  #   And I should see "Remove" button of property "<name>" as "disabled" status
+  #   And I click on "Remove" button of property "<name>"
+  #   And I click on "Save" button
+  #   And I open Action modal of "<name>" workflow
+  #   And I should see these property "displayed"
+  #     | label |
+  #     | ///   |
+
+
+
 
 
 

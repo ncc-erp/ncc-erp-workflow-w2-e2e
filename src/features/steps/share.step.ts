@@ -54,7 +54,7 @@ When("I click on the close icon in {string} popup", async ({ page }, popup: stri
 });
 
 Then(
-  "I should see a new record with name as {string}, display name as {string} and {string} publish status {string}",
+  "I should see a record with name as {string}, display name as {string} and {string} publish status {string}",
   async ({ PageObjects }, name: string, displayName: string, publish: string, status: string) => {
     await PageObjects.RequestTemplatePage.verifyWorkflowDisplay(name, displayName, publish, status);
   }
@@ -73,11 +73,6 @@ Then("I should see {string} toast message display", async ({ page }, message: st
 
 When("I upload a file with path {string}", async ({ page }, path: string) => {
   await chooseFile(page, path, page.getByRole("textbox"));
-});
-
-When("I open {string} of {string} workflow", async ({ page }, option: string, expectedName: string) => {
-  await page.getByRole("row", { name: expectedName }).getByRole("button").first().click();
-  await page.getByRole("menuitem", { name: option }).click();
 });
 
 Then("I should see a file with name as {string} downloaded successfully", async ({ page }, fileName: string) => {
@@ -149,11 +144,64 @@ Then(
   "I should see Published field of the {string} workflow as {string}",
   async ({ page }, name: string, status: string) => {
     const rowCount = await page.getByRole("row").count();
-    for (let i = 0; i <= rowCount; i++) {
-      if ((await page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(2)").innerText()) === name) {
-        await expect(page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(4)")).toContainText(status);
+    for (let i = 1; i < rowCount; i++) {
+      if ((await page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === name) {
+        await expect(page.locator("tr:nth-child(" + i + ") > td:nth-child(4)")).toContainText(status);
         break;
       }
     }
   }
 );
+
+When("I click on Property Type dropdown list of property {string}", async ({ page }, property: string) => {
+  const propertyCount = await page.getByText("Property Name *").count();
+  for (let i = 0; i < propertyCount; i++) {
+    if (
+      (await page
+        .getByTestId("items." + i + ".name")
+        .getByRole("textbox")
+        .inputValue()) === property
+    ) {
+      await page
+        .getByTestId("items." + i + ".type")
+        .getByRole("combobox")
+        .click();
+      break;
+    }
+  }
+});
+
+Then(
+  "I see options display below Property Type dropdown list of property {string}",
+  async ({ page }, property: string, dataTable: DataTable) => {
+    const propertyCount = await page.getByText("Property Name *").count();
+    const expectedOptions = dataTable.rows().map((row) => row[0]);
+    for (let i = 0; i < propertyCount; i++) {
+      if (
+        (await page
+          .getByTestId("items." + i + ".name")
+          .getByRole("textbox")
+          .inputValue()) === property
+      ) {
+        const actualOptions = (
+          await page
+            .getByTestId("items." + i + ".type")
+            .getByRole("combobox")
+            .innerText()
+        )
+          .split("\n")
+          .map((option) => option);
+        expect(actualOptions).toEqual(expectedOptions);
+        break;
+      }
+    }
+  }
+);
+
+When("I fill {string} into Property name textbox", async ({ page }, property: string) => {
+  await page.getByTestId("items.0.name").getByRole("textbox").fill(property);
+});
+
+When("I choose {string} from Property type dropdown", async ({ page }, type: string) => {
+  await page.getByRole("combobox").selectOption(type);
+});
