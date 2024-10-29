@@ -1,18 +1,15 @@
 import { DataTable } from "playwright-bdd";
-import { users } from "../../data/users.data";
 import { BasePage } from "../../pageObjects/base.page";
-import { expect, Given, test, Then, When } from "../../pageObjects/page.fixture";
+import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { chooseFile } from "../../utils/chooseFile";
-import { BasePage } from "../../pageObjects/base.page";
-import { Given, Then, When } from "../../pageObjects/page.fixture";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
 });
 
-Then("I should see in title {string}", async ({ PageObjects }, title: string) => {
-  await PageObjects.LoginPage.verifyTitle(title);
-});
+// Then("I should see in title {string}", async ({ PageObjects }, title: string) => {
+//   await PageObjects.LoginPage.verifyTitle(title);
+// });
 
 When(
   "I login with username {string} and password {string}",
@@ -100,8 +97,8 @@ async function checkColor(element, cssProperty, rgbColors) {
 }
 
 Then(
-  "I should see the color as {string}, title as {string} and these Properties of {string} workflow display",
-  async ({ page }, color: string, title: string, name: string, dataTable: DataTable) => {
+  "I should see the color as {string}, title as {string} in {string} workflow Define Input popup",
+  async ({ page }, color: string, title: string, name: string) => {
     const expectedRGBcolor = convertHexToRGB(color);
     await checkColor(
       page
@@ -114,23 +111,22 @@ Then(
     );
     await expect(page.getByTestId("title").getByRole("textbox")).toHaveValue(title);
     await expect(page.getByLabel("Define Workflow Input")).toContainText(name);
-    const properties = dataTable.hashes();
-    const propertyCount = await page.getByText("Property Name *").count();
-    for (let i = 0; i < propertyCount; i++) {
-      const propertyName = properties[i].propertyName;
-      const type = properties[i].type;
-      const required = properties[i].required;
-      await expect(page.getByTestId("items." + i + ".name").getByRole("textbox")).toHaveValue(propertyName);
-      await expect(page.getByTestId("items." + i + ".type").getByRole("combobox")).toHaveValue(type);
-      await expect(page.getByText("Property Name *Property").nth(i).locator("span").nth(1))[
-        required ? "toHaveAttribute" : "not.toHaveAttribute"
-      ]("data-checked");
-    }
   }
 );
 
-When("I open Setting modal of {string} workflow", async ({ page }, workflow: string) => {
-  await page.getByRole("row", { name: workflow }).getByRole("button").first().click();
+Then("I should see the property display in Define Input popup", async ({ page }, dataTable: DataTable) => {
+  const properties = dataTable.hashes();
+  const propertyCount = await page.getByText("Property Name *").count();
+  for (let i = 0; i < propertyCount; i++) {
+    const propertyName = properties[i].propertyName;
+    const type = properties[i].type;
+    const required = properties[i].required;
+    await expect(page.getByTestId("items." + i + ".name").getByRole("textbox")).toHaveValue(propertyName);
+    await expect(page.getByTestId("items." + i + ".type").getByRole("combobox")).toHaveValue(type);
+    await expect(page.getByText("Property Name *Property").nth(i).locator("span").nth(1))[
+      required === "true" ? "toHaveAttribute" : "not.toHaveAttribute"
+    ]("data-checked");
+  }
 });
 
 When("I click on {string} option", async ({ page }, option: string) => {
@@ -195,10 +191,57 @@ Then(
   }
 );
 
-When("I fill {string} into Property name textbox", async ({ page }, property: string) => {
-  await page.getByTestId("items.0.name").getByRole("textbox").fill(property);
+When("I input property with data below", async ({ page }, dataTable: DataTable) => {
+  const properties = dataTable.hashes();
+  const expectedRowCount = Math.max(...properties.map((property) => Number(property.row)));
+  for (let i = 0; i < properties.length; i++) {
+    const name = properties[i].name;
+    const type = properties[i].type;
+    const required = properties[i].required;
+    const row = Number(properties[i].row);
+    let actualRowCount = await page.getByText("Property Name *").count();
+    if (actualRowCount < row) {
+      await page.getByTestId("button-add-field").click();
+      actualRowCount++;
+    }
+    const nameInput = page.getByTestId("items." + (row - 1) + ".name").getByRole("textbox");
+    if ((await nameInput.inputValue()) !== name) {
+      await nameInput.fill(name);
+    }
+    const typeInput = page.getByTestId("items." + (row - 1) + ".type").getByRole("combobox");
+    if ((await typeInput.inputValue()) !== type) {
+      await typeInput.selectOption(type);
+    }
+    const requiredElement = page
+      .getByText("Property Name *Property")
+      .nth(row - 1)
+      .locator("span")
+      .nth(1);
+    const requiredInput = (await requiredElement.getAttribute("data-checked")) !== null ? "true" : "false";
+    if (requiredInput !== required) {
+      await requiredElement.click();
+    }
+    if ((await page.getByText("Property Name *").count()) < expectedRowCount) {
+      await page.getByTestId("button-add-field").click();
+    }
+  }
 });
 
-When("I choose {string} from Property type dropdown", async ({ page }, type: string) => {
-  await page.getByRole("combobox").selectOption(type);
+When("I open Action modal of {string} workflow", async ({ page }, workflow: string) => {
+  await page.getByRole("row", { name: workflow }).getByRole("button").nth(1).click();
 });
+
+When("I open Setting modal of {string} workflow", async ({ page }, workflow: string) => {
+  await page.getByRole("row", { name: workflow }).getByRole("button").first().click();
+});
+
+Then("I should see the property display in Action modal popup", async ({ page }, dataTable: DataTable) => {
+  const labels = dataTable.hashes();
+  for (const { label } of labels) {
+    await expect(page.getByText(label, { exact: true })).toBeVisible();
+  }
+});
+
+// When("I click on Remove button of property", async ({}, dataTable: DataTable) => {
+//   // const properties = dataTable.hashes();
+// });

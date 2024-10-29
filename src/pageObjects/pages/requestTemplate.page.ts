@@ -38,11 +38,11 @@ export default class RequestTemplatePage extends BasePage {
   async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
     const rowCount = await this.page.locator("tbody > tr").count();
     let actualStatus = "not displayed";
-    for (let i = 1; i < rowCount; i++) {
+    for (let i = 0; i < rowCount; i++) {
       if (
-        (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(1)").innerText()) === displayName &&
-        (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === name &&
-        (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(4)").innerText()) === publish
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(1)").innerText()) === displayName &&
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(2)").innerText()) === name &&
+        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(4)").innerText()) === publish
       ) {
         actualStatus = "displayed";
         break;
