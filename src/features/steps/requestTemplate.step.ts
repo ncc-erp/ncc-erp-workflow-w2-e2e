@@ -24,3 +24,11 @@ When(
     return await PageObjects.RequestTemplatePage.createRequest(name, deviceRequest);
   }
 );
+
+When(
+  "I create a new workflow with name as {string} and display name as {string}",
+  async ({ PageObjects }, name: string, displayName: string) => {
+    return await PageObjects.form.fillByLabel("Name", name);
+    return await PageObjects.form.fillByLabel("Display Nam", displayName);
+  }
+);

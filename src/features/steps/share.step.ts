@@ -103,7 +103,7 @@ Then(
     await checkColor(
       page
         .locator("div")
-        .filter({ hasText: new RegExp(`^Color:${name}$`) })
+        .filter({ hasText: new RegExp("^Color:" + name + "$") })
         .locator("div")
         .nth(3),
       "background",
@@ -231,7 +231,7 @@ When("I open Action modal of {string} workflow", async ({ page }, workflow: stri
   await page.getByRole("row", { name: workflow }).getByRole("button").nth(1).click();
 });
 
-When("I open Setting modal of {string} workflow", async ({ page }, workflow: string) => {
+When("I open Setting modal of workflow with name as {string}", async ({ page }, workflow: string) => {
   await page.getByRole("row", { name: workflow }).getByRole("button").first().click();
 });
 
