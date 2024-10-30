@@ -1,4 +1,5 @@
 import { DataTable } from "playwright-bdd";
+import { API } from "../../data/apis";
 import { BasePage } from "../../pageObjects/base.page";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { chooseFile } from "../../utils/chooseFile";
@@ -67,6 +68,7 @@ Then("I should see {string} toast message display", async ({ page }, message: st
 
 When("I upload a file with path {string}", async ({ page }, path: string) => {
   await chooseFile(page, path, page.getByRole("textbox"));
+  await expect(page.getByText("No data imported !")).toBeHidden();
 });
 
 Then("I should see a file with name as {string} downloaded successfully", async ({ page }, fileName: string) => {
@@ -131,6 +133,10 @@ Then("I should see the property display in Define Input popup", async ({ page },
 
 When("I click on {string} option", async ({ page }, option: string) => {
   await page.getByRole("menuitem", { name: option }).click();
+  if (option === "Publish" || option === "Unpublish") {
+    await page.waitForResponse(API.changeWorkflowStatus);
+    await page.waitForResponse(API.listAll);
+  }
 });
 
 Then(

@@ -28,7 +28,7 @@ When(
 When(
   "I create a new workflow with name as {string} and display name as {string}",
   async ({ PageObjects }, name: string, displayName: string) => {
-    return await PageObjects.form.fillByLabel("Name", name);
-    return await PageObjects.form.fillByLabel("Display Nam", displayName);
+    await PageObjects.RequestTemplatePage.form.fillByLabel("Name", name);
+    await PageObjects.RequestTemplatePage.form.fillByLabel("Display Name", displayName);
   }
 );

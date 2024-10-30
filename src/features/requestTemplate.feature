@@ -42,10 +42,13 @@ Feature: User create a new request
       # Then I should see "Import workflow data successfully!" toast message display
       And I click on the close icon in "Workflow Detail" popup
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "displayed"
+      And I open Setting modal of workflow with name as "<name>"
+      And I click on "Publish" option
 
       Examples:
         | name                                | displayName                                      | publish |
         | Advance Payment Request Test Import | Advance Payment Request Test Import Display Name | false   |
+
 
     Scenario: I can export a workflow input success
       When I open Setting modal of workflow with name as "<name>"
@@ -95,27 +98,27 @@ Feature: User create a new request
       Then I should see Published field of the "<name>" workflow as "false"
 
       Examples:
-        | name                         |
-        | Advance Payment Request Test |
+        | name                                |
+        | Advance Payment Request Test Import |
 
-    Scenario: I cam cancel delete a workflow success
+    Scenario: I can cancel delete a workflow success
       When I open Setting modal of workflow with name as "<name>"
       And I click on "Delete" option
       And I click on "Cancel" button
-      Then I should see a record with name as "<name>", display name as "<name>" and "<publish>" publish status "displayed"
+      Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "displayed"
 
       Examples:
-        | name                         | publish |
-        | Advance Payment Request Test | false   |
+        | name                         | displayName                               | publish |
+        | Advance Payment Request Test | Advance Payment Request Test Display Name | false   |
 
     Scenario: I can delete a workflow success
       When I open Setting modal of workflow with name as "<name>"
       And I click on "Delete" option
       And I click on "Yes" button
-      Then I should see a record with name as "<name>", display name as "<name>" and "<publish>" publish status "not displayed"
+      Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "not displayed"
       Examples:
-        | name                         | publish |
-        | Advance Payment Request Test | false   |
+        | name                         | displayName                               | publish |
+        | Advance Payment Request Test | Advance Payment Request Test Display Name | false   |
 
     @admin
   Rule: Manage Request Template Input
@@ -156,7 +159,7 @@ Feature: User create a new request
         | 2   | Reason      | RichText | false    |
         | 3   | TestInput   | RichText | true     |
       And I click on "Save" button
-      And I open Action modal of "<workflow>" workflow
+      And I open Action modal of "<name>" workflow
       Then I should see the property display in Action modal popup
         | label          |
         | Money Amount * |
@@ -164,7 +167,7 @@ Feature: User create a new request
         | Test Input *   |
 
       Examples:
-        | workflow                           | displayName                                     |
+        | name                               | displayName                                     |
         | Advance Payment Request Test Input | Advance Payment Request Test Input Display Name |
 
     Scenario: I can edit a workflow property
