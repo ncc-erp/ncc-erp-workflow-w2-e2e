@@ -21,14 +21,15 @@ Feature: User create a new request
       Given I am on "RequestTemplatePage"
 
     Scenario: I can create a new workflow success
-      When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      # When I click on "Create" button
-      # And I fill "<name>" into "Name" field
-      # And I fill "<displayName>" into "Display Name" field
-      # And I click on "Create" button
+      # When I create a new workflow with name as "<name>" and display name as "<displayName>"
+      When I click on "Create" button
+      And I fill "<name>" into "Name" field
+      And I fill "<displayName>" into "Display Name" field
+      And I click on "Create" button
       # Then I should see "Create Workflow Successfully" toast message display
-      # And I click on the close icon in "Workflow Detail" popup
+      And I click on the close icon in "Workflow Detail" popup
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "displayed"
+      And I delete the record with name as "<name>"
 
       Examples:
         | name                         | displayName                               | publish |
@@ -42,8 +43,7 @@ Feature: User create a new request
       # Then I should see "Import workflow data successfully!" toast message display
       And I click on the close icon in "Workflow Detail" popup
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "displayed"
-      And I open Setting modal of workflow with name as "<name>"
-      And I click on "Publish" option
+      And I delete the record with name as "<name>"
 
       Examples:
         | name                                | displayName                                      | publish |
@@ -51,17 +51,29 @@ Feature: User create a new request
 
 
     Scenario: I can export a workflow input success
-      When I open Setting modal of workflow with name as "<name>"
+      When I click on "Import" button
+      And I upload a file with path "upload/advance-payment-request-test-import.json"
+      And I click on "Import" button
+      And I click on "Create" button
+      And I click on the close icon in "Workflow Detail" popup
+      And I open Setting modal of workflow with name as "<name>"
       And I click on "Define Input" option
       And I click on "Export" button
       Then I should see a file with name as "<name>.json" downloaded successfully
+      And I click on the close icon in "Define Workflow Input" popup
+      And I delete the record with name as "<name>"
 
       Examples:
         | name                                |
         | Advance Payment Request Test Import |
 
     Scenario: I can import a workflow input success
-      When I open Setting modal of workflow with name as "<name>"
+      When I click on "Create" button
+      And I fill "<name>" into "Name" field
+      And I fill "<displayName>" into "Display Name" field
+      And I click on "Create" button
+      And I click on the close icon in "Workflow Detail" popup
+      And I open Setting modal of workflow with name as "<name>"
       And I click on "Define Input" option
       And I click on "Import" button
       And I upload a file with path "upload/advance-payment-request-test-input.json"
@@ -78,47 +90,69 @@ Feature: User create a new request
         | label             |
         | Amount Of Money * |
         | Reason *          |
+      And I click on the close icon in "<displayName>" popup
+      And I delete the record with name as "<name>"
 
       Examples:
-        | name                         | title                                          |
-        | Advance Payment Request Test | Advance Payment Request: {{AmountOfMoney}} VNĐ |
+        | name              | displayName                    | title                                          |
+        | Test Import Input | Test Import Input Display Name | Advance Payment Request: {{AmountOfMoney}} VNĐ |
 
-    Scenario: I can publish a workflow success
+    # Scenario: I can publish a workflow success
+    #   When I open Setting modal of workflow with name as "<name>"
+    #   And I click on "Publish" option
+    #   Then I should see Published field of the "<name>" workflow as "true"
+
+    #   Examples:
+    #     | name                         |
+    #     | Advance Payment Request Test |
+
+    Scenario: I can publish/unpulish a workflow success
+      When I click on "Create" button
+      And I fill "<name>" into "Name" field
+      And I fill "<displayName>" into "Display Name" field
+      And I click on "Create" button
+      And I click on the close icon in "Workflow Detail" popup
       When I open Setting modal of workflow with name as "<name>"
       And I click on "Publish" option
       Then I should see Published field of the "<name>" workflow as "true"
-
-      Examples:
-        | name                         |
-        | Advance Payment Request Test |
-
-    Scenario: I can unpublish a workflow success
-      When I open Setting modal of workflow with name as "<name>"
+      And I open Setting modal of workflow with name as "<name>"
       And I click on "Unpublish" option
-      Then I should see Published field of the "<name>" workflow as "false"
+      And I should see Published field of the "<name>" workflow as "false"
+      And I delete the record with name as "<name>"
+
 
       Examples:
-        | name                                |
-        | Advance Payment Request Test Import |
+        | name         | displayName               |
+        | Test Publish | Test Publish Display Name |
 
     Scenario: I can cancel delete a workflow success
+      When I click on "Create" button
+      And I fill "<name>" into "Name" field
+      And I fill "<displayName>" into "Display Name" field
+      And I click on "Create" button
+      And I click on the close icon in "Workflow Detail" popup
       When I open Setting modal of workflow with name as "<name>"
       And I click on "Delete" option
       And I click on "Cancel" button
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "displayed"
-
-      Examples:
-        | name                         | displayName                               | publish |
-        | Advance Payment Request Test | Advance Payment Request Test Display Name | false   |
-
-    Scenario: I can delete a workflow success
-      When I open Setting modal of workflow with name as "<name>"
+      And I open Setting modal of workflow with name as "<name>"
       And I click on "Delete" option
       And I click on "Yes" button
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "not displayed"
+      And I delete the record with name as "<name>"
+
       Examples:
-        | name                         | displayName                               | publish |
-        | Advance Payment Request Test | Advance Payment Request Test Display Name | false   |
+        | name        | displayName              | publish |
+        | Test Delete | Test Delete Display Name | false   |
+
+    # Scenario: I can delete a workflow success
+    #   When I open Setting modal of workflow with name as "<name>"
+    #   And I click on "Delete" option
+    #   And I click on "Yes" button
+    #   Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "not displayed"
+    #   Examples:
+    #     | name                         | displayName                               | publish |
+    #     | Advance Payment Request Test | Advance Payment Request Test Display Name | false   |
 
     @admin
   Rule: Manage Request Template Input

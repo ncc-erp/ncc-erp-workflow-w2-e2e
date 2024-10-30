@@ -59,6 +59,8 @@ Then("I delete the record with name as {string}", async ({ page }, expectedName:
   await page.getByRole("row", { name: expectedName }).getByRole("button").first().click();
   await page.getByRole("menuitem", { name: "Delete" }).click();
   await page.getByRole("button", { name: "Yes" }).click();
+  await expect(page.getByText("Do you want to delete")).toBeHidden();
+  // await page.waitForResponse(API.listAll);
 });
 
 Then("I should see {string} toast message display", async ({ page }, message: string) => {
@@ -135,7 +137,6 @@ When("I click on {string} option", async ({ page }, option: string) => {
   await page.getByRole("menuitem", { name: option }).click();
   if (option === "Publish" || option === "Unpublish") {
     await page.waitForResponse(API.changeWorkflowStatus);
-    await page.waitForResponse(API.listAll);
   }
 });
 
