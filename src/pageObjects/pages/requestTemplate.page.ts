@@ -1,11 +1,15 @@
 import { Page, expect } from "@playwright/test";
 import { RequestFormType } from "../../data/requestTemplate.data";
 import { BasePage } from "../base.page";
+import Button from "../components/button";
+import Form from "../components/form";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
 
 export default class RequestTemplatePage extends BasePage {
   public deviceRequestForm: RequestForm;
+  createWorkflowPopup: Form;
+  button: Button;
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
@@ -34,6 +38,12 @@ export default class RequestTemplatePage extends BasePage {
     };
   }
   // create new template
+
+  async createWorkflow(name: string, displayName: string) {
+    await this.createWorkflowPopup.fillByLabel("Name", name);
+    await this.createWorkflowPopup.fillByLabel("Display Name", displayName);
+    await this.button.clickButtonByName("Create");
+  }
 
   async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
     const rowCount = await this.page.locator("tbody > tr").count();

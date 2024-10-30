@@ -22,12 +22,12 @@ Feature: User create a new request
 
     Scenario: I can create a new workflow success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      When I click on "Create" button
-      And I fill "<name>" into "Name" field
-      And I fill "<displayName>" into "Display Name" field
-      And I click on "Create" button
+      # When I click on "Create" button
+      # And I fill "<name>" into "Name" field
+      # And I fill "<displayName>" into "Display Name" field
+      # And I click on "Create" button
       # Then I should see "Create Workflow Successfully" toast message display
-      And I click on the close icon in "Workflow Detail" popup
+      # And I click on the close icon in "Workflow Detail" popup
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "displayed"
 
       Examples:
