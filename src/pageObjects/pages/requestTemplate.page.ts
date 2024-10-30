@@ -42,6 +42,7 @@ export default class RequestTemplatePage extends BasePage {
   // create new template
 
   async createWorkflow(name: string, displayName: string) {
+    await this.button.clickButtonByName("Create");
     await this.createWorkflowPopup.fillByLabel("Name", name);
     await this.createWorkflowPopup.fillByLabel("Display Name", displayName);
     await this.button.clickButtonByName("Create");
