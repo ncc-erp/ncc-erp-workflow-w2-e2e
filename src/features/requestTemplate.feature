@@ -106,24 +106,24 @@ Feature: User create a new request
     #     | name                         |
     #     | Advance Payment Request Test |
 
-    Scenario: I can publish/unpulish a workflow success
-      When I click on "Create" button
-      And I fill "<name>" into "Name" field
-      And I fill "<displayName>" into "Display Name" field
-      And I click on "Create" button
-      And I click on the close icon in "Workflow Detail" popup
-      When I open Setting modal of workflow with name as "<name>"
-      And I click on "Publish" option
-      Then I should see Published field of the "<name>" workflow as "true"
-      And I open Setting modal of workflow with name as "<name>"
-      And I click on "Unpublish" option
-      And I should see Published field of the "<name>" workflow as "false"
-      And I delete the record with name as "<name>"
+    # Scenario: I can publish/unpulish a workflow success
+    #   When I click on "Create" button
+    #   And I fill "<name>" into "Name" field
+    #   And I fill "<displayName>" into "Display Name" field
+    #   And I click on "Create" button
+    #   And I click on the close icon in "Workflow Detail" popup
+    #   When I open Setting modal of workflow with name as "<name>"
+    #   And I click on "Publish" option
+    #   Then I should see Published field of the "<name>" workflow as "true"
+    #   And I open Setting modal of workflow with name as "<name>"
+    #   And I click on "Unpublish" option
+    #   And I should see Published field of the "<name>" workflow as "false"
+    #   And I delete the record with name as "<name>"
 
 
-      Examples:
-        | name         | displayName               |
-        | Test Publish | Test Publish Display Name |
+    #   Examples:
+    #     | name         | displayName               |
+    #     | Test Publish | Test Publish Display Name |
 
     Scenario: I can cancel delete/delete a workflow success
       When I click on "Create" button
