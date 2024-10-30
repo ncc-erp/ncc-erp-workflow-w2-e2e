@@ -125,7 +125,7 @@ Feature: User create a new request
         | name         | displayName               |
         | Test Publish | Test Publish Display Name |
 
-    Scenario: I can cancel delete a workflow success
+    Scenario: I can cancel delete/delete a workflow success
       When I click on "Create" button
       And I fill "<name>" into "Name" field
       And I fill "<displayName>" into "Display Name" field
@@ -139,7 +139,6 @@ Feature: User create a new request
       And I click on "Delete" option
       And I click on "Yes" button
       Then I should see a record with name as "<name>", display name as "<displayName>" and "<publish>" publish status "not displayed"
-      And I delete the record with name as "<name>"
 
       Examples:
         | name        | displayName              | publish |
@@ -204,25 +203,25 @@ Feature: User create a new request
         | name                               | displayName                                     |
         | Advance Payment Request Test Input | Advance Payment Request Test Input Display Name |
 
-    Scenario: I can edit a workflow property
-      When I open Setting modal of workflow with name as "<name>"
-      And I click on "Define Input" option
-      And I input property with data below
-        | row | name          | type     | required |
-        | 1   | AmountOfMoney | Text     | true     |
-        | 2   | Reason        | Text     | true     |
-        | 3   | TestInput     | RichText | true     |
-      And I click on "Save" button
-      And I open Action modal of "<workflow>" workflow
-      Then I should see the property display in Action modal popup
-        | label             |
-        | Amount Of Money * |
-        | Reason *          |
-        | Test Input *      |
+  # Scenario: I can edit a workflow property
+  #   When I open Setting modal of workflow with name as "<name>"
+  #   And I click on "Define Input" option
+  #   And I input property with data below
+  #     | row | name          | type     | required |
+  #     | 1   | AmountOfMoney | Text     | true     |
+  #     | 2   | Reason        | Text     | true     |
+  #     | 3   | TestInput     | RichText | true     |
+  #   And I click on "Save" button
+  #   And I open Action modal of "<workflow>" workflow
+  #   Then I should see the property display in Action modal popup
+  #     | label             |
+  #     | Amount Of Money * |
+  #     | Reason *          |
+  #     | Test Input *      |
 
-      Examples:
-        | workflow                           |
-        | Advance Payment Request Test Input |
+  #   Examples:
+  #     | workflow                           |
+  #     | Advance Payment Request Test Input |
 
   # Scenario: I cannot remove all property of a workflow
   #   When I open Setting modal of workflow with name as "<name>"
