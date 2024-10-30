@@ -44,8 +44,8 @@ When("I click on close icon", async ({ page }) => {
   await page.getByLabel("Workflow Detail").getByLabel("Close").click();
 });
 
-When("I click on the close icon in {string} popup", async ({ page }, popup: string) => {
-  await page.getByLabel(popup).getByLabel("Close").click();
+When("I click on the close icon in {string} popup", async ({ PageObjects }, popup: string) => {
+  await PageObjects.RequestTemplatePage.closePopup(popup);
 });
 
 Then(

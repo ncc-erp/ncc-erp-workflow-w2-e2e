@@ -3,6 +3,7 @@ import { RequestFormType } from "../../data/requestTemplate.data";
 import { BasePage } from "../base.page";
 import Button from "../components/button";
 import Form from "../components/form";
+import Popup from "../components/popup";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
 
@@ -10,6 +11,7 @@ export default class RequestTemplatePage extends BasePage {
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
   button: Button;
+  popup: Popup;
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
@@ -43,6 +45,10 @@ export default class RequestTemplatePage extends BasePage {
     await this.createWorkflowPopup.fillByLabel("Name", name);
     await this.createWorkflowPopup.fillByLabel("Display Name", displayName);
     await this.button.clickButtonByName("Create");
+  }
+
+  async closePopup(popup: string) {
+    await this.popup.closePopup(popup);
   }
 
   async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
