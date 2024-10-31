@@ -1,10 +1,12 @@
 import { expect, type Page } from "@playwright/test";
+import Button from "./components/button";
 import Header from "./components/header";
 import NavBar from "./components/navBar";
-
 export abstract class BasePage {
   public header: Header;
   public navBar: NavBar;
+  public button: Button;
+
   constructor(
     readonly page: Page,
     public path: string,
@@ -12,6 +14,7 @@ export abstract class BasePage {
   ) {
     this.header = new Header(this.page);
     this.navBar = new NavBar(this.page);
+    this.button = new Button(this.page);
   }
 
   async open(path?: string) {

@@ -1,9 +1,14 @@
 import { BaseComponent } from "../base.component";
 
 export default class Form extends BaseComponent {
-  async fillByLabel(labelText: string, value: string) {
-    const label = this.page.getByText(labelText, { exact: true });
-    const input = label.locator(" + div > div > input");
-    await input.fill(value);
+  public getFormGroupByLabel(label: string, locator: string) {
+    return this.page
+      .locator(locator)
+      .filter({ hasText: new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) });
+  }
+
+  public async fillFormFieldByLabel(label: string, value: string, locator: string) {
+    const formGroup = this.getFormGroupByLabel(label, locator); // Get the form group
+    await formGroup.locator("input").fill(value); // Fill the input within the form group
   }
 }

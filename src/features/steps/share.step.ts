@@ -8,9 +8,9 @@ Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
 });
 
-// Then("I should see in title {string}", async ({ PageObjects }, title: string) => {
-//   await PageObjects.LoginPage.verifyTitle(title);
-// });
+Then("I should see in title {string}", async ({ PageObjects }, title: string) => {
+  await PageObjects.LoginPage.verifyTitle(title);
+});
 
 When(
   "I login with username {string} and password {string}",
@@ -28,39 +28,11 @@ Then("I logout", async ({ PageObjects }) => {
 });
 ///
 
-When("I click on {string} button", async ({ page }, name: string) => {
-  await page.getByRole("button", { name: `${name}` }).click();
-});
-
-When("I fill {string} into {string} field", async ({ page }, data: string, field: string) => {
-  await page
-    .getByPlaceholder(field, {
-      exact: true,
-    })
-    .fill(data);
-});
-
-When("I click on close icon", async ({ page }) => {
-  await page.getByLabel("Workflow Detail").getByLabel("Close").click();
-});
-
-When("I click on the close icon in {string} popup", async ({ PageObjects }, popup: string) => {
-  await PageObjects.RequestTemplatePage.closePopup(popup);
-});
-
-Then(
-  "I should see a record with name as {string}, display name as {string} and {string} publish status {string}",
-  async ({ PageObjects }, name: string, displayName: string, publish: string, status: string) => {
-    await PageObjects.RequestTemplatePage.verifyWorkflowDisplay(name, displayName, publish, status);
-  }
-);
-
 Then("I delete the record with name as {string}", async ({ page }, expectedName: string) => {
   await page.getByRole("row", { name: expectedName }).getByRole("button").first().click();
   await page.getByRole("menuitem", { name: "Delete" }).click();
   await page.getByRole("button", { name: "Yes" }).click();
   await expect(page.getByText("Do you want to delete")).toBeHidden();
-  // await page.waitForResponse(API.listAll);
 });
 
 Then("I should see {string} toast message display", async ({ page }, message: string) => {
@@ -234,10 +206,6 @@ When("I input property with data below", async ({ page }, dataTable: DataTable) 
   }
 });
 
-When("I open Action modal of {string} workflow", async ({ page }, workflow: string) => {
-  await page.getByRole("row", { name: workflow }).getByRole("button").nth(1).click();
-});
-
 When("I open Setting modal of workflow with name as {string}", async ({ page }, workflow: string) => {
   await page.getByRole("row", { name: workflow }).getByRole("button").first().click();
 });
@@ -247,6 +215,10 @@ Then("I should see the property display in Action modal popup", async ({ page },
   for (const { label } of labels) {
     await expect(page.getByText(label, { exact: true })).toBeVisible();
   }
+});
+
+When("I click on {string} button", async ({ PageObjects }, buttonName: string) => {
+  await PageObjects.RequestTemplatePage.button.clickButtonByName(buttonName);
 });
 
 // When("I click on Remove button of property", async ({}, dataTable: DataTable) => {
