@@ -1,3 +1,4 @@
+import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
 import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authUserFile } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
@@ -59,9 +60,9 @@ Then(
 );
 
 When(
-  "I open {string} modal popup of workflow with name as {string} and click on {string} option",
-  async ({ PageObjects }, type: "Setting" | "Action", workflowName: string, option: string) => {
-    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, type);
+  "I open Setting modal popup of workflow with name as {string} and click on {string} option",
+  async ({ PageObjects }, workflowName: string, option: string) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Setting");
     await PageObjects.RequestTemplatePage.clickOptionInSettingModalPopup(option);
   }
 );
@@ -69,4 +70,40 @@ When(
 When("I {string} a workflow with name as {string}", async ({ PageObjects }, action: string, workflowName: string) => {
   await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Setting");
   await PageObjects.RequestTemplatePage.clickOptionInSettingModalPopup(action);
+});
+
+When(
+  "I input property with data below in Define Input popup of workflow with name as {string}",
+  async ({ PageObjects }, workflowName: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Setting");
+    await PageObjects.RequestTemplatePage.clickOptionInSettingModalPopup("Define Input");
+    await PageObjects.RequestTemplatePage.inputProperty(dataTable);
+    await PageObjects.RequestTemplatePage.button.clickButtonByName("Save");
+  }
+);
+
+Then(
+  "I open Action modal popup of workflow with name as {string} to see the property display",
+  async ({ PageObjects }, workflowName: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Action");
+    await PageObjects.RequestTemplatePage.verifyFieldInActionPopup(dataTable);
+  }
+);
+
+When(
+  "I open Define Input popup of {string} workflow to remove property",
+  async ({ PageObjects }, workflowName: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Setting");
+    await PageObjects.RequestTemplatePage.clickOptionInSettingModalPopup("Define Input");
+    await PageObjects.RequestTemplatePage.removeProperty(dataTable);
+  }
+);
+
+Then("I should see the remaining Remove button as disabled status", async ({ PageObjects }) => {
+  await PageObjects.RequestTemplatePage.verifyRemovePropertyButtonStatus();
+});
+
+Then("I should see the property display in Define Input popup", async ({ PageObjects }, dataTable: DataTable) => {
+  await PageObjects.RequestTemplatePage.verifyProperty(dataTable);
+  await PageObjects.RequestTemplatePage.button.clickButtonByName("Save");
 });

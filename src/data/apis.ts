@@ -4,4 +4,5 @@ export const API = {
   rejectTask: /api\/app\/task\/.*\/reject/,
   changeWorkflowStatus: "api/app/workflow-definition/change-workflow-status",
   listAll: "api/app/workflow-definition/list-all",
+  workflowInputDefinition: "api/app/external-resource/workflow-input-definition-property-types",
 };

@@ -1,4 +1,5 @@
 import { Page, expect } from "@playwright/test";
+import { DataTable } from "playwright-bdd";
 import { RequestFormType } from "../../data/requestTemplate.data";
 import { chooseFile } from "../../utils/chooseFile";
 import { BasePage } from "../base.page";
@@ -70,11 +71,11 @@ export default class RequestTemplatePage extends BasePage {
   async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
     const rowCount = await this.page.locator("tbody > tr").count();
     let actualStatus = "not displayed";
-    for (let i = 0; i < rowCount; i++) {
+    for (let i = 1; i < rowCount; i++) {
       if (
-        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(1)").innerText()) === displayName &&
-        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(2)").innerText()) === name &&
-        (await this.page.locator("tr:nth-child(" + (i + 1) + ") > td:nth-child(4)").innerText()) === publish
+        (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(1)").innerText()) === displayName &&
+        (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === name &&
+        (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(4)").innerText()) === publish
       ) {
         actualStatus = "displayed";
         break;
@@ -100,9 +101,121 @@ export default class RequestTemplatePage extends BasePage {
   // }
 
   async clickOptionInSettingModalPopup(option: string) {
-    await this.page.getByRole("menuitem", { name: option }).click();
-    if (option === "Publish" || option === "Unpublish") {
-      await this.page.waitForResponse(API.changeWorkflowStatus);
+    const optionElement = this.page.getByRole("menuitem", { name: option });
+    await expect(optionElement).toBeVisible({ timeout: 30000 });
+    await optionElement.click();
+    switch (option) {
+      case "Publish":
+      case "Unpublish":
+        await this.page.waitForResponse(API.changeWorkflowStatus);
+        break;
+
+      case "Delete":
+        await expect(this.page.getByText("Do you want to delete")).toBeVisible();
+        break;
+    }
+  }
+
+  async inputProperty(dataTable: DataTable) {
+    const properties = dataTable.hashes();
+    const expectedRowCount = Math.max(...properties.map((property) => Number(property.row)));
+    for (let i = 0; i < properties.length; i++) {
+      const name = properties[i].name;
+      const type = properties[i].type;
+      const required = properties[i].required;
+      const row = Number(properties[i].row);
+      let actualRowCount = await this.page.getByText("Property Name *").count();
+      if (actualRowCount < row) {
+        await this.page.getByTestId("button-add-field").click();
+        actualRowCount++;
+      }
+      const nameInput = this.page.getByTestId("items." + (row - 1) + ".name").getByRole("textbox");
+      if ((await nameInput.inputValue()) !== name) {
+        await nameInput.fill(name);
+      }
+      const typeInput = this.page.getByTestId("items." + (row - 1) + ".type").getByRole("combobox");
+      if ((await typeInput.inputValue()) !== type) {
+        await typeInput.selectOption(type);
+      }
+      const requiredElement = this.page
+        .getByText("Property Name *Property")
+        .nth(row - 1)
+        .locator("span")
+        .nth(1);
+      const requiredInput = (await requiredElement.getAttribute("data-checked")) !== null ? "true" : "false";
+      if (requiredInput !== required) {
+        await requiredElement.click();
+      }
+      if (actualRowCount < expectedRowCount) {
+        await this.page.getByTestId("button-add-field").click();
+      }
+    }
+  }
+
+  async verifyFieldInActionPopup(dataTable: DataTable) {
+    const labels = dataTable.hashes();
+    for (const { label } of labels) {
+      await expect(this.page.getByText(label, { exact: true })).toBeVisible();
+    }
+  }
+
+  // async removeProperty(dataTable: DataTable) {
+  //   const properties = dataTable.hashes();
+  //   const propertyCount = await this.page.getByText("Property Name *").count();
+  //   for (let i = 0; i < propertyCount; i++) {
+  //     const propertyName = properties[i].name;
+  //     if (
+  //       (await this.page
+  //         .getByTestId("items." + i + ".name")
+  //         .getByRole("textbox")
+  //         .inputValue()) === propertyName
+  //     ) {
+  //       this.page.getByRole("button", { name: "Remove" }).nth(i);
+  //     }
+  //   }
+  // }
+
+  async removeProperty(dataTable: DataTable) {
+    const properties = dataTable.hashes(); // Properties from the data table
+    const propertyCount = await this.page.getByText("Property Name *").count(); // Total count of properties displayed in the UI
+    for (const property of properties) {
+      const propertyName = property.name;
+      for (let i = 0; i < propertyCount; i++) {
+        // Dynamically construct the locator for each property name textbox
+        const actualProperty = this.page.getByTestId("items." + i + ".name").getByRole("textbox");
+        const actualPropertyValue = await actualProperty.inputValue();
+        // If the textbox value matches the property name, click the corresponding "Remove" button
+        if (actualPropertyValue === propertyName) {
+          const removeButton = this.page.getByRole("button", { name: "Remove" }).nth(i);
+          await removeButton.click();
+          break; // Exit inner loop after finding and clicking the "Remove" button for this property
+        }
+      }
+    }
+  }
+
+  async verifyRemovePropertyButtonStatus() {
+    const removeButton = this.page.getByRole("button", { name: "Remove" }).nth(0);
+    await expect(removeButton).toHaveAttribute("disabled");
+  }
+
+  async verifyProperty(dataTable: DataTable) {
+    const properties = dataTable.hashes();
+    const propertyCount = await this.page.getByText("Property Name *").count();
+    for (let i = 0; i < propertyCount; i++) {
+      const propertyName = properties[i].propertyName;
+      const type = properties[i].type;
+      const required = properties[i].required;
+      await expect(this.page.getByTestId("items." + i + ".name").getByRole("textbox")).toHaveValue(propertyName);
+      await expect(this.page.getByTestId("items." + i + ".type").getByRole("combobox")).toHaveValue(type);
+      const dataChecked = await this.page
+        .getByText("Property Name *Property")
+        .nth(i)
+        .locator("span")
+        .nth(1)
+        .getAttribute("data-checked");
+      const requiredInput = dataChecked !== null ? "true" : "false";
+      expect(requiredInput).toBe(required);
     }
   }
 }

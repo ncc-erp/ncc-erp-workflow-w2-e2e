@@ -1,6 +1,7 @@
 import { DataTable } from "playwright-bdd";
 import { API } from "../../data/apis";
 import { BasePage } from "../../pageObjects/base.page";
+import Button from "../../pageObjects/components/button";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { chooseFile } from "../../utils/chooseFile";
 
@@ -90,21 +91,6 @@ Then(
   }
 );
 
-Then("I should see the property display in Define Input popup", async ({ page }, dataTable: DataTable) => {
-  const properties = dataTable.hashes();
-  const propertyCount = await page.getByText("Property Name *").count();
-  for (let i = 0; i < propertyCount; i++) {
-    const propertyName = properties[i].propertyName;
-    const type = properties[i].type;
-    const required = properties[i].required;
-    await expect(page.getByTestId("items." + i + ".name").getByRole("textbox")).toHaveValue(propertyName);
-    await expect(page.getByTestId("items." + i + ".type").getByRole("combobox")).toHaveValue(type);
-    await expect(page.getByText("Property Name *Property").nth(i).locator("span").nth(1))[
-      required === "true" ? "toHaveAttribute" : "not.toHaveAttribute"
-    ]("data-checked");
-  }
-});
-
 When("I click on {string} option", async ({ page }, option: string) => {
   await page.getByRole("menuitem", { name: option }).click();
   if (option === "Publish" || option === "Unpublish") {
@@ -170,57 +156,15 @@ Then(
   }
 );
 
-When("I input property with data below", async ({ page }, dataTable: DataTable) => {
-  const properties = dataTable.hashes();
-  const expectedRowCount = Math.max(...properties.map((property) => Number(property.row)));
-  for (let i = 0; i < properties.length; i++) {
-    const name = properties[i].name;
-    const type = properties[i].type;
-    const required = properties[i].required;
-    const row = Number(properties[i].row);
-    let actualRowCount = await page.getByText("Property Name *").count();
-    if (actualRowCount < row) {
-      await page.getByTestId("button-add-field").click();
-      actualRowCount++;
-    }
-    const nameInput = page.getByTestId("items." + (row - 1) + ".name").getByRole("textbox");
-    if ((await nameInput.inputValue()) !== name) {
-      await nameInput.fill(name);
-    }
-    const typeInput = page.getByTestId("items." + (row - 1) + ".type").getByRole("combobox");
-    if ((await typeInput.inputValue()) !== type) {
-      await typeInput.selectOption(type);
-    }
-    const requiredElement = page
-      .getByText("Property Name *Property")
-      .nth(row - 1)
-      .locator("span")
-      .nth(1);
-    const requiredInput = (await requiredElement.getAttribute("data-checked")) !== null ? "true" : "false";
-    if (requiredInput !== required) {
-      await requiredElement.click();
-    }
-    if ((await page.getByText("Property Name *").count()) < expectedRowCount) {
-      await page.getByTestId("button-add-field").click();
-    }
-  }
-});
-
 When("I open Setting modal of workflow with name as {string}", async ({ page }, workflow: string) => {
   await page.getByRole("row", { name: workflow }).getByRole("button").first().click();
 });
 
-Then("I should see the property display in Action modal popup", async ({ page }, dataTable: DataTable) => {
-  const labels = dataTable.hashes();
-  for (const { label } of labels) {
-    await expect(page.getByText(label, { exact: true })).toBeVisible();
+When("I click on {string} button", async ({ page }, buttonName: string) => {
+  const button = new Button(page);
+  await button.verifyButtonDisplay(buttonName);
+  await button.clickButtonByName(buttonName);
+  if (buttonName === "Yes") {
+    await expect(page.getByText("Do you want to delete")).toBeHidden();
   }
 });
-
-When("I click on {string} button", async ({ PageObjects }, buttonName: string) => {
-  await PageObjects.RequestTemplatePage.button.clickButtonByName(buttonName);
-});
-
-// When("I click on Remove button of property", async ({}, dataTable: DataTable) => {
-//   // const properties = dataTable.hashes();
-// });
