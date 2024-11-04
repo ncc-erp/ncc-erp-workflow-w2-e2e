@@ -3,6 +3,7 @@ import { API } from "../../data/apis";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
+import { checkColor } from "../../utils/checkColor";
 import { chooseFile } from "../../utils/chooseFile";
 import { convertHexToRGB } from "../../utils/convertHexToRGB";
 
@@ -54,14 +55,6 @@ Then("I should see a file with name as {string} downloaded successfully", async 
   expect(download.suggestedFilename()).toBe(fileName);
 });
 
-async function checkColor(element, cssProperty, rgbColors) {
-  const cssValue = await element.evaluate((el: Element, cssProperty) => {
-    return window.getComputedStyle(el).getPropertyValue(cssProperty);
-  }, cssProperty);
-  const expectedColor = `rgb(${rgbColors.red}, ${rgbColors.green}, ${rgbColors.blue})`;
-  expect(cssValue).toContain(expectedColor);
-}
-
 Then(
   "I should see the color as {string}, title as {string} in {string} workflow Define Input popup",
   async ({ page }, color: string, title: string, name: string) => {
@@ -73,7 +66,7 @@ Then(
         .locator("div")
         .nth(3),
       "background",
-      expectedRGBcolor
+      await expectedRGBcolor
     );
     await expect(page.getByTestId("title").getByRole("textbox")).toHaveValue(title);
     await expect(page.getByLabel("Define Workflow Input")).toContainText(name);
