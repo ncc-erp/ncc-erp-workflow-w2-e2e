@@ -48,3 +48,20 @@ Feature: WFH Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[wfhRequest4].response.id" with status "Approved" on my request page
+
+  @user
+  Rule: As a user, I want to see a WFH is rejected
+
+    Background:
+        Given  User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest4]" success
+
+    Scenario: I should see the request with rejected status when PM rejected
+        When "PM" reject the request "*global[wfhRequest4].response.id", current state "PM Reviews" success with reason "reason test"
+        And I am on "MyRequestPage"
+        Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
+
+    Scenario: I should see the request with rejected status when GDVPDN rejected
+        When "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
+        And "GDVPDN" reject the request "*global[wfhRequest4].response.id", current state "Branch Manager Review" success with reason "reason test"
+        And I am on "MyRequestPage"
+        Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page

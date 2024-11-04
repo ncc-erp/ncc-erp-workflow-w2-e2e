@@ -36,12 +36,12 @@ export default defineConfig({
       },
     ],
     ["html", { open: "never" }],
-    [
-      "@testomatio/reporter/lib/adapter/playwright.js",
-      {
-        apiKey: process.env.TESTOMATIO,
-      },
-    ],
+    // [
+    //   "@testomatio/reporter/lib/adapter/playwright.js",
+    //   {
+    //     apiKey: process.env.TESTOMATIO,
+    //   },
+    // ],
     ["json", { outputFile: "results.json" }],
     cucumberReporter("html", { outputFile: "cucumber-report/report.html" }),
     // ["allure-playwright"]

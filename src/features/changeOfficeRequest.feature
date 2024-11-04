@@ -70,13 +70,13 @@ Feature: Change Office Request
   @user
   Rule: As user, I want to see a Change Office Request is rejected
 
-    Scenario Outline: I should see the request with rejected status on my requests
+    Scenario Outline: I should see the request with rejected status when <userType> rejected
       Given User create "Change Office Request" with "*testData[random_change_office_request]__global[<key>]" success
       When "<userType>" reject the request "*global[<key>].response.id", current state "<state>" success with reason "<reason>"
       And I am on "MyRequestPage"
       Then I should see "*global[<key>].response.id" with status "Rejected" on my request page
-# title-format: I should see the request with rejected status when <userType> rejected
 
+      # title-format: As user, I want to see a Change Office Request is rejected > I should see the request with rejected status when <userType> rejected
       Examples:
         | userType | state                   | reason        | key  |
         | PM       | PM Reviews              | reason test 1 | key1 |
