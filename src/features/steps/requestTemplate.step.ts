@@ -1,4 +1,5 @@
 import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
+import { API } from "../../data/apis";
 import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authUserFile } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
@@ -106,4 +107,5 @@ Then("I should see the remaining Remove button as disabled status", async ({ Pag
 Then("I should see the property display in Define Input popup", async ({ PageObjects }, dataTable: DataTable) => {
   await PageObjects.RequestTemplatePage.verifyProperty(dataTable);
   await PageObjects.RequestTemplatePage.button.clickButtonByName("Save");
+  await PageObjects.RequestTemplatePage.page.waitForResponse(API.saveWorkflowInput);
 });

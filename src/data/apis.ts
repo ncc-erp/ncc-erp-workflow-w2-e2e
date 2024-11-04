@@ -5,4 +5,5 @@ export const API = {
   changeWorkflowStatus: "api/app/workflow-definition/change-workflow-status",
   listAll: "api/app/workflow-definition/list-all",
   workflowInputDefinition: "api/app/external-resource/workflow-input-definition-property-types",
+  saveWorkflowInput: "api/app/workflow-definition/save-workflow-input-definition",
 };

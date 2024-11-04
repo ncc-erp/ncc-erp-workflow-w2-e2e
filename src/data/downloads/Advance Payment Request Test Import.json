@@ -4,14 +4,14 @@
     "titleTemplate": "Advance Payment Request: {{AmountOfMoney}} VNĐ"
   },
   "defineJson": {
-    "definitionId": "3a15ceb6-9d15-e034-30c1-7093792a3003",
-    "versionId": "3a15ceb6-9d15-5534-4ac1-91c8aa2ef70c",
+    "definitionId": "3a1608c7-a8d0-ba07-b965-339eee31debd",
+    "versionId": "3a1608c7-a8d0-d3db-58c3-50e2449ac04b",
     "tenantId": null,
-    "name": "Advance Payment Request",
-    "displayName": "Advance Payment Request",
+    "name": "Advance Payment Request Test Import",
+    "displayName": "Advance Payment Request Test Import Display Name",
     "description": null,
     "channel": null,
-    "version": 3,
+    "version": 2,
     "variables": {
       "data": {}
     },
@@ -22,7 +22,7 @@
     "isSingleton": false,
     "persistenceBehavior": "Suspended",
     "deleteCompletedInstances": false,
-    "isPublished": true,
+    "isPublished": false,
     "isLatest": true,
     "tag": "",
     "createdAt": "2024-10-08T03:23:49.306083Z",
@@ -658,20 +658,20 @@
         "outcome": "Done"
       }
     ],
-    "id": "3a15ceb6-9d15-5534-4ac1-91c8aa2ef70c"
+    "id": "3a1608c7-a8d0-d3db-58c3-50e2449ac04b"
   },
   "propertyDefinitions": [
     {
       "name": "AmountOfMoney",
       "type": "Text",
       "isRequired": true,
-      "id": "7759c971-7e66-473e-9d03-158cf4ab035b"
+      "id": "cc1e7a17-bf41-4e7f-bcab-cfd80f0d1ca4"
     },
     {
       "name": "Reason",
       "type": "RichText",
       "isRequired": true,
-      "id": "ee31b46f-4e97-4b9f-8309-b05d5f078623"
+      "id": "4d84fff0-a2bc-41a5-8d56-0dcced9e3cca"
     }
   ]
 }

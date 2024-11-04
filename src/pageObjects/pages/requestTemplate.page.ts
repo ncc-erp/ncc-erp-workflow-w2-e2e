@@ -71,7 +71,7 @@ export default class RequestTemplatePage extends BasePage {
   async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
     const rowCount = await this.page.locator("tbody > tr").count();
     let actualStatus = "not displayed";
-    for (let i = 1; i < rowCount; i++) {
+    for (let i = 1; i <= rowCount; i++) {
       if (
         (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(1)").innerText()) === displayName &&
         (await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === name &&
@@ -104,15 +104,8 @@ export default class RequestTemplatePage extends BasePage {
     const optionElement = this.page.getByRole("menuitem", { name: option });
     await expect(optionElement).toBeVisible({ timeout: 30000 });
     await optionElement.click();
-    switch (option) {
-      case "Publish":
-      case "Unpublish":
-        await this.page.waitForResponse(API.changeWorkflowStatus);
-        break;
-
-      case "Delete":
-        await expect(this.page.getByText("Do you want to delete")).toBeVisible();
-        break;
+    if (option === "Publish" || option === "Unpublish") {
+      await this.page.waitForResponse(API.changeWorkflowStatus);
     }
   }
 

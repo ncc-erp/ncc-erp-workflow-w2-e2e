@@ -1,5 +1,5 @@
+import path from "path";
 import { DataTable } from "playwright-bdd";
-import { API } from "../../data/apis";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
@@ -52,6 +52,7 @@ Then("I should see a file with name as {string} downloaded successfully", async 
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export" }).click();
   const download = await downloadPromise;
+  await download.saveAs(path.join(__dirname, `../../data/downloads`, download.suggestedFilename()));
   expect(download.suggestedFilename()).toBe(fileName);
 });
 
@@ -72,14 +73,6 @@ Then(
     await expect(page.getByLabel("Define Workflow Input")).toContainText(name);
   }
 );
-
-When("I click on {string} option", async ({ page }, option: string) => {
-  await page.getByRole("menuitem", { name: option }).click();
-  if (option === "Publish" || option === "Unpublish") {
-    await page.waitForResponse(API.changeWorkflowStatus);
-    await new Promise<void>((resolve) => setTimeout(resolve, 120000)); // Wait 2 minutes after response
-  }
-});
 
 Then(
   "I should see Published field of the {string} workflow as {string}",
