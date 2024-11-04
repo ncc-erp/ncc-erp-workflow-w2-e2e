@@ -103,9 +103,10 @@ export default class RequestTemplatePage extends BasePage {
   async clickOptionInSettingModalPopup(option: string) {
     const optionElement = this.page.getByRole("menuitem", { name: option });
     await expect(optionElement).toBeVisible({ timeout: 30000 });
-    await optionElement.click();
     if (option === "Publish" || option === "Unpublish") {
-      await this.page.waitForResponse(API.changeWorkflowStatus);
+      await Promise.all([this.page.waitForResponse(API.changeWorkflowStatus), optionElement.click()]);
+    } else {
+      await optionElement.click();
     }
   }
 
