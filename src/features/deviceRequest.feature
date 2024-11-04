@@ -48,3 +48,20 @@ Feature: Device Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[deviceRequest4].response.id" with status "Approved" on my request page
+
+  @user
+  Rule: As a user, I want to see a Device Request is rejected
+
+    Background:
+        Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest4]" success
+
+    Scenario: I should see the request with rejected status when PM rejected
+        Given "PM" reject the request "*global[deviceRequest4].response.id", current state "PM Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[deviceRequest4].response.id" with status "Rejected" on my request page
+
+    Scenario: I should see the request with rejected status when IT rejected
+        Given "PM" approve the request "*global[deviceRequest4].response.id", current state "PM Reviews" success
+        And "IT" reject the request "*global[deviceRequest4].response.id", current state "IT Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[deviceRequest4].response.id" with status "Rejected" on my request page

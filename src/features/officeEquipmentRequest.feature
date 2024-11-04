@@ -48,3 +48,20 @@ Feature: Office Equipment Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[oer3].response.id" with status "Approved" on my request page
+
+  @user
+  Rule: As a user, I want to see an Office Equipment Request is rejected
+
+    Background:
+        Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer3]" success
+
+    Scenario: I should see the request with rejected status when GDVPDN rejected
+        Given "GDVPDN" reject the request "*global[oer3].response.id", current state "Branch Manager Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[oer3].response.id" with status "Rejected" on my request page
+
+    Scenario: I should see the request with rejected status when IT rejected
+        Given "GDVPDN" approve the request "*global[oer3].response.id", current state "Branch Manager Reviews" success
+        And "IT" reject the request "*global[oer3].response.id", current state "IT Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[oer3].response.id" with status "Rejected" on my request page

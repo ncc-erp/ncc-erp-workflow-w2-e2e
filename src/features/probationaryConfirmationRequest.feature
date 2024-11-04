@@ -68,3 +68,26 @@ Feature: Probationary Confirmation Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[pcr4].response.id" with status "Approved" on my request page
+
+  @user
+  Rule: As user, I want to see a Probationary Confirmation Request is rejected
+
+    Background:
+        Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr4]" success
+
+    Scenario: I should see the request with rejected status when GDVPDN rejected
+        Given "GDVPDN" reject the request "*global[pcr4].response.id", current state "HoO Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
+
+    Scenario: I should see the request with rejected status when PM rejected
+        Given "PM" reject the request "*global[pcr4].response.id", current state "PM Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
+
+    Scenario: I should see the request with rejected status when CEO rejected
+        Given "GDVPDN" approve the request "*global[pcr4].response.id" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
+        And "PM" approve the request "*global[pcr4].response.id" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
+        And "CEO" reject the request "*global[pcr4].response.id", current state "CEO Reviews" success with reason "reason test"
+        When I am on "MyRequestPage"
+        Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
