@@ -53,18 +53,6 @@ Then("I should see a file with name as {string} downloaded successfully", async 
   expect(download.suggestedFilename()).toBe(fileName);
 });
 
-function convertHexToRGB(hex) {
-  hex = hex.replace(/^#/, "");
-  const red = parseInt(hex.substring(0, 2), 16);
-  const green = parseInt(hex.substring(2, 4), 16);
-  const blue = parseInt(hex.substring(4, 6), 16);
-  return {
-    red: red,
-    green: green,
-    blue: blue,
-  };
-}
-
 async function checkColor(element, cssProperty, rgbColors) {
   const cssValue = await element.evaluate((el: Element, cssProperty) => {
     return window.getComputedStyle(el).getPropertyValue(cssProperty);
@@ -95,6 +83,7 @@ When("I click on {string} option", async ({ page }, option: string) => {
   await page.getByRole("menuitem", { name: option }).click();
   if (option === "Publish" || option === "Unpublish") {
     await page.waitForResponse(API.changeWorkflowStatus);
+    await new Promise<void>((resolve) => setTimeout(resolve, 120000)); // Wait 2 minutes after response
   }
 });
 
