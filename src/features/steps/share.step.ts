@@ -4,6 +4,7 @@ import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { chooseFile } from "../../utils/chooseFile";
+import { convertHexToRGB } from "../../utils/convertHexToRGB";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();

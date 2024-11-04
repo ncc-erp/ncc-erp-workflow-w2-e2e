@@ -1,6 +1,4 @@
-import { Page } from "@playwright/test";
-
-export const convertHexToRGB = async (page: Page, hex) => {
+export const convertHexToRGB = async (hex: string) => {
   hex = hex.replace(/^#/, "");
   const red = parseInt(hex.substring(0, 2), 16);
   const green = parseInt(hex.substring(2, 4), 16);
