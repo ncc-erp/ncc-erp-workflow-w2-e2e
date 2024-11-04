@@ -56,12 +56,12 @@ Feature: Office Equipment Request
         Given User create "Office Equipment Request" with "*testData[random_office_equipment_request]__global[oer3]" success
 
     Scenario: I should see the request with rejected status when GDVPDN rejected
-        Given "GDVPDN" reject the request "*global[oer3].response.id", current state "Branch Manager Reviews" success with reason "reason test"
-        When I am on "MyRequestPage"
+        When "GDVPDN" reject the request "*global[oer3].response.id", current state "Branch Manager Reviews" success with reason "reason test"
+        And I am on "MyRequestPage"
         Then I should see "*global[oer3].response.id" with status "Rejected" on my request page
 
     Scenario: I should see the request with rejected status when IT rejected
-        Given "GDVPDN" approve the request "*global[oer3].response.id", current state "Branch Manager Reviews" success
+        When "GDVPDN" approve the request "*global[oer3].response.id", current state "Branch Manager Reviews" success
         And "IT" reject the request "*global[oer3].response.id", current state "IT Reviews" success with reason "reason test"
-        When I am on "MyRequestPage"
+        And I am on "MyRequestPage"
         Then I should see "*global[oer3].response.id" with status "Rejected" on my request page

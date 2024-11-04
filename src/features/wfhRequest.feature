@@ -56,12 +56,12 @@ Feature: WFH Request
         Given  User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest4]" success
 
     Scenario: I should see the request with rejected status when PM rejected
-        Given "PM" reject the request "*global[wfhRequest4].response.id", current state "PM Reviews" success with reason "reason test"
-        When I am on "MyRequestPage"
+        When "PM" reject the request "*global[wfhRequest4].response.id", current state "PM Reviews" success with reason "reason test"
+        And I am on "MyRequestPage"
         Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
 
     Scenario: I should see the request with rejected status when GDVPDN rejected
-        Given "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
+        When "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
         And "GDVPDN" reject the request "*global[wfhRequest4].response.id", current state "Branch Manager Review" success with reason "reason test"
-        When I am on "MyRequestPage"
+        And I am on "MyRequestPage"
         Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
