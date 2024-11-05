@@ -89,9 +89,9 @@ export default class RequestTemplatePage extends BasePage {
     await this.form.fillFormFieldByLabel(label, value, locator);
   }
 
-  async openPopupModal(workflowName: string, type: "Setting" | "Action") {
+  async openPopupModal(workflowDisplayName: string, type: "Setting" | "Action") {
     const buttonIndex = type === "Setting" ? 0 : 1;
-    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(buttonIndex).click();
+    await this.page.getByRole("row", { name: workflowDisplayName }).getByRole("button").nth(buttonIndex).click();
   }
 
   // async exportWorkflowInput(workflowName: string) {
@@ -104,7 +104,11 @@ export default class RequestTemplatePage extends BasePage {
     const optionElement = this.page.getByRole("menuitem", { name: option });
     await expect(optionElement).toBeVisible({ timeout: 30000 });
     if (option === "Publish" || option === "Unpublish") {
-      await Promise.all([this.page.waitForResponse(API.changeWorkflowStatus), optionElement.click()]);
+      await Promise.all([
+        this.page.waitForResponse(API.changeWorkflowStatus),
+        this.page.waitForResponse(API.listAll),
+        optionElement.click(),
+      ]);
     } else {
       await optionElement.click();
     }
@@ -153,22 +157,6 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
-  // async removeProperty(dataTable: DataTable) {
-  //   const properties = dataTable.hashes();
-  //   const propertyCount = await this.page.getByText("Property Name *").count();
-  //   for (let i = 0; i < propertyCount; i++) {
-  //     const propertyName = properties[i].name;
-  //     if (
-  //       (await this.page
-  //         .getByTestId("items." + i + ".name")
-  //         .getByRole("textbox")
-  //         .inputValue()) === propertyName
-  //     ) {
-  //       this.page.getByRole("button", { name: "Remove" }).nth(i);
-  //     }
-  //   }
-  // }
-
   async removeProperty(dataTable: DataTable) {
     const properties = dataTable.hashes(); // Properties from the data table
     const propertyCount = await this.page.getByText("Property Name *").count(); // Total count of properties displayed in the UI
@@ -178,11 +166,11 @@ export default class RequestTemplatePage extends BasePage {
         // Dynamically construct the locator for each property name textbox
         const actualProperty = this.page.getByTestId("items." + i + ".name").getByRole("textbox");
         const actualPropertyValue = await actualProperty.inputValue();
-        // If the textbox value matches the property name, click the corresponding "Remove" button
+        // If the UI propertyValue value matches the property name in data table, click the corresponding "Remove" button
         if (actualPropertyValue === propertyName) {
           const removeButton = this.page.getByRole("button", { name: "Remove" }).nth(i);
           await removeButton.click();
-          break; // Exit inner loop after finding and clicking the "Remove" button for this property
+          break;
         }
       }
     }

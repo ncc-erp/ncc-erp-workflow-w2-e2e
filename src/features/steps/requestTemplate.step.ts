@@ -1,5 +1,4 @@
 import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
-import { API } from "../../data/apis";
 import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authUserFile } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
@@ -61,9 +60,9 @@ Then(
 );
 
 When(
-  "I open Setting modal popup of workflow with name as {string} and click on {string} option",
-  async ({ PageObjects }, workflowName: string, option: string) => {
-    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Setting");
+  "I open Setting modal popup of workflow with display name as {string} and click on {string} option",
+  async ({ PageObjects }, workflowDisplayName: string, option: string) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowDisplayName, "Setting");
     await PageObjects.RequestTemplatePage.clickOptionInSettingModalPopup(option);
   }
 );
@@ -74,9 +73,9 @@ When("I {string} a workflow with name as {string}", async ({ PageObjects }, acti
 });
 
 When(
-  "I input property with data below in Define Input popup of workflow with name as {string}",
-  async ({ PageObjects }, workflowName: string, dataTable: DataTable) => {
-    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Setting");
+  "I input property with data below in Define Input popup of workflow with display name as {string}",
+  async ({ PageObjects }, workflowDisplayName: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowDisplayName, "Setting");
     await PageObjects.RequestTemplatePage.clickOptionInSettingModalPopup("Define Input");
     await PageObjects.RequestTemplatePage.inputProperty(dataTable);
     await PageObjects.RequestTemplatePage.button.clickButtonByName("Save");
@@ -84,10 +83,11 @@ When(
 );
 
 Then(
-  "I open Action modal popup of workflow with name as {string} to see the property display",
-  async ({ PageObjects }, workflowName: string, dataTable: DataTable) => {
-    await PageObjects.RequestTemplatePage.openPopupModal(workflowName, "Action");
+  "I open Action modal popup of workflow with display name as {string} to see the property display",
+  async ({ PageObjects }, workflowDisplayName: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.openPopupModal(workflowDisplayName, "Action");
     await PageObjects.RequestTemplatePage.verifyFieldInActionPopup(dataTable);
+    await PageObjects.RequestTemplatePage.popup.closePopup(workflowDisplayName);
   }
 );
 
@@ -107,5 +107,4 @@ Then("I should see the remaining Remove button as disabled status", async ({ Pag
 Then("I should see the property display in Define Input popup", async ({ PageObjects }, dataTable: DataTable) => {
   await PageObjects.RequestTemplatePage.verifyProperty(dataTable);
   await PageObjects.RequestTemplatePage.button.clickButtonByName("Save");
-  await PageObjects.RequestTemplatePage.page.waitForResponse(API.saveWorkflowInput);
 });

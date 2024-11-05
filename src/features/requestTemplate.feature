@@ -22,8 +22,8 @@ Feature: User create a new request
 
     Scenario: I can create a new workflow success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      # Then I should see "Create Workflow Successfully" toast message display
-      Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
+      Then I should see "Create Workflow Successfully" toast message display
+      And I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
       And I delete the record with name as "<name>"
 
       Examples:
@@ -41,56 +41,79 @@ Feature: User create a new request
 
     Scenario: I can export a workflow input success
       When I import a "workflow" with file path as "<path>"
-      And I open Setting modal popup of workflow with name as "<name>" and click on "Define Input" option
+      And I open Setting modal popup of workflow with display name as "<displayName>" and click on "Define Input" option
       And I click on "Export" button
       Then I should see a file with name as "<name>.json" downloaded successfully
-      And I click on the close icon in popup with label as "Define Workflow Input"
       And I delete the record with name as "<name>"
 
       Examples:
-        | name                                | path                                            |
-        | Advance Payment Request Test Import | upload/advance-payment-request-test-import.json |
+        | name                                | displayName                                      | path                                            |
+        | Advance Payment Request Test Import | Advance Payment Request Test Import Display Name | upload/advance-payment-request-test-import.json |
 
     Scenario: I can import a workflow input success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      And I open Setting modal popup of workflow with name as "<name>" and click on "Define Input" option
+      And I open Setting modal popup of workflow with display name as "<displayName>" and click on "Define Input" option
       And I import a "workflow input" with file path as "<path>"
-      # Then I should see "Import workflow data successfully!" toast message display
-      Then I should see the color as "#01713e", title as "<title>" in "<name>" workflow Define Input popup
+      Then I should see "Import workflow data successfully!" toast message display
+      And I should see the color as "<color>", title as "<title>" in "<name>" workflow Define Input popup
       And I should see the property display in Define Input popup
         | propertyName  | type     | required |
         | AmountOfMoney | Text     | true     |
         | Reason        | RichText | true     |
-      And I open Action modal popup of workflow with name as "<name>" to see the property display
+      And I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label             |
         | Amount Of Money * |
         | Reason *          |
-      And I click on the close icon in popup with label as "<displayName>"
       And I delete the record with name as "<name>"
 
       Examples:
-        | name              | displayName                    | title                                          | path                                           |
-        | Test Import Input | Test Import Input Display Name | Advance Payment Request: {{AmountOfMoney}} VNĐ | upload/advance-payment-request-test-input.json |
+        | name              | displayName                    | title                                          | path                                           | color   |
+        | Test Import Input | Test Import Input Display Name | Advance Payment Request: {{AmountOfMoney}} VNĐ | upload/advance-payment-request-test-input.json | #01713e |
 
-    Scenario: I can publish/unpublish a workflow success
+    @mode:serial
+    @admin
+  Rule: Change workflow status
+    Background:
+      Given I am on "RequestTemplatePage"
+
+    Scenario: I can publish a workflow success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
       And I "Publish" a workflow with name as "<name>"
       Then I should see Published field of the "<name>" workflow as "true"
-      And I "Unpublish" a workflow with name as "<name>"
-      And I should see Published field of the "<name>" workflow as "false"
-      And I delete the record with name as "<name>"
+
       Examples:
         | name         | displayName               |
         | Test Publish | Test Publish Display Name |
 
-    Scenario: I can cancel delete/delete a workflow success
+    Scenario: I can unpublish a workflow success
+      When I "Unpublish" a workflow with name as "<name>"
+      Then I should see Published field of the "<name>" workflow as "false"
+      And I delete the record with name as "<name>"
+
+      Examples:
+        | name         |
+        | Test Publish |
+
+    @mode:serial
+    @admin
+  Rule: Delete workflow function
+    Background:
+      Given I am on "RequestTemplatePage"
+
+    Scenario: I can cancel delete a workflow successfully
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      And I open Setting modal popup of workflow with name as "<name>" and click on "Delete" option
+      And I open Setting modal popup of workflow with display name as "<displayName>" and click on "Delete" option
       And I click on "Cancel" button
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
-      And I open Setting modal popup of workflow with name as "<name>" and click on "Delete" option
+
+      Examples:
+        | name        | displayName              | publish |
+        | Test Delete | Test Delete Display Name | false   |
+
+    Scenario: I can delete a workflow successfully
+      When I open Setting modal popup of workflow with display name as "<displayName>" and click on "Delete" option
       And I click on "Yes" button
-      And I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "not displayed"
+      Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "not displayed"
 
       Examples:
         | name        | displayName              | publish |
@@ -102,7 +125,7 @@ Feature: User create a new request
       Given I am on "RequestTemplatePage"
 
     Scenario: Verify Property Type list
-      When I open Setting modal popup of workflow with name as "<name>" and click on "Define Input" option
+      When I open Setting modal popup of workflow with display name as "<displayName>" and click on "Define Input" option
       And I click on Property Type dropdown list of property "<property>"
       Then I see options display below Property Type dropdown list of property "<property>"
         | Type          |
@@ -117,48 +140,45 @@ Feature: User create a new request
         | MultiDatetime |
 
       Examples:
-        | name                    | property      |
+        | displayName             | property      |
         | Advance Payment Request | AmountOfMoney |
 
     Scenario: I can add property to workflow
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      And I input property with data below in Define Input popup of workflow with name as "<name>"
+      And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name        | type     | required |
         | 1   | MoneyAmount | RichText | true     |
         | 2   | Reason      | RichText | false    |
         | 3   | TestInput   | RichText | true     |
-      Then I open Action modal popup of workflow with name as "<name>" to see the property display
+      Then I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label          |
         | Money Amount * |
         | Reason         |
         | Test Input *   |
-      And I click on the close icon in popup with label as "<displayName>"
       And I delete the record with name as "<name>"
 
       Examples:
         | name                               | displayName                                     |
         | Advance Payment Request Test Input | Advance Payment Request Test Input Display Name |
 
+    # To do: @mode serial with add property scenario for avoid duplicate
     Scenario: I can edit a workflow property
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      And I input property with data below in Define Input popup of workflow with name as "<name>"
+      And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name        | type     | required |
         | 1   | MoneyAmount | RichText | true     |
         | 2   | Reason      | RichText | false    |
         | 3   | TestInput   | RichText | true     |
-      # should add wait for element to be visible
-      And I input property with data below in Define Input popup of workflow with name as "<name>"
+      And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name          | type     | required |
         | 1   | AmountOfMoney | Text     | true     |
         | 2   | Reason        | Text     | true     |
         | 3   | TestInput     | RichText | true     |
-      # should group 2 step below in 1
-      Then I open Action modal popup of workflow with name as "<name>" to see the property display
+      Then I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label             |
         | Amount Of Money * |
         | Reason *          |
         | Test Input *      |
-      And I click on the close icon in popup with label as "<displayName>"
       And I delete the record with name as "<name>"
 
       Examples:
@@ -167,7 +187,7 @@ Feature: User create a new request
 
     Scenario: I cannot remove all property of a workflow
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      And I input property with data below in Define Input popup of workflow with name as "<name>"
+      And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name        | type     | required |
         | 1   | MoneyAmount | RichText | true     |
         | 2   | Reason      | RichText | false    |
@@ -178,10 +198,9 @@ Feature: User create a new request
       And I should see the property display in Define Input popup
         | propertyName | type     | required |
         | Reason       | RichText | false    |
-      And I open Action modal popup of workflow with name as "<name>" to see the property display
+      And I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label  |
         | Reason |
-      And I click on the close icon in popup with label as "<displayName>"
       And I delete the record with name as "<name>"
 
       Examples:

@@ -2,6 +2,7 @@ import path from "path";
 import { DataTable } from "playwright-bdd";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
+import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { checkColor } from "../../utils/checkColor";
 import { chooseFile } from "../../utils/chooseFile";
@@ -39,7 +40,7 @@ Then("I delete the record with name as {string}", async ({ page }, expectedName:
 });
 
 Then("I should see {string} toast message display", async ({ page }, message: string) => {
-  const actualMsg = page.locator("#toast-1").nth(1);
+  const actualMsg = page.locator('[id^="toast-"]').nth(1);
   await expect(actualMsg).toHaveText(message);
 });
 
@@ -54,6 +55,8 @@ Then("I should see a file with name as {string} downloaded successfully", async 
   const download = await downloadPromise;
   await download.saveAs(path.join(__dirname, `../../data/downloads`, download.suggestedFilename()));
   expect(download.suggestedFilename()).toBe(fileName);
+  const popup = new Popup(page);
+  await popup.closePopup("Define Workflow Input");
 });
 
 Then(

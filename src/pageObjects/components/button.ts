@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+import { API } from "../../data/apis";
 import { BaseComponent } from "../base.component";
 
 export default class Button extends BaseComponent {
@@ -8,6 +9,16 @@ export default class Button extends BaseComponent {
   }
 
   async clickButtonByName(name: string) {
-    await this.page.getByRole("button", { name: `${name}` }).click();
+    const button = this.page.getByRole("button", { name: `${name}` });
+    await this.verifyButtonDisplay(name);
+    if (name === "Save") {
+      await Promise.all([
+        this.page.waitForResponse(API.saveWorkflowInput),
+        this.page.waitForResponse(API.listAll),
+        button.click(),
+      ]);
+    } else {
+      await button.click();
+    }
   }
 }
