@@ -43,8 +43,13 @@ class BrowserControlType {
 }
 
 export const BrowserControl: BrowserControlType = new BrowserControlType();
+// share step data
+export type WorldObject = {
+  DataTest: Record<string, string>;
+  // DataTests: Record<string, string>[];
+};
 // pass page object to test
-export const test = base.extend<{ PageObjects: PageObjects }>({
+export const test = base.extend<{ PageObjects: PageObjects; WorldObject: WorldObject }>({
   storageState: async ({ $tags, storageState }, use) => {
     // reset storage state for features/scenarios with @noauth tag
 
@@ -61,13 +66,20 @@ export const test = base.extend<{ PageObjects: PageObjects }>({
     const pages: PageObjects = convertToPageObjects(page);
     await use(pages);
   },
+  WorldObject: async ({}, use) => {
+    await use({
+      // init
+      DataTest: {},
+      // DataTests: [],
+    });
+  },
 });
 
 export { expect, Locator, Page, Response } from "@playwright/test";
 
 export const { Given: GivenBase, When: WhenBase, Then: ThenBase } = createBdd(test);
 // override support bdd
-type FixtureType = { PageObjects: PageObjects; page: Page; browser: Browser };
+type FixtureType = { PageObjects: PageObjects; WorldObject: WorldObject; page: Page; browser: Browser };
 export const Given = (
   pattern: DefineStepPattern,
   fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>
@@ -95,9 +107,9 @@ export const Then = (
 // private function
 
 const proxyFn = (fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>) => {
-  return ({ PageObjects, page, browser }, ...args) => {
-    const data = convertDataTest(args);
-    return fn({ PageObjects, page, browser }, ...data).then((response) => {
+  return ({ PageObjects, WorldObject, page, browser }, ...args) => {
+    const data = convertDataTest(args, WorldObject);
+    return fn({ PageObjects, WorldObject, page, browser }, ...data).then((response) => {
       if (response) {
         // set global
         const key = args.find((f) => typeof f === "string" && f.match(/__global\[(.+)\]/));
@@ -179,9 +191,27 @@ const convertDataTestWithString = (key: string) => {
   return key;
 };
 
-const convertDataTest = (keys: any[]) => {
+// More comprehensive version
+function parseString(str) {
+  // Stricter regex for validation
+  const validationRegex = /^<[^<>]+>$/;
+  const extractRegex = /<(.*?)>/;
+
+  return {
+    isValid: validationRegex.test(str),
+    content: str.match(extractRegex)?.[1] || null,
+  };
+}
+
+const convertDataTest = (keys: any[], worldObject: WorldObject) => {
   return keys.map((key) => {
     if (typeof key === "string") {
+      // should get from worldObject get and return
+
+      const str = parseString(key);
+      if (str.isValid) {
+        return convertDataTestWithString(worldObject.DataTest[str.content]);
+      }
       return convertDataTestWithString(key);
     }
     if (typeof key === "object" && key instanceof DataTable) {

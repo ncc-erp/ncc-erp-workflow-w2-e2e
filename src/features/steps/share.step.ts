@@ -12,10 +12,6 @@ Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
 });
 
-Then("I should see in title {string}", async ({ PageObjects }, title: string) => {
-  await PageObjects.LoginPage.verifyTitle(title);
-});
-
 When(
   "I login with username {string} and password {string}",
   async ({ PageObjects }, username: string, password: string) => {
@@ -146,4 +142,15 @@ When("I click on {string} button", async ({ page }, buttonName: string) => {
   if (buttonName === "Yes") {
     await expect(page.getByText("Do you want to delete")).toBeHidden();
   }
+});
+
+// support only one row now
+Given("Following test data", async ({ WorldObject }, dataTest: DataTable) => {
+  // set test data
+  const data = dataTest.hashes();
+  if (data.length === 0) {
+    throw new Error("test data is invalid");
+  }
+  // WorldObject.DataTests = data;
+  WorldObject.DataTest = data.at(0);
 });
