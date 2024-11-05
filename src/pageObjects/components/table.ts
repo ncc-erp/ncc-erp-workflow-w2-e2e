@@ -43,7 +43,6 @@ export default class Table extends BaseComponent {
 
   async clickSettingButtonById(id: string) {
     const row = this.host.locator(`[data-id="${id}"]`);
-    await expect(row).toBeVisible();
     await row.locator('[id^="menu-button"]').click();
   }
 }

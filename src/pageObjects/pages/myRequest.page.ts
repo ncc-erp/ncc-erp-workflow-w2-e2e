@@ -5,14 +5,14 @@ import MyRequest from "./../components/myRequests";
 import RequestSettingMenu from "./../components/requestSettingMenu";
 export default class MyRequestPage extends BasePage {
   public table: Table;
-  public MyRequest: MyRequest;
-  public RequestSettingMenu: RequestSettingMenu;
+  public myRequest: MyRequest;
+  public requestSettingMenu: RequestSettingMenu;
 
   constructor(readonly page: Page) {
     super(page, "/my-requests");
     this.table = new Table(page);
-    this.MyRequest = new MyRequest(page);
-    this.RequestSettingMenu = new RequestSettingMenu(page);
+    this.myRequest = new MyRequest(page);
+    this.requestSettingMenu = new RequestSettingMenu(page);
   }
 
   async filterByStatus(status: string) {
@@ -20,13 +20,13 @@ export default class MyRequestPage extends BasePage {
     await this.page.getByRole("combobox").nth(1).selectOption(status);
   }
 
-  async showAllRequests() {
-    await this.MyRequest.onlyMyRequestBtn.click();
+  async toggleRequestsView() {
+    await this.myRequest.onlyMyRequestBtn.click();
   }
 
   async cancelRequest(id: string) {
     await this.table.clickSettingButtonById(id);
-    await this.RequestSettingMenu.cancelBtn.click();
-    await this.RequestSettingMenu.conrfirmYesBtn.click();
+    await this.requestSettingMenu.cancelBtn.click();
+    await this.requestSettingMenu.conrfirmYesBtn.click();
   }
 }
