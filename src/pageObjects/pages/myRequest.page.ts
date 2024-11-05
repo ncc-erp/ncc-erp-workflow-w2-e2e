@@ -20,6 +20,11 @@ export default class MyRequestPage extends BasePage {
     await this.page.getByRole("combobox").nth(1).selectOption(status);
   }
 
+  async selectRowPerPage(number: string) {
+    // todo refactor
+    await this.page.getByRole("combobox").nth(2).selectOption(number);
+  }
+
   async toggleRequestsView() {
     await this.myRequest.onlyMyRequestBtn.click();
   }

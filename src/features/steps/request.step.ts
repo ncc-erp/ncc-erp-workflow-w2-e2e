@@ -9,6 +9,7 @@ Then(
   "I should see {TestData} with status {string} on my request page",
   async ({ PageObjects }, id: string, status: string) => {
     await PageObjects.MyRequestPage.filterByStatus(status);
+    await PageObjects.MyRequestPage.selectRowPerPage("100");
     await PageObjects.MyRequestPage.table.verifyIdInTable(id);
   }
 );
@@ -18,6 +19,7 @@ Then(
   async ({ PageObjects }, id: string, status: string) => {
     await PageObjects.MyRequestPage.toggleRequestsView();
     await PageObjects.MyRequestPage.filterByStatus(status);
+    await PageObjects.MyRequestPage.selectRowPerPage("100");
     await PageObjects.MyRequestPage.table.verifyIdInTable(id);
   }
 );
@@ -32,6 +34,7 @@ When("{string} cancel request with id {TestData}", async ({ browser }, userType:
   await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
     await PageObjects.MyRequestPage.open();
     await PageObjects.MyRequestPage.toggleRequestsView();
+    await PageObjects.MyRequestPage.selectRowPerPage("100");
     await PageObjects.MyRequestPage.cancelRequest(id);
   });
 });
