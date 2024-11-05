@@ -26,7 +26,7 @@ Feature: Request
 
     Scenario: I should see the request with pending status on my requests
       Then I should see "*global[dr2].response.id" with status "Pending" on my request page
-      Then I should see "*global[dr3].response.id" with status "Pending" on my request page
+      And I should see "*global[dr3].response.id" with status "Pending" on my request page
 
     Scenario: I can cancel the request success
       When I cancel request with id "*global[dr2].response.id"
