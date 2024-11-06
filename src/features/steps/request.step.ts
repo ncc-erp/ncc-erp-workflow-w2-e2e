@@ -15,6 +15,19 @@ Then(
 );
 
 Then(
+  "{string} should see {TestData} with status {string} on my request page",
+  async ({ browser }, userType: string, id: string, status: string) => {
+    const authFile = users[userType.toLowerCase()].authFile;
+    await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
+      await PageObjects.MyRequestPage.open();
+      await PageObjects.MyRequestPage.filterByStatus(status);
+      await PageObjects.MyRequestPage.selectRowPerPage("100");
+      await PageObjects.MyRequestPage.table.verifyIdInTable(id);
+    });
+  }
+);
+
+Then(
   "I should see {TestData} with status {string} on all requests page",
   async ({ PageObjects }, id: string, status: string) => {
     await PageObjects.MyRequestPage.toggleRequestsView();
