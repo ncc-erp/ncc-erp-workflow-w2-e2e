@@ -49,7 +49,7 @@ export type WorldObject = {
   // DataTests: Record<string, string>[];
 };
 // pass page object to test
-export const test = base.extend<{ PageObjects: PageObjects; WorldObject: WorldObject }>({
+export const test = base.extend<{ PageObjects: PageObjects; WorldObject: WorldObject; hooks: void }>({
   storageState: async ({ $tags, storageState }, use) => {
     // reset storage state for features/scenarios with @noauth tag
 
@@ -73,6 +73,13 @@ export const test = base.extend<{ PageObjects: PageObjects; WorldObject: WorldOb
       // DataTests: [],
     });
   },
+  hooks: [
+    async ({ $testInfo }, use) => {
+      $testInfo.snapshotPath = (name: string) => `${$testInfo.file}-snapshots/${name}`;
+      await use();
+    },
+    { auto: true },
+  ],
 });
 
 export { expect, Locator, Page, Response } from "@playwright/test";

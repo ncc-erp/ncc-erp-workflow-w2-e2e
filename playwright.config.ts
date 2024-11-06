@@ -93,6 +93,13 @@ export default defineConfig({
       dependencies: ["setup"],
       teardown: "cleanup",
     },
+    {
+      name: "visual",
+      testMatch: "visual/**/*.spec.ts",
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
+      dependencies: ["setup"],
+      teardown: "cleanup",
+    },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
