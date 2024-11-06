@@ -122,3 +122,19 @@ Then(
     await PageObjects.RequestTemplatePage.verifyWorkflowStatus(workflowName, status);
   }
 );
+
+Then(
+  "I should see the color as {string}, title as {string} in {string} workflow Define Input popup",
+  async ({ PageObjects }, color: string, title: string, workflowName: string) => {
+    await PageObjects.RequestTemplatePage.verifyColorWorkflow(color, workflowName);
+    await PageObjects.RequestTemplatePage.verifyTitleWorkflow(title);
+  }
+);
+
+// Then("I delete the workflow with name as {string}", async ({ PageObjects }, workflowName: string) => {
+//   await PageObjects.RequestTemplatePage.deleteWorkflow(workflowName);
+// });
+
+Then("I delete the workflow with name below", async ({ PageObjects }, dataTable: DataTable) => {
+  await PageObjects.RequestTemplatePage.deleteMultiWorkflow(dataTable);
+});

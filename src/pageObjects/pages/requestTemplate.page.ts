@@ -1,7 +1,9 @@
 import { Page, expect } from "@playwright/test";
 import { DataTable } from "playwright-bdd";
 import { RequestFormType } from "../../data/requestTemplate.data";
+import { checkColor } from "../../utils/checkColor";
 import { chooseFile } from "../../utils/chooseFile";
+import { convertHexToRGB } from "../../utils/convertHexToRGB";
 import { BasePage } from "../base.page";
 import Button from "../components/button";
 import Form from "../components/form";
@@ -244,6 +246,42 @@ export default class RequestTemplatePage extends BasePage {
         await expect(this.page.locator("tr:nth-child(" + i + ") > td:nth-child(4)")).toContainText(status);
         break;
       }
+    }
+  }
+
+  async verifyColorWorkflow(color: string, workflowName: string) {
+    const expectedRGBcolor = convertHexToRGB(color);
+    await checkColor(
+      this.page
+        .locator("div")
+        .filter({ hasText: new RegExp("^Color:" + workflowName + "$") })
+        .locator("div")
+        .nth(3),
+      "background",
+      await expectedRGBcolor
+    );
+  }
+
+  async verifyTitleWorkflow(title: string) {
+    await expect(this.page.getByTestId("title").getByRole("textbox")).toHaveValue(title);
+  }
+
+  async deleteWorkflow(workflowName: string) {
+    await this.openPopupModal(workflowName, "Setting");
+    await this.clickOptionInSettingModalPopup("Delete");
+    await this.button.clickButtonByName("Yes");
+    await expect(this.page.getByText("Do you want to delete")).toBeHidden();
+  }
+
+  async deleteMultiWorkflow(dataTable: DataTable) {
+    const workflowCount = await this.page.locator("tbody > tr").count();
+    const workflows = dataTable.hashes();
+    for (let i = 0; i < workflowCount; i++) {
+      const expectedName = workflows[i].workflowName;
+      await this.openPopupModal(expectedName, "Setting");
+      await this.clickOptionInSettingModalPopup("Delete");
+      await this.button.clickButtonByName("Yes");
+      await expect(this.page.getByText("Do you want to delete")).toBeHidden();
     }
   }
 }

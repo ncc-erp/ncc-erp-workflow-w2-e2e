@@ -25,7 +25,6 @@ Feature: User create a new request
     Scenario: I can create a new workflow success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
-      And I delete the record with name as "<name>"
 
       Examples:
         | name                         | displayName                               | publish |
@@ -34,7 +33,6 @@ Feature: User create a new request
     Scenario: I can import a new workflow success
       When I import a "workflow" with file path as "<path>"
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
-      And I delete the record with name as "<name>"
 
       Examples:
         | path                                            | name                                | displayName                                      | publish |
@@ -45,7 +43,6 @@ Feature: User create a new request
       And I open Setting modal popup of workflow with display name as "<displayName>" and click on "Define Input" option
       And I click on "Export" button
       Then I should see a file with name as "<name>.json" downloaded successfully
-      And I delete the record with name as "<name>"
 
       Examples:
         | name                                | displayName                                      | path                                            |
@@ -65,7 +62,6 @@ Feature: User create a new request
         | label             |
         | Amount Of Money * |
         | Reason *          |
-      And I delete the record with name as "<name>"
 
       Examples:
         | name              | displayName                    | title                                          | path                                           | color   |
@@ -88,7 +84,6 @@ Feature: User create a new request
     Scenario: I can unpublish a workflow success
       When I "Unpublish" a workflow with name as "<name>"
       Then I should see Published field of the "<name>" workflow as "false"
-      And I delete the record with name as "<name>"
 
     @mode:serial @admin
   Rule: Delete workflow function
@@ -147,7 +142,6 @@ Feature: User create a new request
         | Money Amount * |
         | Reason         |
         | Test Input *   |
-      And I delete the record with name as "<name>"
 
       Examples:
         | name                               | displayName                                     |
@@ -171,7 +165,6 @@ Feature: User create a new request
         | Amount Of Money * |
         | Reason *          |
         | Test Input *      |
-      And I delete the record with name as "<name>"
 
       Examples:
         | name                                    | displayName                                          |
@@ -193,8 +186,25 @@ Feature: User create a new request
       And I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label  |
         | Reason |
-      And I delete the record with name as "<name>"
 
       Examples:
         | name                 | displayName                       |
         | Test Remove Property | Test Remove Property Display Name |
+
+    @cleanup @admin
+    Scenario: Delete data test
+      When I am on "RequestTemplatePage"
+      And I delete the workflow with name below
+        | workflowName                                     |
+        | Advance Payment Request Test                     |
+        | Advance Payment Request Test Import              |
+        | Advance Payment Request Test Import Display Name |
+        | Test Import Input                                |
+        | Test Publish                                     |
+        | Advance Payment Request Test Input               |
+        | Advance Payment Request Test Edit Input          |
+
+
+
+
+
