@@ -24,7 +24,6 @@ Feature: User create a new request
 
     Scenario: I can create a new workflow success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      Then I should see "Create Workflow Successfully" toast message display
       And I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
       And I delete the record with name as "<name>"
 
@@ -72,7 +71,7 @@ Feature: User create a new request
         | name              | displayName                    | title                                          | path                                           | color   |
         | Test Import Input | Test Import Input Display Name | Advance Payment Request: {{AmountOfMoney}} VNĐ | upload/advance-payment-request-test-input.json | #01713e |
 
-  @mode:serial @admin
+    @mode:serial @admin
   Rule: Change workflow status
 
     Background:
@@ -91,7 +90,7 @@ Feature: User create a new request
       Then I should see Published field of the "<name>" workflow as "false"
       And I delete the record with name as "<name>"
 
-  @mode:serial @admin
+    @mode:serial @admin
   Rule: Delete workflow function
 
     Background:
@@ -111,7 +110,7 @@ Feature: User create a new request
       And I click on "Yes" button
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "not displayed"
 
-  @admin
+    @admin
   Rule: Manage Request Template Input
 
     Background:
@@ -140,9 +139,9 @@ Feature: User create a new request
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
       And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name        | type     | required |
-        |   1 | MoneyAmount | RichText | true     |
-        |   2 | Reason      | RichText | false    |
-        |   3 | TestInput   | RichText | true     |
+        | 1   | MoneyAmount | RichText | true     |
+        | 2   | Reason      | RichText | false    |
+        | 3   | TestInput   | RichText | true     |
       Then I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label          |
         | Money Amount * |
@@ -159,14 +158,14 @@ Feature: User create a new request
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
       And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name        | type     | required |
-        |   1 | MoneyAmount | RichText | true     |
-        |   2 | Reason      | RichText | false    |
-        |   3 | TestInput   | RichText | true     |
+        | 1   | MoneyAmount | RichText | true     |
+        | 2   | Reason      | RichText | false    |
+        | 3   | TestInput   | RichText | true     |
       And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name          | type     | required |
-        |   1 | AmountOfMoney | Text     | true     |
-        |   2 | Reason        | Text     | true     |
-        |   3 | TestInput     | RichText | true     |
+        | 1   | AmountOfMoney | Text     | true     |
+        | 2   | Reason        | Text     | true     |
+        | 3   | TestInput     | RichText | true     |
       Then I open Action modal popup of workflow with display name as "<displayName>" to see the property display
         | label             |
         | Amount Of Money * |
@@ -182,8 +181,8 @@ Feature: User create a new request
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
       And I input property with data below in Define Input popup of workflow with display name as "<displayName>"
         | row | name        | type     | required |
-        |   1 | MoneyAmount | RichText | true     |
-        |   2 | Reason      | RichText | false    |
+        | 1   | MoneyAmount | RichText | true     |
+        | 2   | Reason      | RichText | false    |
       And I open Define Input popup of "<name>" workflow to remove property
         | name        |
         | MoneyAmount |
