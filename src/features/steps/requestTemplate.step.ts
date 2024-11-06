@@ -131,10 +131,6 @@ Then(
   }
 );
 
-// Then("I delete the workflow with name as {string}", async ({ PageObjects }, workflowName: string) => {
-//   await PageObjects.RequestTemplatePage.deleteWorkflow(workflowName);
-// });
-
 Then("I delete the workflow with name below", async ({ PageObjects }, dataTable: DataTable) => {
   await PageObjects.RequestTemplatePage.deleteMultiWorkflow(dataTable);
 });

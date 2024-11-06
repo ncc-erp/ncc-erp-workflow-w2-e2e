@@ -101,45 +101,72 @@ export default class RequestTemplatePage extends BasePage {
     await expect(optionElement).toBeVisible({ timeout: 30000 });
     if (option === "Publish" || option === "Unpublish") {
       await Promise.all([
+        optionElement.click(),
         this.page.waitForResponse(API.changeWorkflowStatus),
         this.page.waitForResponse(API.listAll),
-        optionElement.click(),
       ]);
     } else {
       await optionElement.click();
     }
   }
 
+  // Method to add and edit properties in Define Input
   async inputProperty(dataTable: DataTable) {
+    // Get the list of properties from the DataTable
     const properties = dataTable.hashes();
+
+    // Determine the expected row count need to modify by finding the maximum row number in the list
+    // The 'row' property is convert to a number because DataTable values are read as strings by default
     const expectedRowCount = Math.max(...properties.map((property) => Number(property.row)));
+
+    // Loop through each property in the properties list
     for (let i = 0; i < properties.length; i++) {
+      const row = Number(properties[i].row);
       const name = properties[i].name;
       const type = properties[i].type;
       const required = properties[i].required;
-      const row = Number(properties[i].row);
+
+      // Get the current number of properties displayed
       let actualRowCount = await this.page.getByText("Property Name *").count();
+
+      // If the actual rows are fewer than expected, click "Add Field" to add more
       if (actualRowCount < row) {
         await this.page.getByTestId("button-add-field").click();
-        actualRowCount++;
+        actualRowCount++; // Increase the actual row count to reflect the added row
       }
+
+      // Locate the input field of property name in corresponding row
+      // Adjust index as 'row - 1' because passed data is one-based indexing whil code is zero-based one
       const nameInput = this.page.getByTestId("items." + (row - 1) + ".name").getByRole("textbox");
+
+      // If the actual property name differs from expected, fill in the expected name
       if ((await nameInput.inputValue()) !== name) {
         await nameInput.fill(name);
       }
+
+      // Locate the input field of property type in corresponding row
       const typeInput = this.page.getByTestId("items." + (row - 1) + ".type").getByRole("combobox");
+
+      // If the actual property type differs from expected, select the expected type
       if ((await typeInput.inputValue()) !== type) {
         await typeInput.selectOption(type);
       }
+
+      // Locate the "Required" checkbox element in corresponding row
       const requiredElement = this.page
         .getByText("Property Name *Property")
         .nth(row - 1)
         .locator("span")
         .nth(1);
+
+      // Verify if the corresponding refired checkbox get attribute 'data-checked' or not
       const requiredInput = (await requiredElement.getAttribute("data-checked")) !== null ? "true" : "false";
+
+      // If the status differs from the expected, toggle the checkbox
       if (requiredInput !== required) {
         await requiredElement.click();
       }
+      // After modify values of a row, add additional rows if the current row count is still less than expected
       if (actualRowCount < expectedRowCount) {
         await this.page.getByTestId("button-add-field").click();
       }
@@ -274,9 +301,8 @@ export default class RequestTemplatePage extends BasePage {
   }
 
   async deleteMultiWorkflow(dataTable: DataTable) {
-    const workflowCount = await this.page.locator("tbody > tr").count();
     const workflows = dataTable.hashes();
-    for (let i = 0; i < workflowCount; i++) {
+    for (let i = 0; i < workflows.length; i++) {
       const expectedName = workflows[i].workflowName;
       await this.openPopupModal(expectedName, "Setting");
       await this.clickOptionInSettingModalPopup("Delete");

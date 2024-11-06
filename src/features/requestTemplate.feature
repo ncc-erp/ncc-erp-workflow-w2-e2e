@@ -191,7 +191,7 @@ Feature: User create a new request
         | name                 | displayName                       |
         | Test Remove Property | Test Remove Property Display Name |
 
-    @cleanup @admin
+    @cleanup
     Scenario: Delete data test
       When I am on "RequestTemplatePage"
       And I delete the workflow with name below
@@ -203,6 +203,7 @@ Feature: User create a new request
         | Test Publish                                     |
         | Advance Payment Request Test Input               |
         | Advance Payment Request Test Edit Input          |
+        | Test Remove Property                             |
 
 
 
