@@ -39,13 +39,13 @@ Feature: User create a new request
         | upload/advance-payment-request-test-import.json | Advance Payment Request Test Import | Advance Payment Request Test Import Display Name | false   |
 
     Scenario: I can export a workflow input success
-      When I import a "workflow" with file path as "<path>"
+      When I import a "workflow" with file path as "<uploadPath>"
       And I open Setting modal popup of workflow with display name as "<displayName>" and click on "Define Input" option
-      And I click on "Export" button
+      And I click on Export button
       Then I should see a file with name as "<name>.json" downloaded successfully
 
       Examples:
-        | name                                | displayName                                      | path                                            |
+        | name                                | displayName                                      | uploadPath                                      |
         | Advance Payment Request Test Import | Advance Payment Request Test Import Display Name | upload/advance-payment-request-test-import.json |
 
     Scenario: I can import a workflow input success
@@ -190,11 +190,14 @@ Feature: User create a new request
       Examples:
         | name                 | displayName                       |
         | Test Remove Property | Test Remove Property Display Name |
-
     @cleanup
-    Scenario: Delete data test
+    @admin
+  Rule: Clean up data
+    Scenario Outline: Scenario Outline name: Delete data test
       When I am on "RequestTemplatePage"
-      And I delete the workflow with name below
+      And I delete the workflow with name as "<workflowName>"
+
+      Examples:
         | workflowName                                     |
         | Advance Payment Request Test                     |
         | Advance Payment Request Test Import              |

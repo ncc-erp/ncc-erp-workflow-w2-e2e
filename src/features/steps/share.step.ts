@@ -1,10 +1,9 @@
+import fs from "fs";
 import path from "path";
 import { DataTable } from "playwright-bdd";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
-import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
-import { chooseFile } from "../../utils/chooseFile";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -31,21 +30,6 @@ Then("I should see {string} toast message display", async ({ page }, message: st
   await expect(actualMsg).toHaveText(message);
 });
 
-When("I upload a file with path {string}", async ({ page }, path: string) => {
-  await chooseFile(page, path, page.getByRole("textbox"));
-  await expect(page.getByText("No data imported !")).toBeHidden();
-});
-
-Then("I should see a file with name as {string} downloaded successfully", async ({ page }, fileName: string) => {
-  const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export" }).click();
-  const download = await downloadPromise;
-  await download.saveAs(path.join(__dirname, `../../data/downloads`, download.suggestedFilename()));
-  expect(download.suggestedFilename()).toBe(fileName);
-  const popup = new Popup(page);
-  await popup.closePopup("Define Workflow Input");
-});
-
 When("I click on {string} button", async ({ page }, buttonName: string) => {
   const button = new Button(page);
   await button.verifyButtonDisplay(buttonName);
@@ -53,6 +37,20 @@ When("I click on {string} button", async ({ page }, buttonName: string) => {
   if (buttonName === "Yes") {
     await expect(page.getByText("Do you want to delete")).toBeHidden();
   }
+});
+
+When("I click on Export button", async ({ page }) => {
+  const downloadPromise = page.waitForEvent("download");
+  const button = new Button(page);
+  await button.clickButtonByName("Export");
+  const download = await downloadPromise;
+  const downloadPath = path.join(__dirname, `../../data/downloads`, download.suggestedFilename());
+  await download.saveAs(downloadPath);
+});
+
+Then("I should see a file with name as {string} downloaded successfully", async ({}, fileName: string) => {
+  const downloadPath = path.join(__dirname, `../../data/downloads`, fileName);
+  expect(fs.existsSync(downloadPath)).toBe(true);
 });
 
 // support only one row now

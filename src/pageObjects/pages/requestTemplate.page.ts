@@ -53,7 +53,7 @@ export default class RequestTemplatePage extends BasePage {
     await this.button.clickButtonByName("Create");
     await this.fillWorkflowField("Name", name);
     await this.fillWorkflowField("Display Name", displayName);
-    await this.button.clickButtonByName("Create");
+    await Promise.all([this.button.clickButtonByName("Create"), this.page.waitForResponse(API.listAll)]);
     await this.popup.closePopup("Workflow Detail");
   }
 
@@ -136,7 +136,7 @@ export default class RequestTemplatePage extends BasePage {
       }
 
       // Locate the input field of property name in corresponding row
-      // Adjust index as 'row - 1' because passed data is one-based indexing whil code is zero-based one
+      // Adjust index as 'row - 1' because passed data is one-based indexing while code is zero-based one
       const nameInput = this.page.getByTestId("items." + (row - 1) + ".name").getByRole("textbox");
 
       // If the actual property name differs from expected, fill in the expected name
