@@ -11,8 +11,7 @@ test.beforeEach(async ({ PageObjects, page }) => {
   await PageObjects.RequestTemplatePage.open();
 });
 
-// eslint-disable-next-line playwright/no-skipped-test
-test.describe.skip("as user, request template page", () => {
+test.describe("as user, request template page", () => {
   test.use({ storageState: authUserFile });
 
   test("snapshot", async ({ PageObjects }) => {
@@ -22,8 +21,7 @@ test.describe.skip("as user, request template page", () => {
   });
 });
 
-// eslint-disable-next-line playwright/no-skipped-test
-test.describe.skip("as admin, request template page", () => {
+test.describe("as admin, request template page", () => {
   test.use({ storageState: authAdminFile });
 
   test("snapshot", async ({ PageObjects }) => {
