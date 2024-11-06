@@ -14,7 +14,7 @@ Feature: Request
     Scenario: I can cancel the request success
       When "Admin" cancel request with id "*global[dr1].response.id"
       Then I should see "*global[dr1].response.id" with status "Canceled" on all requests page
-      Then "User" should see "*global[dr1].response.id" with status "Canceled" on my request page
+      And "User" should see "*global[dr1].response.id" with status "Canceled" on my request page
 # User Filter
 # User Cancel
   @user
