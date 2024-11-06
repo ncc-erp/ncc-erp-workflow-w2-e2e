@@ -58,6 +58,18 @@ export default defineConfig({
     video: "retain-on-failure",
   },
 
+  expect: {
+    timeout: 5000,
+
+    toHaveScreenshot: {
+      maxDiffPixels: 10,
+    },
+
+    toMatchSnapshot: {
+      maxDiffPixelRatio: 0.1,
+    },
+  },
+
   /* Configure projects for major browsers */
   projects: [
     {
