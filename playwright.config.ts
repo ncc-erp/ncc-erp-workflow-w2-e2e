@@ -57,19 +57,6 @@ export default defineConfig({
     /* Retain video on failure */
     video: "retain-on-failure",
   },
-
-  expect: {
-    timeout: 5000,
-
-    toHaveScreenshot: {
-      maxDiffPixels: 10,
-    },
-
-    toMatchSnapshot: {
-      maxDiffPixelRatio: 0.1,
-    },
-  },
-
   /* Configure projects for major browsers */
   projects: [
     {
@@ -111,6 +98,15 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
       dependencies: ["setup"],
       teardown: "cleanup",
+      expect: {
+        timeout: 5000,
+        toHaveScreenshot: {
+          maxDiffPixelRatio: 0.1,
+        },
+        toMatchSnapshot: {
+          maxDiffPixelRatio: 0.1,
+        },
+      },
     },
     // {
     //   name: 'firefox',
