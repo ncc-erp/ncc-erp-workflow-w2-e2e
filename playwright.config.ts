@@ -65,10 +65,17 @@ export default defineConfig({
       testMatch: /.*\.setup\.ts/,
       // teardown: "cleanup",
     },
-    // {
-    //   name: "cleanup",
-    //   testMatch: /.*\.teardown\.ts/,
-    // },
+    {
+      name: "cleanup",
+      testDir: defineBddConfig({
+        features: "src/features/cleanup/**/*.feature", // todo
+        steps: ["src/features/steps/*.ts", "src/pageObjects/page.fixture.ts"],
+        tags: "@clean",
+        outputDir: ".features-gen/cleanup",
+      }),
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
+      testMatch: /.*\.teardown\.ts/,
+    },
     // {
     //   name: "chromium",
     //   use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
@@ -77,11 +84,14 @@ export default defineConfig({
     {
       name: "chromium",
       testDir: defineBddConfig({
-        features: "src/features/**/*.feature",
+        features: "src/features/**/*.feature", // todo
         steps: ["src/features/steps/*.ts", "src/pageObjects/page.fixture.ts"],
+        tags: "not @clean",
+        outputDir: ".features-gen/main",
       }),
       use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
       dependencies: ["setup"],
+      teardown: "cleanup",
     },
     // {
     //   name: 'firefox',

@@ -94,12 +94,6 @@ export default class RequestTemplatePage extends BasePage {
     await this.page.getByRole("row", { name: workflowDisplayName }).getByRole("button").nth(buttonIndex).click();
   }
 
-  // async exportWorkflowInput(workflowName: string) {
-  //   await this.openPopupModal(workflowName, "Setting");
-  //   await this.clickOptionInSettingModalPopup("Define Input");
-  //   await this.button.clickButtonByName("Export");
-  // }
-
   async clickOptionInSettingModalPopup(option: string) {
     const optionElement = this.page.getByRole("menuitem", { name: option });
     await expect(optionElement).toBeVisible({ timeout: 30000 });
@@ -198,6 +192,58 @@ export default class RequestTemplatePage extends BasePage {
         .getAttribute("data-checked");
       const requiredInput = dataChecked !== null ? "true" : "false";
       expect(requiredInput).toBe(required);
+    }
+  }
+
+  async verifyPropertyTypeDropdown(propertyName: string, dataTable: DataTable) {
+    const propertyCount = await this.page.getByText("Property Name *").count();
+    const expectedOptions = dataTable.rows().map((row) => row[0]);
+    for (let i = 0; i < propertyCount; i++) {
+      if (
+        (await this.page
+          .getByTestId("items." + i + ".name")
+          .getByRole("textbox")
+          .inputValue()) === propertyName
+      ) {
+        const actualOptions = (
+          await this.page
+            .getByTestId("items." + i + ".type")
+            .getByRole("combobox")
+            .innerText()
+        )
+          .split("\n")
+          .map((option) => option);
+        expect(actualOptions).toEqual(expectedOptions);
+        break;
+      }
+    }
+  }
+
+  async selectPropertyType(propertyName: string) {
+    const propertyCount = await this.page.getByText("Property Name *").count();
+    for (let i = 0; i < propertyCount; i++) {
+      if (
+        (await this.page
+          .getByTestId("items." + i + ".name")
+          .getByRole("textbox")
+          .inputValue()) === propertyName
+      ) {
+        await this.page
+          .getByTestId("items." + i + ".type")
+          .getByRole("combobox")
+          .click();
+        break;
+      }
+    }
+  }
+
+  async verifyWorkflowStatus(workflowName: string, status: string) {
+    const rowCount = await this.page.getByRole("row").count();
+    for (let i = 1; i < rowCount; i++) {
+      if ((await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === workflowName) {
+        await expect(this.page.locator("tr:nth-child(" + i + ") > td:nth-child(4)")).toContainText(status);
+        break;
+      }
     }
   }
 }

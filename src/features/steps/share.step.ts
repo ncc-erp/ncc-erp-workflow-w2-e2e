@@ -73,68 +73,6 @@ Then(
   }
 );
 
-Then(
-  "I should see Published field of the {string} workflow as {string}",
-  async ({ page }, name: string, status: string) => {
-    const rowCount = await page.getByRole("row").count();
-    for (let i = 1; i < rowCount; i++) {
-      if ((await page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === name) {
-        await expect(page.locator("tr:nth-child(" + i + ") > td:nth-child(4)")).toContainText(status);
-        break;
-      }
-    }
-  }
-);
-
-When("I click on Property Type dropdown list of property {string}", async ({ page }, property: string) => {
-  const propertyCount = await page.getByText("Property Name *").count();
-  for (let i = 0; i < propertyCount; i++) {
-    if (
-      (await page
-        .getByTestId("items." + i + ".name")
-        .getByRole("textbox")
-        .inputValue()) === property
-    ) {
-      await page
-        .getByTestId("items." + i + ".type")
-        .getByRole("combobox")
-        .click();
-      break;
-    }
-  }
-});
-
-Then(
-  "I see options display below Property Type dropdown list of property {string}",
-  async ({ page }, property: string, dataTable: DataTable) => {
-    const propertyCount = await page.getByText("Property Name *").count();
-    const expectedOptions = dataTable.rows().map((row) => row[0]);
-    for (let i = 0; i < propertyCount; i++) {
-      if (
-        (await page
-          .getByTestId("items." + i + ".name")
-          .getByRole("textbox")
-          .inputValue()) === property
-      ) {
-        const actualOptions = (
-          await page
-            .getByTestId("items." + i + ".type")
-            .getByRole("combobox")
-            .innerText()
-        )
-          .split("\n")
-          .map((option) => option);
-        expect(actualOptions).toEqual(expectedOptions);
-        break;
-      }
-    }
-  }
-);
-
-When("I open Setting modal of workflow with name as {string}", async ({ page }, workflow: string) => {
-  await page.getByRole("row", { name: workflow }).getByRole("button").first().click();
-});
-
 When("I click on {string} button", async ({ page }, buttonName: string) => {
   const button = new Button(page);
   await button.verifyButtonDisplay(buttonName);

@@ -24,7 +24,7 @@ Feature: User create a new request
 
     Scenario: I can create a new workflow success
       When I create a new workflow with name as "<name>" and display name as "<displayName>"
-      And I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
+      Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
       And I delete the record with name as "<name>"
 
       Examples:

@@ -37,10 +37,6 @@ When("I import a {string} with file path as {string}", async ({ PageObjects }, t
   await PageObjects.RequestTemplatePage.import(type, path);
 });
 
-// When("I export a workflow input with name as {string}", async ({ PageObjects }, name: string) => {
-//   await PageObjects.RequestTemplatePage.exportWorkflowInput(name);
-// });
-
 When("I click on the close icon in popup with label as {string}", async ({ PageObjects }, popup: string) => {
   await PageObjects.RequestTemplatePage.popup.closePopup(popup);
 });
@@ -108,3 +104,21 @@ Then("I should see the property display in Define Input popup", async ({ PageObj
   await PageObjects.RequestTemplatePage.verifyProperty(dataTable);
   await PageObjects.RequestTemplatePage.button.clickButtonByName("Save");
 });
+
+Then(
+  "I see options display below Property Type dropdown list of property {string}",
+  async ({ PageObjects }, property: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.verifyPropertyTypeDropdown(property, dataTable);
+  }
+);
+
+When("I click on Property Type dropdown list of property {string}", async ({ PageObjects }, property: string) => {
+  await PageObjects.RequestTemplatePage.selectPropertyType(property);
+});
+
+Then(
+  "I should see Published field of the {string} workflow as {string}",
+  async ({ PageObjects }, workflowName: string, status: string) => {
+    await PageObjects.RequestTemplatePage.verifyWorkflowStatus(workflowName, status);
+  }
+);
