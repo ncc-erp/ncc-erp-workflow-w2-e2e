@@ -1,138 +1,192 @@
 {
-  "totalCount": 79,
+  "totalCount": 110,
   "items": [
     {
-      "id": "3a1611cb-f41f-db72-8e70-cd2ce6fa44c6",
-      "workflowInstanceId": "3a1611cb-a812-4fb9-8301-21a43c271278",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "id": "3a1613a9-e866-e8d8-d299-b6a2d02323cc",
+      "workflowInstanceId": "3a1613a9-e492-31c9-3b2d-27f837c96752",
+      "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
       "email": null,
       "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
+      "name": "WFH Request",
+      "description": "PM Reviews",
       "dynamicActionData": null,
       "reason": "reason test",
-      "creationTime": "2024-11-06T03:57:50.495888Z",
+      "creationTime": "2024-11-06T12:39:53.702748Z",
       "title": "",
-      "requestId": "3a1611cb-f41f-db72-8e70-cd2ce6fa44c6",
+      "requestId": "3a1613a9-e866-e8d8-d299-b6a2d02323cc",
       "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia",
-        "thien.dang@ncc.asia"
-      ],
+      "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.doduc@ncc.asia", "hieu.dohoang@ncc.asia", "trung.dotrong@ncc.asia"],
       "author": "3a066c35-7394-ba74-3996-5a334798dc95",
       "authorName": "Manh Nguyen Van",
       "updatedBy": null,
       "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Folding Bicycle"
+        "color": "#c2709c",
+        "titleTemplate": "[ĐN][support]: 24/04/2025,25/09/2025,16/06/2025"
       }
     },
     {
-      "id": "3a1611cb-6b81-0394-4cd0-ebc310472202",
-      "workflowInstanceId": "3a1611cb-18cd-f19c-3859-7ee28528b185",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "id": "3a1613a9-49e7-a01f-9455-56f94c31185c",
+      "workflowInstanceId": "3a1613a9-4669-f177-f677-7768e9c18e64",
+      "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
       "email": null,
       "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
+      "name": "WFH Request",
+      "description": "PM Reviews",
       "dynamicActionData": null,
       "reason": "test reason",
-      "creationTime": "2024-11-06T03:57:15.521756Z",
+      "creationTime": "2024-11-06T12:39:13.128171Z",
       "title": "",
-      "requestId": "3a1611cb-6b81-0394-4cd0-ebc310472202",
+      "requestId": "3a1613a9-49e7-a01f-9455-56f94c31185c",
       "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia",
-        "thien.dang@ncc.asia"
-      ],
+      "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.dotrong@ncc.asia", "trung.doduc@ncc.asia", "hieu.dohoang@ncc.asia"],
       "author": "3a066c35-7394-ba74-3996-5a334798dc95",
       "authorName": "Manh Nguyen Van",
       "updatedBy": null,
       "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Road Bicycle"
+        "color": "#c2709c",
+        "titleTemplate": "[ĐN][support]: 06/05/2025,13/08/2025,09/05/2025"
       }
     },
     {
-      "id": "3a1611bd-6e9f-2efc-47e1-8bbfc3e5093f",
-      "workflowInstanceId": "3a1611bd-1ab7-566c-5b29-22cb5d8e4400",
+      "id": "3a1613a8-19c2-a535-6740-f94ad96df913",
+      "workflowInstanceId": "3a1613a7-2501-705b-145d-3cd369d3c47e",
+      "workflowDefinitionId": "3a0e34b2-9746-6a31-4bbc-e879f2c7ea99",
+      "email": null,
+      "status": 2,
+      "name": "Probationary Confirmation Request",
+      "description": "PM Reviews",
+      "dynamicActionData": "[{\"name\":\"StrengthPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"},{\"name\":\"WeaknessPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"}]",
+      "reason": "reason test",
+      "creationTime": "2024-11-06T12:37:55.267122Z",
+      "title": "",
+      "requestId": "3a1613a8-19c2-a535-6740-f94ad96df913",
+      "otherActionSignals": null,
+      "emailTo": ["hieu.dohoang@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#6b7ed1",
+        "titleTemplate": "Confirm for manh.nguyenvan@ncc.asia (07/11/2024)"
+      }
+    },
+    {
+      "id": "3a1613a8-04bc-87dc-5fdd-53516a4bf373",
+      "workflowInstanceId": "3a1613a7-0f63-623b-84c7-277d97aeee45",
+      "workflowDefinitionId": "3a0e34b2-9746-6a31-4bbc-e879f2c7ea99",
+      "email": null,
+      "status": 2,
+      "name": "Probationary Confirmation Request",
+      "description": "PM Reviews",
+      "dynamicActionData": "[{\"name\":\"StrengthPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"},{\"name\":\"WeaknessPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"}]",
+      "reason": null,
+      "creationTime": "2024-11-06T12:37:49.885843Z",
+      "title": "",
+      "requestId": "3a1613a8-04bc-87dc-5fdd-53516a4bf373",
+      "otherActionSignals": null,
+      "emailTo": ["hieu.dohoang@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#6b7ed1",
+        "titleTemplate": "Confirm for manh.nguyenvan@ncc.asia (07/11/2024)"
+      }
+    },
+    {
+      "id": "3a1613a5-cb5b-b054-0b19-419f52b56a99",
+      "workflowInstanceId": "3a1613a4-d6f1-8300-fce9-6b4789bf8da6",
+      "workflowDefinitionId": "3a0e34b2-9746-6a31-4bbc-e879f2c7ea99",
+      "email": null,
+      "status": 2,
+      "name": "Probationary Confirmation Request",
+      "description": "PM Reviews",
+      "dynamicActionData": "[{\"name\":\"StrengthPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"},{\"name\":\"WeaknessPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"}]",
+      "reason": null,
+      "creationTime": "2024-11-06T12:35:24.124527Z",
+      "title": "",
+      "requestId": "3a1613a5-cb5b-b054-0b19-419f52b56a99",
+      "otherActionSignals": null,
+      "emailTo": ["hieu.dohoang@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#6b7ed1",
+        "titleTemplate": "Confirm for manh.nguyenvan@ncc.asia (07/11/2024)"
+      }
+    },
+    {
+      "id": "3a1613a5-99bc-222e-185f-4c2459013d26",
+      "workflowInstanceId": "3a1613a4-a588-96a4-f618-139a0ce018b9",
+      "workflowDefinitionId": "3a0e34b2-9746-6a31-4bbc-e879f2c7ea99",
+      "email": null,
+      "status": 2,
+      "name": "Probationary Confirmation Request",
+      "description": "PM Reviews",
+      "dynamicActionData": "[{\"name\":\"StrengthPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"},{\"name\":\"WeaknessPoints\",\"type\":\"RichText\",\"isRequired\":true,\"data\":\"\"}]",
+      "reason": "test reason",
+      "creationTime": "2024-11-06T12:35:11.420797Z",
+      "title": "",
+      "requestId": "3a1613a5-99bc-222e-185f-4c2459013d26",
+      "otherActionSignals": null,
+      "emailTo": ["hieu.dohoang@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#6b7ed1",
+        "titleTemplate": "Confirm for manh.nguyenvan@ncc.asia (07/11/2024)"
+      }
+    },
+    {
+      "id": "3a1613a3-8940-3580-1fda-91f1e535510a",
+      "workflowInstanceId": "3a1613a3-858b-b23e-ab07-7f58afe40c6a",
       "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
       "email": null,
       "status": 2,
       "name": "Device Request",
-      "description": "IT Reviews",
+      "description": "PM Reviews",
       "dynamicActionData": null,
       "reason": "reason test",
-      "creationTime": "2024-11-06T03:41:58.815736Z",
+      "creationTime": "2024-11-06T12:32:56.12828Z",
       "title": "",
-      "requestId": "3a1611bd-6e9f-2efc-47e1-8bbfc3e5093f",
-      "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "thien.dang@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia"
+      "requestId": "3a1613a3-8940-3580-1fda-91f1e535510a",
+      "otherActionSignals": [
+        {
+          "otherActionSignal": "SendToSale",
+          "status": 0
+        }
       ],
+      "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.dotrong@ncc.asia", "trung.doduc@ncc.asia", "hieu.dohoang@ncc.asia"],
       "author": "3a066c35-7394-ba74-3996-5a334798dc95",
       "authorName": "Manh Nguyen Van",
       "updatedBy": null,
       "settings": {
         "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Mountain Bicycle"
+        "titleTemplate": "[ĐN] [support]: Flat-Foot Comfort Bicycle"
       }
     },
     {
-      "id": "3a1611bd-142b-07ed-f8f8-a9a9a64ff22c",
-      "workflowInstanceId": "3a1611bc-be56-5a26-eca4-aedc12f1e6bd",
+      "id": "3a1613a2-d9a5-1c0c-b303-2fe2c09ee511",
+      "workflowInstanceId": "3a1613a2-d5c3-e08a-132c-3f75e5816500",
       "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
       "email": null,
       "status": 2,
       "name": "Device Request",
-      "description": "IT Reviews",
+      "description": "PM Reviews",
       "dynamicActionData": null,
       "reason": "test reason",
-      "creationTime": "2024-11-06T03:41:35.660001Z",
+      "creationTime": "2024-11-06T12:32:11.173385Z",
       "title": "",
-      "requestId": "3a1611bd-142b-07ed-f8f8-a9a9a64ff22c",
-      "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "thien.dang@ncc.asia"
+      "requestId": "3a1613a2-d9a5-1c0c-b303-2fe2c09ee511",
+      "otherActionSignals": [
+        {
+          "otherActionSignal": "SendToSale",
+          "status": 0
+        }
       ],
-      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
-      "authorName": "Manh Nguyen Van",
-      "updatedBy": null,
-      "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Cruiser Bicycle"
-      }
-    },
-    {
-      "id": "3a1611b2-5c79-fc13-376e-905c0c7f201d",
-      "workflowInstanceId": "3a1611b1-fb81-57d0-cc5e-edfb25df93bd",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
-      "email": null,
-      "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
-      "dynamicActionData": null,
-      "reason": "reason test",
-      "creationTime": "2024-11-06T03:29:53.274165Z",
-      "title": "",
-      "requestId": "3a1611b2-5c79-fc13-376e-905c0c7f201d",
-      "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "thien.dang@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia"
-      ],
+      "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.dotrong@ncc.asia", "trung.doduc@ncc.asia", "hieu.dohoang@ncc.asia"],
       "author": "3a066c35-7394-ba74-3996-5a334798dc95",
       "authorName": "Manh Nguyen Van",
       "updatedBy": null,
@@ -142,143 +196,49 @@
       }
     },
     {
-      "id": "3a1611b2-148e-29c1-13a9-cdeeccf66c0a",
-      "workflowInstanceId": "3a1611b1-bdbf-b0aa-8888-c0b4bbad87df",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "id": "3a1613a2-d6a3-2ac8-5330-bc13d24d43b8",
+      "workflowInstanceId": "3a1613a2-d345-3106-ee7e-c1706b343f3e",
+      "workflowDefinitionId": "3a05daee-8f55-1e4c-9ac3-443c04309b77",
       "email": null,
       "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
+      "name": "Change Office Request",
+      "description": "PM Reviews",
       "dynamicActionData": null,
-      "reason": "test reason",
-      "creationTime": "2024-11-06T03:29:34.862414Z",
+      "reason": null,
+      "creationTime": "2024-11-06T12:32:10.40349Z",
       "title": "",
-      "requestId": "3a1611b2-148e-29c1-13a9-cdeeccf66c0a",
+      "requestId": "3a1613a2-d6a3-2ac8-5330-bc13d24d43b8",
       "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "thien.dang@ncc.asia"
-      ],
+      "emailTo": ["hieu.dohoang@ncc.asia"],
       "author": "3a066c35-7394-ba74-3996-5a334798dc95",
       "authorName": "Manh Nguyen Van",
       "updatedBy": null,
       "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Cruiser Bicycle"
+        "color": "#166969",
+        "titleTemplate": "Change office from ĐN to V"
       }
     },
     {
-      "id": "3a1611a4-3a63-3e00-d559-ad9f4d409b68",
-      "workflowInstanceId": "3a1611a3-e086-3dcd-d8d5-8301b9756fcb",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "id": "3a1613a2-d1fe-959e-f0cc-e15af343e07c",
+      "workflowInstanceId": "3a1613a2-cee7-deb8-b20a-c33422281614",
+      "workflowDefinitionId": "3a05daee-8f55-1e4c-9ac3-443c04309b77",
       "email": null,
       "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
+      "name": "Change Office Request",
+      "description": "PM Reviews",
       "dynamicActionData": null,
-      "reason": "reason test",
-      "creationTime": "2024-11-06T03:14:27.043201Z",
+      "reason": null,
+      "creationTime": "2024-11-06T12:32:09.215155Z",
       "title": "",
-      "requestId": "3a1611a4-3a63-3e00-d559-ad9f4d409b68",
+      "requestId": "3a1613a2-d1fe-959e-f0cc-e15af343e07c",
       "otherActionSignals": null,
-      "emailTo": [
-        "huy.nguyenhuuminh@ncc.asia",
-        "manh.nguyenvan@ncc.asia",
-        "thien.dang@ncc.asia",
-        "thiet.nguyenba@ncc.asia"
-      ],
+      "emailTo": ["hieu.dohoang@ncc.asia"],
       "author": "3a066c35-7394-ba74-3996-5a334798dc95",
       "authorName": "Manh Nguyen Van",
       "updatedBy": null,
       "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Mountain Bicycle"
-      }
-    },
-    {
-      "id": "3a1611a3-b2b8-c264-11df-a887d59bc8d1",
-      "workflowInstanceId": "3a1611a3-605c-afb8-3480-7750ab750dc7",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
-      "email": null,
-      "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
-      "dynamicActionData": null,
-      "reason": "test reason",
-      "creationTime": "2024-11-06T03:13:52.31231Z",
-      "title": "",
-      "requestId": "3a1611a3-b2b8-c264-11df-a887d59bc8d1",
-      "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia",
-        "thien.dang@ncc.asia",
-        "thiet.nguyenba@ncc.asia"
-      ],
-      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
-      "authorName": "Manh Nguyen Van",
-      "updatedBy": null,
-      "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: BMX Bicycle"
-      }
-    },
-    {
-      "id": "3a161199-a851-bf74-14e9-40ee10596aac",
-      "workflowInstanceId": "3a161199-4feb-56c6-7a01-ed9f7177f22c",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
-      "email": null,
-      "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
-      "dynamicActionData": null,
-      "reason": "reason test",
-      "creationTime": "2024-11-06T03:02:54.289627Z",
-      "title": "",
-      "requestId": "3a161199-a851-bf74-14e9-40ee10596aac",
-      "otherActionSignals": null,
-      "emailTo": [
-        "manh.nguyenvan@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "thien.dang@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia"
-      ],
-      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
-      "authorName": "Manh Nguyen Van",
-      "updatedBy": null,
-      "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Cyclocross Bicycle"
-      }
-    },
-    {
-      "id": "3a161199-3726-af8e-0c9e-43fa6d77e2ca",
-      "workflowInstanceId": "3a161198-e92a-2c94-7225-8a158414b016",
-      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
-      "email": null,
-      "status": 2,
-      "name": "Device Request",
-      "description": "IT Reviews",
-      "dynamicActionData": null,
-      "reason": "test reason",
-      "creationTime": "2024-11-06T03:02:25.318803Z",
-      "title": "",
-      "requestId": "3a161199-3726-af8e-0c9e-43fa6d77e2ca",
-      "otherActionSignals": null,
-      "emailTo": [
-        "thien.dang@ncc.asia",
-        "huy.nguyenhuuminh@ncc.asia",
-        "thiet.nguyenba@ncc.asia",
-        "manh.nguyenvan@ncc.asia"
-      ],
-      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
-      "authorName": "Manh Nguyen Van",
-      "updatedBy": null,
-      "settings": {
-        "color": "#296452",
-        "titleTemplate": "[ĐN] [support]: Cyclocross Bicycle"
+        "color": "#166969",
+        "titleTemplate": "Change office from ĐN to V"
       }
     }
   ]
