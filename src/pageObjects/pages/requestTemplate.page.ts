@@ -7,6 +7,7 @@ import { convertHexToRGB } from "../../utils/convertHexToRGB";
 import { BasePage } from "../base.page";
 import Button from "../components/button";
 import Form from "../components/form";
+import MenuItem from "../components/menuItem";
 import Popup from "../components/popup";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
@@ -16,6 +17,7 @@ export default class RequestTemplatePage extends BasePage {
   createWorkflowPopup: Form;
   popup: Popup;
   form: Form;
+  menuItem: MenuItem;
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
@@ -23,6 +25,7 @@ export default class RequestTemplatePage extends BasePage {
     this.createWorkflowPopup = new Form(this.page);
     this.popup = new Popup(this.page);
     this.form = new Form(this.page);
+    this.menuItem = new MenuItem(this.page);
   }
 
   async clickAddRequest(requestName: string) {
@@ -50,26 +53,26 @@ export default class RequestTemplatePage extends BasePage {
   // create new template
 
   async createWorkflow(name: string, displayName: string) {
-    await this.button.clickButtonByName("Create");
+    await this.button.clickByName("Create");
     await this.fillWorkflowField("Name", name);
     await this.fillWorkflowField("Display Name", displayName);
-    await Promise.all([this.button.clickButtonByName("Create"), this.page.waitForResponse(API.listAll)]);
-    await this.popup.closePopup("Workflow Detail");
+    await Promise.all([this.button.clickByName("Create"), this.page.waitForResponse(API.listAll)]);
   }
 
-  async import(type: string, path: string) {
-    await this.button.clickButtonByName("Import");
-    await chooseFile(this.page, path, this.page.getByRole("textbox"));
-    // Verify that data has been imported
-    await expect(this.page.getByText("No data imported !")).toBeHidden();
-    await this.button.clickButtonByName("Import");
+  async import(path: string) {
     // Import workflow and workflow input have some steps in common
-    if (type === "workflow") {
-      await this.button.clickButtonByName("Create");
-      await this.popup.closePopup("Workflow Detail");
-    }
+    await this.importInput(path);
+    await this.button.clickByName("Create");
   }
 
+  async importInput(path: string) {
+    await this.button.clickByName("Import");
+    await chooseFile(this.page, path, this.page.getByRole("textbox"));
+    await expect(this.page.getByText("No data imported !")).toBeHidden();
+    await this.button.clickByName("Import");
+  }
+
+  /// To do: short locator
   async verifyWorkflowDisplay(name: string, displayName: string, publish: string, expectedStatus: string) {
     const rowCount = await this.page.locator("tbody > tr").count();
     let actualStatus = "not displayed";
@@ -87,26 +90,25 @@ export default class RequestTemplatePage extends BasePage {
   }
 
   async fillWorkflowField(label: string, value: string) {
-    const locator = 'form>div>div[role="group"]';
-    await this.form.fillFormFieldByLabel(label, value, locator);
+    await this.form.fillFormFieldByLabel(label, value);
   }
 
-  async openPopupModal(workflowDisplayName: string, type: "Setting" | "Action") {
-    const buttonIndex = type === "Setting" ? 0 : 1;
-    await this.page.getByRole("row", { name: workflowDisplayName }).getByRole("button").nth(buttonIndex).click();
+  async openSettingMenuByWorkflowName(workflowName: string) {
+    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(0).click();
+  }
+  async openActionPopupByWorkflowName(workflowName: string) {
+    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(1).click();
   }
 
-  async clickOptionInSettingModalPopup(option: string) {
-    const optionElement = this.page.getByRole("menuitem", { name: option });
-    await expect(optionElement).toBeVisible({ timeout: 30000 });
+  async clickOptionInSettingMenu(option: string) {
     if (option === "Publish" || option === "Unpublish") {
       await Promise.all([
-        optionElement.click(),
+        this.menuItem.clickByName(option),
         this.page.waitForResponse(API.changeWorkflowStatus),
         this.page.waitForResponse(API.listAll),
       ]);
     } else {
-      await optionElement.click();
+      await this.menuItem.clickByName(option);
     }
   }
 
@@ -131,12 +133,13 @@ export default class RequestTemplatePage extends BasePage {
 
       // If the actual rows are fewer than expected, click "Add Field" to add more
       if (actualRowCount < row) {
-        await this.page.getByTestId("button-add-field").click();
+        await this.page.getByTestId("button-add-field").click(); /// To do: button component
         actualRowCount++; // Increase the actual row count to reflect the added row
       }
 
       // Locate the input field of property name in corresponding row
       // Adjust index as 'row - 1' because passed data is one-based indexing while code is zero-based one
+      /// To do: shorten locator, use form component
       const nameInput = this.page.getByTestId("items." + (row - 1) + ".name").getByRole("textbox");
 
       // If the actual property name differs from expected, fill in the expected name
@@ -173,13 +176,15 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
-  async verifyFieldInActionPopup(dataTable: DataTable) {
+  /// To do: use form component
+  async verifyFieldDisplayInActionPopup(dataTable: DataTable) {
     const labels = dataTable.hashes();
     for (const { label } of labels) {
       await expect(this.page.getByText(label, { exact: true })).toBeVisible();
     }
   }
 
+  /// Todo: use form component
   async removeProperty(dataTable: DataTable) {
     const properties = dataTable.hashes(); // Properties from the data table
     const propertyCount = await this.page.getByText("Property Name *").count(); // Total count of properties displayed in the UI
@@ -199,11 +204,13 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
+  /// To do: use button component
   async verifyRemovePropertyButtonStatus() {
-    const removeButton = this.page.getByRole("button", { name: "Remove" }).nth(0);
+    const removeButton = this.page.getByRole("button", { name: "Remove" }).nth(0); /// To do
     await expect(removeButton).toHaveAttribute("disabled");
   }
 
+  ///To do: use form component
   async verifyProperty(dataTable: DataTable) {
     const properties = dataTable.hashes();
     const propertyCount = await this.page.getByText("Property Name *").count();
@@ -224,6 +231,7 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
+  /// To do: use form component
   async verifyPropertyTypeDropdown(propertyName: string, dataTable: DataTable) {
     const propertyCount = await this.page.getByText("Property Name *").count();
     const expectedOptions = dataTable.rows().map((row) => row[0]);
@@ -248,7 +256,8 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
-  async selectPropertyType(propertyName: string) {
+  /// To do: use form component
+  async selectTypeDropdownByPropertyName(propertyName: string) {
     const propertyCount = await this.page.getByText("Property Name *").count();
     for (let i = 0; i < propertyCount; i++) {
       if (
@@ -266,8 +275,9 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
+  /// To do: shorten locator
   async verifyWorkflowStatus(workflowName: string, status: string) {
-    const rowCount = await this.page.getByRole("row").count();
+    const rowCount = await this.page.locator("tbody > tr").count();
     for (let i = 1; i < rowCount; i++) {
       if ((await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === workflowName) {
         await expect(this.page.locator("tr:nth-child(" + i + ") > td:nth-child(4)")).toContainText(status);
@@ -276,7 +286,7 @@ export default class RequestTemplatePage extends BasePage {
     }
   }
 
-  async verifyColorWorkflow(color: string, workflowName: string) {
+  async verifyWorkflowColor(color: string, workflowName: string) {
     const expectedRGBcolor = convertHexToRGB(color);
     await checkColor(
       this.page
@@ -289,25 +299,13 @@ export default class RequestTemplatePage extends BasePage {
     );
   }
 
-  async verifyTitleWorkflow(title: string) {
+  async verifyWorkflowTitle(title: string) {
     await expect(this.page.getByTestId("title").getByRole("textbox")).toHaveValue(title);
   }
 
   async deleteWorkflow(workflowName: string) {
-    await this.openPopupModal(workflowName, "Setting");
-    await this.clickOptionInSettingModalPopup("Delete");
-    await this.button.clickButtonByName("Yes");
-    await expect(this.page.getByText("Do you want to delete")).toBeHidden();
-  }
-
-  async deleteMultiWorkflow(dataTable: DataTable) {
-    const workflows = dataTable.hashes();
-    for (let i = 0; i < workflows.length; i++) {
-      const expectedName = workflows[i].workflowName;
-      await this.openPopupModal(expectedName, "Setting");
-      await this.clickOptionInSettingModalPopup("Delete");
-      await this.button.clickButtonByName("Yes");
-      await expect(this.page.getByText("Do you want to delete")).toBeHidden();
-    }
+    await this.openSettingMenuByWorkflowName(workflowName);
+    await this.clickOptionInSettingMenu("Delete");
+    await this.button.clickByName("Yes");
   }
 }

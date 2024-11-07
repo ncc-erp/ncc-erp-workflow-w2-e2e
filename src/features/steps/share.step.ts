@@ -3,6 +3,8 @@ import path from "path";
 import { DataTable } from "playwright-bdd";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
+import MenuItem from "../../pageObjects/components/menuItem";
+import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
@@ -32,17 +34,13 @@ Then("I should see {string} toast message display", async ({ page }, message: st
 
 When("I click on {string} button", async ({ page }, buttonName: string) => {
   const button = new Button(page);
-  await button.verifyButtonDisplay(buttonName);
-  await button.clickButtonByName(buttonName);
-  if (buttonName === "Yes") {
-    await expect(page.getByText("Do you want to delete")).toBeHidden();
-  }
+  await button.clickByName(buttonName);
 });
 
 When("I click on Export button", async ({ page }) => {
   const downloadPromise = page.waitForEvent("download");
   const button = new Button(page);
-  await button.clickButtonByName("Export");
+  await button.clickByName("Export");
   const download = await downloadPromise;
   const downloadPath = path.join(__dirname, `../../data/downloads`, download.suggestedFilename());
   await download.saveAs(downloadPath);
@@ -62,4 +60,14 @@ Given("Following test data", async ({ WorldObject }, dataTest: DataTable) => {
   }
   // WorldObject.DataTests = data;
   WorldObject.DataTest = data.at(0);
+});
+
+When("I close popup with label as {string}", async ({ page }, label: string) => {
+  const popup = new Popup(page);
+  await popup.closeByLabel(label);
+});
+
+When("I click on {string} option in the menu item display", async ({ page }, option: string) => {
+  const menuItem = new MenuItem(page);
+  await menuItem.clickByName(option);
 });

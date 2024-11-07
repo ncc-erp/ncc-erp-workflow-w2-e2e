@@ -1,24 +1,18 @@
-import { expect } from "@playwright/test";
-import { API } from "../../data/apis";
 import { BaseComponent } from "../base.component";
 
 export default class Button extends BaseComponent {
-  async verifyButtonDisplay(name: string) {
-    const button = this.page.getByRole("button", { name: `${name}` });
-    await expect(button).toBeVisible();
+  async getByName(name: string) {
+    return this.page.getByRole("button").getByText(name);
   }
 
-  async clickButtonByName(name: string) {
-    const button = this.page.getByRole("button", { name: `${name}` });
-    await this.verifyButtonDisplay(name);
-    if (name === "Save") {
-      await Promise.all([
-        this.page.waitForResponse(API.saveWorkflowInput),
-        this.page.waitForResponse(API.listAll),
-        button.click(),
-      ]);
-    } else {
+  async clickByName(name: string) {
+    const button = await this.getByName(name);
+
+    // Check if the button is present and visible
+    if (await button.isVisible()) {
       await button.click();
+    } else {
+      throw new Error(`Button with name "${name}" is not visible on the page.`);
     }
   }
 }
