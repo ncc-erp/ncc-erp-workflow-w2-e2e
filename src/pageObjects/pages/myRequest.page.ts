@@ -34,4 +34,8 @@ export default class MyRequestPage extends BasePage {
     await this.requestSettingMenu.cancelBtn.click();
     await this.requestSettingMenu.conrfirmYesBtn.click();
   }
+
+  async viewRequestDetail(id: string) {
+    await this.myRequest.clickRequestById(id);
+  }
 }

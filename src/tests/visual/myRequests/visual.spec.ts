@@ -32,3 +32,84 @@ test.describe("as admin, request page", () => {
     });
   });
 });
+
+test.describe("as user, request page: request details popup", () => {
+  test.use({ storageState: authUserFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.viewRequestDetail(userRequests.items[0].id);
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
+
+test.describe("as admin, request page: request details popup", () => {
+  test.use({ storageState: authAdminFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.viewRequestDetail(adminRequests.items[0].id);
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
+
+test.describe("as admin, request page: click Only my request button", () => {
+  test.use({ storageState: authAdminFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.toggleRequestsView();
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
+
+test.describe("as admin, request page: click cancel button", () => {
+  test.use({ storageState: authAdminFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.table.clickSettingButtonById(adminRequests.items[0].id);
+    await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
+
+test.describe("as admin, request page: click workflow button", () => {
+  test.use({ storageState: authAdminFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.table.clickSettingButtonById(adminRequests.items[0].id);
+    await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
+
+test.describe("as user, request page: click cancel button", () => {
+  test.use({ storageState: authUserFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
+    await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
+
+test.describe("as user, request page: click workflow button", () => {
+  test.use({ storageState: authUserFile });
+
+  test("snapshot", async ({ PageObjects }) => {
+    await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
+    await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
+    await expect(PageObjects.LoginPage.page).toHaveScreenshot({
+      fullPage: true,
+    });
+  });
+});
