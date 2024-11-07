@@ -36,7 +36,7 @@ test.describe("as admin, task page", () => {
 test.describe("as PM, task page: pending task detail", () => {
   test.use({ storageState: authPmFile });
   test("snapshot", async ({ PageObjects }) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemById(pendingTaskList.items[0].id, 0);
+    await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
     });
@@ -46,7 +46,7 @@ test.describe("as PM, task page: pending task detail", () => {
 test.describe("as PM, task page: approve", () => {
   test.use({ storageState: authPmFile });
   test("snapshot", async ({ PageObjects }) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemById(pendingTaskList.items[0].id, 0);
+    await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
     await PageObjects.TaskPage.detailTaskPopup.approveBtn.click();
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
@@ -57,7 +57,7 @@ test.describe("as PM, task page: approve", () => {
 test.describe("as PM, task page: reject", () => {
   test.use({ storageState: authPmFile });
   test("snapshot", async ({ PageObjects }) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemById(pendingTaskList.items[0].id, 0);
+    await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
     await PageObjects.TaskPage.detailTaskPopup.rejectBtn.click();
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
@@ -68,7 +68,7 @@ test.describe("as PM, task page: reject", () => {
 test.describe("as PM, task page: approved task detail", () => {
   test.use({ storageState: authPmFile });
   test("snapshot", async ({ PageObjects }) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemById(approvedTaskList.items[0].id, 1);
+    await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(approvedTaskList.items[0].id, 1);
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
     });
@@ -78,7 +78,7 @@ test.describe("as PM, task page: approved task detail", () => {
 test.describe("as PM, task page: rejected task detail", () => {
   test.use({ storageState: authPmFile });
   test("snapshot", async ({ PageObjects }) => {
-    await PageObjects.TaskPage.taskBoard.clickToBoardItemById(rejectedTaskList.items[0].id, 2);
+    await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(rejectedTaskList.items[0].id, 2);
     await expect(PageObjects.LoginPage.page).toHaveScreenshot({
       fullPage: true,
     });
