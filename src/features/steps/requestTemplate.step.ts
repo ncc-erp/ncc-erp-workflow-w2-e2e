@@ -65,12 +65,12 @@ When(
   }
 );
 
-When("I input the property below to the workflow", async ({ PageObjects }, button: string, dataTable: DataTable) => {
+When("I input the property below to the workflow", async ({ PageObjects }, dataTable: DataTable) => {
   await PageObjects.RequestTemplatePage.inputProperty(dataTable);
   await Promise.all([
     PageObjects.RequestTemplatePage.page.waitForResponse(API.saveWorkflowInput),
     PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll),
-    PageObjects.RequestTemplatePage.button.clickByName(button),
+    PageObjects.RequestTemplatePage.button.clickByName("Save"),
   ]);
 });
 
@@ -84,10 +84,11 @@ Then(
 
 When(
   "I open Define Input popup of {string} workflow to remove property",
-  async ({ PageObjects }, popup: string, workflowName: string, dataTable: DataTable) => {
+  async ({ PageObjects }, workflowName: string, dataTable: DataTable) => {
     await PageObjects.RequestTemplatePage.openSettingMenuByWorkflowName(workflowName);
-    await PageObjects.RequestTemplatePage.clickOptionInSettingMenu("Define Input");
+    await PageObjects.RequestTemplatePage.menuItem.clickByName("Define Input");
     await PageObjects.RequestTemplatePage.removeProperty(dataTable);
+    await PageObjects.RequestTemplatePage.button.clickByName("Save");
   }
 );
 

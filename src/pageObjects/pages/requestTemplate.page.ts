@@ -278,7 +278,7 @@ export default class RequestTemplatePage extends BasePage {
   /// To do: shorten locator
   async verifyWorkflowStatus(workflowName: string, status: string) {
     const rowCount = await this.page.locator("tbody > tr").count();
-    for (let i = 1; i < rowCount; i++) {
+    for (let i = 1; i <= rowCount; i++) {
       if ((await this.page.locator("tr:nth-child(" + i + ") > td:nth-child(2)").innerText()) === workflowName) {
         await expect(this.page.locator("tr:nth-child(" + i + ") > td:nth-child(4)")).toContainText(status);
         break;

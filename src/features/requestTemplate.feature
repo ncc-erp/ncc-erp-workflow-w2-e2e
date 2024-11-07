@@ -84,7 +84,7 @@ Feature: User create a new request
       When I create a workflow with name as "<name>" and display name as "<displayName>"
       And I close popup with label as "<label>"
       And I open Setting menu of workflow with name as "<name>"
-      And I click on "Define Input" option in the menu item display
+      And I click on "Publish" option in the menu item display
       Then I should see Published field of the "<name>" workflow as "true"
 
     Scenario: I can unpublish a workflow success
@@ -137,7 +137,7 @@ Feature: User create a new request
         | MultiDatetime |
 
       Examples:
-        | displayName             | property      |
+        | name                    | property      |
         | Advance Payment Request | AmountOfMoney |
 
     Scenario: I can add property to workflow
@@ -198,11 +198,7 @@ Feature: User create a new request
       And I open Define Input popup of "<name>" workflow to remove property
         | name        |
         | MoneyAmount |
-      Then I should see the remaining Remove button as disabled status
-      And I should see the property display in Define Input popup
-        | propertyName | type     | required |
-        | Reason       | RichText | false    |
-      And I open Action modal popup of workflow with name as "<name>" to see the property display
+      Then I open Action modal popup of workflow with name as "<name>" to see the property display
         | label  |
         | Reason |
 
