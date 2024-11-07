@@ -23,4 +23,11 @@ export default class TaskPage extends BasePage {
     await this.taskBoard.dragItemIdToCol(id, 0, 2);
     await this.rejectPopup.reject(reason);
   }
+  async boardView() {
+    await this.page.getByRole("button", { name: "Call Sage" }).nth(0).click();
+  }
+
+  async tableView() {
+    await this.page.getByRole("button", { name: "Call Sage" }).nth(1).click();
+  }
 }
