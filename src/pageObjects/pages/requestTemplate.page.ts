@@ -9,10 +9,14 @@ import Button from "../components/button";
 import Form from "../components/form";
 import MenuItem from "../components/menuItem";
 import Popup from "../components/popup";
+import RequestTemplate from "../components/requestTemplate";
+import RequestTemplateSettingMenu from "../components/requestTemplateSettingMenu";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
 
 export default class RequestTemplatePage extends BasePage {
+  public requestTemplate: RequestTemplate;
+  public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
   popup: Popup;
@@ -26,6 +30,8 @@ export default class RequestTemplatePage extends BasePage {
     this.popup = new Popup(this.page);
     this.form = new Form(this.page);
     this.menuItem = new MenuItem(this.page);
+    this.requestTemplate = new RequestTemplate(this.page);
+    this.requestTemplateSettingMenu = new RequestTemplateSettingMenu(this.page);
   }
 
   async clickAddRequest(requestName: string) {
@@ -51,7 +57,6 @@ export default class RequestTemplatePage extends BasePage {
     };
   }
   // create new template
-
   async createWorkflow(name: string, displayName: string) {
     await this.button.clickByName("Create");
     await this.fillWorkflowField("Name", name);
@@ -307,5 +312,16 @@ export default class RequestTemplatePage extends BasePage {
     await this.openSettingMenuByWorkflowName(workflowName);
     await this.clickOptionInSettingMenu("Delete");
     await this.button.clickByName("Yes");
+  }
+  async clickCreateNewTemplate() {
+    await this.page.getByRole("button", { name: "Create" }).click();
+  }
+  // import new template
+  async clickImportNewTemplate() {
+    await this.page.getByRole("button", { name: "Import" }).click();
+  }
+  async clickMenuButton(id: string, btnName: string) {
+    await this.requestTemplate.clickSettingButtonById(id);
+    (await this.requestTemplateSettingMenu.menuButton(btnName)).click();
   }
 }
