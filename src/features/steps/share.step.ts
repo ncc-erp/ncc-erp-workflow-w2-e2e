@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { DataTable } from "playwright-bdd";
@@ -6,7 +7,7 @@ import Button from "../../pageObjects/components/button";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
-import crypto from "crypto";
+import { Storage } from "../../pageObjects/storage/storage";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -53,13 +54,14 @@ Then("I should see a file with name as {string} downloaded successfully", async 
 });
 
 // support only one row now
-const testStorage = {};
 Given("Following test data", async ({ WorldObject, $testInfo }, dataTest: DataTable) => {
   // Generate key based on selected parts of titlePath
-  const selectedParts = [$testInfo.titlePath[1], $testInfo.titlePath[2]].join(" > ");
+  const selectedParts = $testInfo.titlePath.slice(0, -1).join(" > ");
   const key = crypto.createHash("sha256").update(selectedParts).digest("hex");
-  if (testStorage[key]) {
-    WorldObject.DataTest = testStorage[key];
+  const item = Storage.getData(key);
+
+  if (item) {
+    WorldObject.DataTest = item;
   } else {
     // set test data
     const data = dataTest.hashes();
@@ -67,7 +69,7 @@ Given("Following test data", async ({ WorldObject, $testInfo }, dataTest: DataTa
       throw new Error("test data is invalid");
     }
 
-    testStorage[key] = data.at(0);
+    Storage.setData(key, data.at(0));
     WorldObject.DataTest = data.at(0);
   }
 });
