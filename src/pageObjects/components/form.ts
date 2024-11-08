@@ -3,7 +3,7 @@ import { BaseComponent } from "../base.component";
 export default class Form extends BaseComponent {
   public getFormGroupByLabel(label: string) {
     return this.page
-      .locator('form>div>div[role="group"]')
+      .locator('form div[role="group"]')
       .filter({ hasText: new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) });
   }
 

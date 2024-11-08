@@ -92,10 +92,6 @@ When(
   }
 );
 
-Then("I should see the remaining Remove button as disabled status", async ({ PageObjects }) => {
-  await PageObjects.RequestTemplatePage.verifyRemovePropertyButtonStatus();
-});
-
 Then(
   "I see options display below Property Type dropdown list of property {string}",
   async ({ PageObjects }, property: string, dataTable: DataTable) => {
