@@ -6,7 +6,6 @@ import Button from "../../pageObjects/components/button";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
-import crypto from "crypto";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -53,23 +52,16 @@ Then("I should see a file with name as {string} downloaded successfully", async 
 });
 
 // support only one row now
-const testStorage = {};
 Given("Following test data", async ({ WorldObject, $testInfo }, dataTest: DataTable) => {
-  // Generate key based on selected parts of titlePath
-  const selectedParts = [$testInfo.titlePath[1], $testInfo.titlePath[2]].join(" > ");
-  const key = crypto.createHash("sha256").update(selectedParts).digest("hex");
-  if (testStorage[key]) {
-    WorldObject.DataTest = testStorage[key];
-  } else {
-    // set test data
-    const data = dataTest.hashes();
-    if (data.length === 0) {
-      throw new Error("test data is invalid");
-    }
-
-    testStorage[key] = data.at(0);
-    WorldObject.DataTest = data.at(0);
+  // set test data
+  const data = dataTest.hashes();
+  if (data.length === 0) {
+    throw new Error("test data is invalid");
   }
+  // WorldObject.DataTests = data;
+  console.log("$testInfo", $testInfo);
+
+  WorldObject.DataTest = data.at(0);
 });
 
 When("I close popup with label as {string}", async ({ page }, label: string) => {
