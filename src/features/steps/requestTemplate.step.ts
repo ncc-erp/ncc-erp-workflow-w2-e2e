@@ -31,7 +31,7 @@ When(
   "I close popup with label as {string} after create a workflow with name as {string} and display name as {string}",
   async ({ PageObjects }, label: string, name: string, displayName: string) => {
     await PageObjects.RequestTemplatePage.createWorkflow(name, displayName);
-    await PageObjects.RequestTemplatePage.popup.closeByLabel(label);
+    await PageObjects.RequestTemplatePage.popup.closeByTitle(label);
   }
 );
 
@@ -129,11 +129,12 @@ Then("I should see the property display in Define Input popup", async ({ PageObj
 });
 
 When("I delete the workflow with name as {string}", async ({ PageObjects }, workflowName: string) => {
-  await PageObjects.RequestTemplatePage.deleteWorkflow(workflowName);
+  await PageObjects.RequestTemplatePage.deleteWorkflowByName(workflowName);
 });
 
 When("I click on Yes button to delete the workflow", async ({ PageObjects }) => {
   await Promise.all([
+    PageObjects.RequestTemplatePage.page.waitForResponse(API.deleteWorkflow),
     PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll),
     PageObjects.RequestTemplatePage.button.clickByName("Yes"),
   ]);

@@ -28,8 +28,8 @@ Feature: User create a new request
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
 
       Examples:
-        | name                         | displayName                               | publish | label           |
-        | Advance Payment Request Test | Advance Payment Request Test Display Name | false   | Workflow Detail |
+        | name            | displayName                  | publish | label           |
+        | Test Create_e2e | Test Create Display Name_e2e | false   | Workflow Detail |
 
     Scenario: I can import a new workflow success
       When I import a workflow with file path as "<path>"
@@ -37,8 +37,8 @@ Feature: User create a new request
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "displayed"
 
       Examples:
-        | path                                            | name                                | displayName                                      | publish | label           |
-        | upload/advance-payment-request-test-import.json | Advance Payment Request Test Import | Advance Payment Request Test Import Display Name | false   | Workflow Detail |
+        | path                        | name            | displayName                  | publish | label           |
+        | upload/test-import-e2e.json | Test Import_e2e | Test Import Display Name_e2e | false   | Workflow Detail |
 
     Scenario: I can export a workflow input success
       When I import a workflow with file path as "<uploadPath>"
@@ -49,8 +49,8 @@ Feature: User create a new request
       Then I should see a file with name as "<name>.json" downloaded successfully
 
       Examples:
-        | name                                | displayName                                      | uploadPath                                      | label           |
-        | Advance Payment Request Test Import | Advance Payment Request Test Import Display Name | upload/advance-payment-request-test-import.json | Workflow Detail |
+        | name            | displayName                  | uploadPath                  | label           |
+        | Test Import_e2e | Test Import Display Name_e2e | upload/test-import-e2e.json | Workflow Detail |
 
     Scenario: I can import a workflow input success
       When I create a workflow with name as "<name>" and display name as "<displayName>"
@@ -68,8 +68,8 @@ Feature: User create a new request
         | Reason *          |
 
       Examples:
-        | name              | displayName                    | title                                          | path                                           | color   | label           |
-        | Test Import Input | Test Import Input Display Name | Advance Payment Request: {{AmountOfMoney}} VNĐ | upload/advance-payment-request-test-input.json | #01713e | Workflow Detail |
+        | name                  | displayName                        | title                                          | path                              | color   | label           |
+        | Test Import Input_e2e | Test Import Input Display Name_e2e | Advance Payment Request: {{AmountOfMoney}} VNĐ | upload/test-import-input-e2e.json | #01713e | Workflow Detail |
 
     @mode:serial @admin
   Rule: Change workflow status
@@ -77,8 +77,8 @@ Feature: User create a new request
     Background:
       Given I am on "RequestTemplatePage"
       And Following test data
-        | name         | displayName               | label           |
-        | Test Publish | Test Publish Display Name | Workflow Detail |
+        | name             | displayName                   | label           |
+        | Test Publish_e2e | Test Publish Display Name_e2e | Workflow Detail |
 
     Scenario: I can publish a workflow success
       When I create a workflow with name as "<name>" and display name as "<displayName>"
@@ -97,8 +97,8 @@ Feature: User create a new request
     Background:
       Given I am on "RequestTemplatePage"
       And Following test data
-        | name        | displayName              | publish | label           |
-        | Test Delete | Test Delete Display Name | false   | Workflow Detail |
+        | name            | displayName                  | publish | label           |
+        | Test Delete_e2e | Test Delete Display Name_e2e | false   | Workflow Detail |
 
     Scenario: I can cancel delete a workflow successfully
       When I create a workflow with name as "<name>" and display name as "<displayName>"
@@ -157,8 +157,8 @@ Feature: User create a new request
         | Test Input *   |
 
       Examples:
-        | name                               | displayName                                     | label           |
-        | Advance Payment Request Test Input | Advance Payment Request Test Input Display Name | Workflow Detail |
+        | name               | displayName                     | label           |
+        | Test Add Input_e2e | Test Add Input Display Name_e2e | Workflow Detail |
 
     Scenario: I can edit a workflow property
       When I create a workflow with name as "<name>" and display name as "<displayName>"
@@ -183,8 +183,8 @@ Feature: User create a new request
         | Test Input *      |
 
       Examples:
-        | name                                    | displayName                                          | label           |
-        | Advance Payment Request Test Edit Input | Advance Payment Request Test Edit Input Display Name | Workflow Detail |
+        | name                | displayName                      | label           |
+        | Test Edit Input_e2e | Test Edit Input Display Name_e2e | Workflow Detail |
 
     Scenario: I cannot remove all property of a workflow
       When I create a workflow with name as "<name>" and display name as "<displayName>"
@@ -203,8 +203,8 @@ Feature: User create a new request
         | Reason |
 
       Examples:
-        | name                 | displayName                       | label           |
-        | Test Remove Property | Test Remove Property Display Name | Workflow Detail |
+        | name                     | displayName                           | label           |
+        | Test Remove Property_e2e | Test Remove Property Display Name_e2e | Workflow Detail |
 
     @cleanup
     @admin
@@ -214,12 +214,12 @@ Feature: User create a new request
       And I delete the workflow with name as "<workflowName>"
 
       Examples:
-        | workflowName                                     |
-        | Advance Payment Request Test                     |
-        | Advance Payment Request Test Import              |
-        | Advance Payment Request Test Import Display Name |
-        | Test Import Input                                |
-        | Test Publish                                     |
-        | Advance Payment Request Test Input               |
-        | Advance Payment Request Test Edit Input          |
-        | Test Remove Property                             |
+        | workflowName             |
+        | Test Create_e2e          |
+        | Test Import_e2e          |
+        | Test Import Input_e2e    |
+        | Test Publish_e2e         |
+        | Test Delete_e2e          |
+        | Test Add Input_e2e       |
+        | Test Edit Input_e2e      |
+        | Test Remove Property_e2e |

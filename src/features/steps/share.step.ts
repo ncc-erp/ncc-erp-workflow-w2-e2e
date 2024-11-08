@@ -64,7 +64,7 @@ Given("Following test data", async ({ WorldObject }, dataTest: DataTable) => {
 
 When("I close popup with label as {string}", async ({ page }, label: string) => {
   const popup = new Popup(page);
-  await popup.closeByLabel(label);
+  await popup.closeByTitle(label);
 });
 
 When("I click on {string} option in the menu item display", async ({ page }, option: string) => {

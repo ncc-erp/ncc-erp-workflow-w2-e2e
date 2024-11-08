@@ -5,27 +5,17 @@ import { checkColor } from "../../utils/checkColor";
 import { chooseFile } from "../../utils/chooseFile";
 import { convertHexToRGB } from "../../utils/convertHexToRGB";
 import { BasePage } from "../base.page";
-import Button from "../components/button";
 import Form from "../components/form";
-import MenuItem from "../components/menuItem";
-import Popup from "../components/popup";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
 
 export default class RequestTemplatePage extends BasePage {
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
-  popup: Popup;
-  form: Form;
-  menuItem: MenuItem;
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
-    this.button = new Button(this.page);
     this.createWorkflowPopup = new Form(this.page);
-    this.popup = new Popup(this.page);
-    this.form = new Form(this.page);
-    this.menuItem = new MenuItem(this.page);
   }
 
   async clickAddRequest(requestName: string) {
@@ -56,7 +46,7 @@ export default class RequestTemplatePage extends BasePage {
     await this.button.clickByName("Create");
     await this.fillWorkflowField("Name", name);
     await this.fillWorkflowField("Display Name", displayName);
-    await Promise.all([this.button.clickByName("Create"), this.page.waitForResponse(API.listAll)]);
+    await Promise.all([this.page.waitForResponse(API.listAll), this.button.clickByName("Create")]);
   }
 
   async import(path: string) {
@@ -103,9 +93,9 @@ export default class RequestTemplatePage extends BasePage {
   async clickOptionInSettingMenu(option: string) {
     if (option === "Publish" || option === "Unpublish") {
       await Promise.all([
-        this.menuItem.clickByName(option),
         this.page.waitForResponse(API.changeWorkflowStatus),
         this.page.waitForResponse(API.listAll),
+        this.menuItem.clickByName(option),
       ]);
     } else {
       await this.menuItem.clickByName(option);
@@ -303,9 +293,12 @@ export default class RequestTemplatePage extends BasePage {
     await expect(this.page.getByTestId("title").getByRole("textbox")).toHaveValue(title);
   }
 
-  async deleteWorkflow(workflowName: string) {
-    await this.openSettingMenuByWorkflowName(workflowName);
-    await this.clickOptionInSettingMenu("Delete");
-    await this.button.clickByName("Yes");
+  async deleteWorkflowByName(workflowName: string) {
+    const workflowCount = await this.page.locator(`tr:has(td:has-text("${workflowName}"))`).count();
+    for (let i = 1; i <= workflowCount; i++) {
+      await this.openSettingMenuByWorkflowName(workflowName);
+      await this.clickOptionInSettingMenu("Delete");
+      await this.button.clickByName("Yes");
+    }
   }
 }

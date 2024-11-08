@@ -9,10 +9,10 @@ export default class Button extends BaseComponent {
     const button = await this.getByName(name);
 
     // Check if the button is present and visible
-    if (await button.isVisible()) {
-      await button.click();
-    } else {
-      throw new Error(`Button with name "${name}" is not visible on the page.`);
-    }
+    // if (await button.isVisible()) {
+    await button.click();
+    // } else {
+    //   throw new Error(`Button with name "${name}" is not visible on the page.`);
+    // }
   }
 }
