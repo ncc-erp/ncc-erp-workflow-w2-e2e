@@ -46,4 +46,8 @@ export default class TaskBoard extends BaseComponent {
     await expect(item).toContainText(`Request user:${requestUser}`);
     await expect(item).toContainText(`Current State:${currentStatus || ""}`);
   }
+
+  async clickToBoardByTaskId(id: string, col: number) {
+    await this.boardCols.nth(col).locator(`[data-id="${id}"]`).click();
+  }
 }

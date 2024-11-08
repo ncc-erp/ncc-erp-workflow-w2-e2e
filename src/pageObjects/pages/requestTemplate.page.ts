@@ -6,10 +6,14 @@ import { chooseFile } from "../../utils/chooseFile";
 import { convertHexToRGB } from "../../utils/convertHexToRGB";
 import { BasePage } from "../base.page";
 import Form from "../components/form";
+import RequestTemplate from "../components/requestTemplate";
+import RequestTemplateSettingMenu from "../components/requestTemplateSettingMenu";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
 
 export default class RequestTemplatePage extends BasePage {
+  public requestTemplate: RequestTemplate;
+  public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
   constructor(readonly page: Page) {
@@ -41,7 +45,6 @@ export default class RequestTemplatePage extends BasePage {
     };
   }
   // create new template
-
   async createWorkflow(name: string, displayName: string) {
     await this.button.clickByName("Create");
     await this.fillWorkflowField("Name", name);
@@ -300,5 +303,16 @@ export default class RequestTemplatePage extends BasePage {
       await this.clickOptionInSettingMenu("Delete");
       await this.button.clickByName("Yes");
     }
+  }
+  async clickCreateNewTemplate() {
+    await this.page.getByRole("button", { name: "Create" }).click();
+  }
+  // import new template
+  async clickImportNewTemplate() {
+    await this.page.getByRole("button", { name: "Import" }).click();
+  }
+  async clickMenuButton(id: string, btnName: string) {
+    await this.requestTemplate.clickSettingButtonById(id);
+    (await this.requestTemplateSettingMenu.menuButton(btnName)).click();
   }
 }

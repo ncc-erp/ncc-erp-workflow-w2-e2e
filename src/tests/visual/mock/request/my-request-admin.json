@@ -1,1 +1,39 @@
-{ "totalCount": 0, "items": [] }
+{
+  "totalCount": 2,
+  "items": [
+    {
+      "id": "3a161696-c754-f641-78ec-66b781a77d21",
+      "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+      "workflowDefinitionDisplayName": "WFH Request",
+      "settings": {
+        "color": "#c2709c",
+        "titleTemplate": "[{{CurrentOffice}}][{{Project}}]: {{Dates}}"
+      },
+      "shortTitle": "[HN1][nca]: 07/11/2024",
+      "userRequestName": "Cuong Nguyen Ngoc",
+      "createdAt": "2024-11-07T02:17:51.700016Z",
+      "lastExecutedAt": "2024-11-07T02:17:52.617393Z",
+      "status": "Pending",
+      "stakeHolders": ["Hien Ngo Thu", "Nguyen Phuong Anh"],
+      "currentStates": ["PM Reviews"],
+      "creatorId": null
+    },
+    {
+      "id": "3a161696-335b-7e92-52c9-c30cdc2448e5",
+      "workflowDefinitionId": "3a057e11-7cde-1749-5c03-60520662a1f5",
+      "workflowDefinitionDisplayName": "Device Request",
+      "settings": {
+        "color": "#296452",
+        "titleTemplate": "[{{CurrentOffice}}] [{{Project}}]: {{Device}}"
+      },
+      "shortTitle": "[ĐN] [nca]: Mouse",
+      "userRequestName": "Cuong Nguyen Ngoc",
+      "createdAt": "2024-11-07T02:17:13.819737Z",
+      "lastExecutedAt": "2024-11-07T02:17:14.509597Z",
+      "status": "Pending",
+      "stakeHolders": ["Hien Ngo Thu", "Nguyen Phuong Anh"],
+      "currentStates": ["PM Reviews"],
+      "creatorId": null
+    }
+  ]
+}
