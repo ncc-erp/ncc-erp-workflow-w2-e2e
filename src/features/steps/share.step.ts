@@ -52,13 +52,15 @@ Then("I should see a file with name as {string} downloaded successfully", async 
 });
 
 // support only one row now
-Given("Following test data", async ({ WorldObject }, dataTest: DataTable) => {
+Given("Following test data", async ({ WorldObject, $testInfo }, dataTest: DataTable) => {
   // set test data
   const data = dataTest.hashes();
   if (data.length === 0) {
     throw new Error("test data is invalid");
   }
   // WorldObject.DataTests = data;
+  console.log("$testInfo", $testInfo);
+
   WorldObject.DataTest = data.at(0);
 });
 

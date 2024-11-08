@@ -11,3 +11,4 @@ downloads
 tests-out
 results.json
 .env
+.local
