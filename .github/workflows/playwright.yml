@@ -27,15 +27,15 @@ jobs:
       #     tests: src/tests/**/*.spec.ts # REQUIRED - glob pattern to match test files
       #     token: ${{ secrets.PERSONAL_TOKEN }}
       #     typescript: true
-      - name: Update Testomat test cases
-        env:
-          TESTOMATIO: ${{ secrets.TESTOMATIO }}
-        run: |
-          npx bddgen && npm run test:check
+      # - name: Update Testomat test cases
+      #   env:
+      #     TESTOMATIO: ${{ secrets.TESTOMATIO }}
+      #   run: |
+      #     npx bddgen && npm run test:check
       - name: Run tests
         # if: env.changes == 'false'  # Only run if there are no changes
         env:
-          # GH_PAT: ${{ secrets.PERSONAL_TOKEN }}
+          GH_PAT: ${{ secrets.PERSONAL_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
           TESTOMATIO: ${{ secrets.TESTOMATIO }}
           TESTOMATIO_RUNGROUP_TITLE: ${{ secrets.TESTOMATIO_RUNGROUP_TITLE }}

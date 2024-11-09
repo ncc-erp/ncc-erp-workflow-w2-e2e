@@ -7,7 +7,7 @@ import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import os from "os";
 import path from "path";
-import { cucumberReporter, defineBddConfig } from "playwright-bdd";
+import { defineBddConfig } from "playwright-bdd";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 const cpuCores = os.cpus().length; // Get the number of CPU cores
@@ -43,7 +43,7 @@ export default defineConfig({
     //   },
     // ],
     ["json", { outputFile: "results.json" }],
-    cucumberReporter("html", { outputFile: "cucumber-report/report.html" }),
+    // cucumberReporter("html", { outputFile: "cucumber-report/report.html" }),
     // ["allure-playwright"]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
