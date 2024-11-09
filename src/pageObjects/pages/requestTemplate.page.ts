@@ -35,16 +35,14 @@ export default class RequestTemplatePage extends BasePage {
   async createRequest(name: string, data: RequestFormType) {
     await this.clickAddRequest(name);
     await this.deviceRequestForm.fillForm(data);
-    await this.deviceRequestForm.submit();
-    const response = await this.page.waitForResponse(API.createNewRequest);
+    const response = await this.deviceRequestForm.submit();
 
     if (name == "Probationary Confirmation Request") {
       // this request not create directly
       await new Promise<void>((r) => setTimeout(() => r(), 120000));
     }
-    const res = await response.json();
     return {
-      id: res.workflowInstanceId,
+      id: response.workflowInstanceId,
     };
   }
   // create new template

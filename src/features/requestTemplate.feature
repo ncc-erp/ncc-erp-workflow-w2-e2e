@@ -50,7 +50,7 @@ Feature: User create a new request
 
       Examples:
         | name            | displayName                  | uploadPath                  | label           |
-        | Test Import_e2e | Test Import Display Name_e2e | upload/test-import-e2e.json | Workflow Detail |
+        | Test Export_e2e | Test Export Display Name_e2e | upload/test-import-e2e.json | Workflow Detail |
 
     Scenario: I can import a workflow input success
       When I create a workflow with name as "<name>" and display name as "<displayName>"
@@ -217,6 +217,7 @@ Feature: User create a new request
         | workflowName             |
         | Test Create_e2e          |
         | Test Import_e2e          |
+        | Test Export_e2e          |
         | Test Import Input_e2e    |
         | Test Publish_e2e         |
         | Test Delete_e2e          |
