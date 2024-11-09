@@ -22,6 +22,7 @@ export default class RequestTemplatePage extends BasePage {
     this.deviceRequestForm = new RequestForm(this.page);
     this.createWorkflowPopup = new Form(this.page);
     this.requestTemplate = new RequestTemplate(this.page);
+    this.requestTemplateSettingMenu = new RequestTemplateSettingMenu(this.page);
   }
 
   async clickAddRequest(requestName: string) {
