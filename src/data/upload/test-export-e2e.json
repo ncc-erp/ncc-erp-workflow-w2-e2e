@@ -1,0 +1,677 @@
+{
+  "settings": {
+    "color": "#01713e",
+    "titleTemplate": "Advance Payment Request: {{AmountOfMoney}} VNĐ"
+  },
+  "defineJson": {
+    "definitionId": "3a1622f0-70a2-91a1-eeaf-0ccddc6f6de7",
+    "versionId": "3a1622f0-70a2-0dde-8904-c119131d0732",
+    "tenantId": null,
+    "name": "Test Export_e2e",
+    "displayName": "Test Export Display Name_e2e",
+    "description": null,
+    "channel": null,
+    "version": 2,
+    "variables": {
+      "data": {}
+    },
+    "customAttributes": {
+      "data": {}
+    },
+    "contextOptions": null,
+    "isSingleton": false,
+    "persistenceBehavior": "Suspended",
+    "deleteCompletedInstances": false,
+    "isPublished": false,
+    "isLatest": true,
+    "tag": "",
+    "createdAt": "2024-10-08T03:23:49.306083Z",
+    "activities": [
+      {
+        "activityId": "8e6705ca-c42e-4f50-a0f0-ddbb492e5b59",
+        "type": "HttpEndpoint",
+        "name": null,
+        "displayName": "HTTP Endpoint",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Path",
+            "syntax": null,
+            "expressions": {
+              "Literal": "advance-payment-request"
+            }
+          },
+          {
+            "name": "Methods",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"POST\"]"
+            }
+          },
+          {
+            "name": "ReadContent",
+            "syntax": null,
+            "expressions": {
+              "Literal": "true"
+            }
+          },
+          {
+            "name": "TargetType",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Schema",
+            "syntax": "Literal",
+            "expressions": {
+              "Literal": ""
+            }
+          },
+          {
+            "name": "Authorize",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Policy",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "8f97d0da-227f-448a-a822-47005187bfa2",
+        "type": "SetRequestUserVariable",
+        "name": null,
+        "displayName": "Set RequestUser Variable",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "c0064660-a0bb-44fd-93fd-2e657ae7dc68",
+        "type": "Fork",
+        "name": null,
+        "displayName": "Send notifications",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"To Accountant\",\"To HR\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "057524d8-e26e-4ea8-a780-99ca85c07835",
+        "type": "SetVariable",
+        "name": null,
+        "displayName": "Set Email Template Variable",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "VariableName",
+            "syntax": null,
+            "expressions": {
+              "Literal": "EmailTemplate"
+            }
+          },
+          {
+            "name": "Value",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestInfo = getVariable('Request');\r\nconst requestUser = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(requestUser.ProjectCode);\r\nreturn `\r\n<style>\r\n    p {\r\n        margin: 0;\r\n    }\r\n</style>\r\n<div style=\"margin: 13px 0\">\r\n    <b>Số tiền muốn ứng</b>: ${requestInfo.AmountOfMoney} VNĐ\r\n</div>\r\n<div style=\"display: flex; margin: 13px 0;\">\r\n    <b>Lý do:</b>&#160;${requestInfo.Reason}\r\n</div>\r\n`"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "1fab9699-a0ca-419f-b75a-e85a2a38badb",
+        "type": "Fork",
+        "name": null,
+        "displayName": "Accountant Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"Approve\",\"Reject\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "4e39d487-9b51-4114-bf50-0f32f594fdd2",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Approve Request",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Approved"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "c9cd94d6-1619-4a64-a458-f7ec0de6d3fd",
+        "type": "SignalReceived",
+        "name": null,
+        "displayName": "Reject Request",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Signal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Rejected"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "be15f500-5f5c-4e95-99ec-442b597276d8",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Notice to Requester",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst email = requestUser.Email; \r\n\r\nreturn [email];"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\nreturn `[Advance Payment Request] Approved - [${userInfo.Name} - ${userInfo.Email}]`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const content = getVariable('EmailTemplate');\r\nconst userInfo = getRequestUser();\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Yêu cầu ứng lương của ${userInfo.Name} (${userInfo.Email}) đã được duyệt!</b></div>\r\n<div style=\"padding: 3px 10px; border-radius: 10px; background-color: aliceblue\">\r\n    <div style=\"margin: 13px 0\"><i>Nội dung request</i></div>\r\n    ${content}\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "e5fa9329-18ae-4e11-acc3-1c1cfa266a75",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Notice to Requester",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst email = requestUser.Email; \r\n\r\nreturn [email];"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst projectInfo = getProjectInfo(userInfo.ProjectCode);\r\nreturn `[Advance Payment Request] Rejected - [${userInfo.Name} - ${userInfo.Email}]`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const content = getVariable('EmailTemplate');\r\nconst userInfo = getRequestUser();\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Yêu cầu ứng lương của của ${userInfo.Name} (${userInfo.Email}) không được duyệt!</b></div>\r\n<div style=\"margin: 13px 0\"><b>Lý do: </b>${activityExecutionContext.Input.Reason}</div>\r\n<div style=\"margin: 13px 0\"><b>Từ chối bởi: </b>${activityExecutionContext.Input.TriggeredBy}</div>\r\n<div style=\"padding: 3px 10px; border-radius: 10px; background-color: aliceblue\">\r\n    <div style=\"margin: 13px 0\"><i>Nội dung request</i></div>\r\n    ${content}\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "072ef0f5-aea5-4d6d-8f26-60a12eef531b",
+        "type": "Join",
+        "name": null,
+        "displayName": "Finish sending notifications",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Mode",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "2960071e-b215-4a47-b5f7-5f52faf9cba7",
+        "type": "Join",
+        "name": null,
+        "displayName": "Finish sending notifications",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Mode",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "405fe7a3-ce04-439e-befa-772c22a04e17",
+        "type": "W2ApprovedPreFinish",
+        "name": null,
+        "displayName": "W2 Approved Pre Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "5837a0cc-5042-4403-9f29-79438896bddc",
+        "type": "W2RejectedPreFinish",
+        "name": null,
+        "displayName": "W2 Rejected Pre Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "4ed8991b-b296-4782-a39c-2a9d7022fa4d",
+        "type": "SendMailAndAssign",
+        "name": null,
+        "displayName": "Accountant Reviews",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ApproveSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Literal": "",
+              "JavaScript": "workflowSignals.Approved"
+            }
+          },
+          {
+            "name": "RejectSignal",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "workflowSignals.Rejected"
+            }
+          },
+          {
+            "name": "DynamicActionData",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": ""
+            }
+          },
+          {
+            "name": "OtherActionSignals",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "AssignTo",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst accountantEmails = requestUser.AccountantEmails; \r\n\r\nreturn accountantEmails;\r\n",
+              "Json": "[\"finance@ncc.asia\"]"
+            }
+          },
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "Json": "[]",
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst accountantEmails = requestUser.AccountantEmails; \r\n\r\nreturn accountantEmails;\r\n"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nreturn `[Advance Payment Request] [${userInfo.Name} - ${userInfo.Email}]`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const rejectSignalUrl = getCustomSignalUrlWithForm(workflowSignals.Rejected, [signalInputTypes.Reason, signalInputTypes.TriggeredBy]);\r\nconst userInfo = getVariable('RequestUser');\r\nconst emailTemplate = getVariable('EmailTemplate');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Người gửi: </b>${userInfo.Name} (${userInfo.Email})</div>\r\n<div>\r\n    ${emailTemplate}\r\n</div>\r\n<div>\r\n    <a href=\"${getCustomSignalUrl(workflowSignals.Approved)}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #33b864; border-radius: 10px; color: white; text-decoration: none;\">Duyệt</a>\r\n    <a href=\"${rejectSignalUrl}\" style=\"margin-right:10px; padding: 3px 15px; background-color: #FF0000; border-radius: 10px; color: white; text-decoration: none;\">Từ chối</a>\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "53d543d8-7d2c-45e9-8513-381473314610",
+        "type": "Finish",
+        "name": null,
+        "displayName": "Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ActivityOutput",
+            "syntax": null,
+            "expressions": {
+              "Literal": "Done"
+            }
+          },
+          {
+            "name": "OutcomeNames",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "b5aa4b9d-f380-46a4-846e-537a28f26d26",
+        "type": "Finish",
+        "name": null,
+        "displayName": "Finish",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "ActivityOutput",
+            "syntax": null,
+            "expressions": {
+              "Literal": "Done"
+            }
+          },
+          {
+            "name": "OutcomeNames",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "de0cefb9-a61d-434f-9fff-aec33dfbd70a",
+        "type": "Fork",
+        "name": null,
+        "displayName": "Send notifications",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "Branches",
+            "syntax": null,
+            "expressions": {
+              "Json": "[\"To Requester\",\"To HR\"]"
+            }
+          }
+        ],
+        "propertyStorageProviders": {}
+      },
+      {
+        "activityId": "312e4c11-e5e4-4929-ba60-4d60d527433f",
+        "type": "CustomEmail",
+        "name": null,
+        "displayName": "Notice to HR",
+        "description": null,
+        "persistWorkflow": false,
+        "loadWorkflowContext": false,
+        "saveWorkflowContext": false,
+        "properties": [
+          {
+            "name": "To",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const requestUser = getVariable('RequestUser');\r\nconst hrEmails = requestUser.HREmails; \r\n\r\nreturn hrEmails;\r\n"
+            }
+          },
+          {
+            "name": "Subject",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nreturn `[Advance Payment Request] [${userInfo.Name}] - ${userInfo.Email}]`;"
+            }
+          },
+          {
+            "name": "Attachments",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Body",
+            "syntax": "JavaScript",
+            "expressions": {
+              "JavaScript": "const userInfo = getVariable('RequestUser');\r\nconst emailTemplate = getVariable('EmailTemplate');\r\nreturn `\r\n<head>\r\n <style>\r\n   p { margin: 0; }\r\n </style>\r\n</head>\r\n<div style=\"margin: 13px 0\"><b>Người gửi: </b>${userInfo.Name} (${userInfo.Email})</div>\r\n<div>\r\n    ${emailTemplate}\r\n</div>\r\n`;"
+            }
+          },
+          {
+            "name": "Cc",
+            "syntax": null,
+            "expressions": {}
+          },
+          {
+            "name": "Bcc",
+            "syntax": null,
+            "expressions": {}
+          }
+        ],
+        "propertyStorageProviders": {}
+      }
+    ],
+    "connections": [
+      {
+        "sourceActivityId": "8f97d0da-227f-448a-a822-47005187bfa2",
+        "targetActivityId": "057524d8-e26e-4ea8-a780-99ca85c07835",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "057524d8-e26e-4ea8-a780-99ca85c07835",
+        "targetActivityId": "c0064660-a0bb-44fd-93fd-2e657ae7dc68",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "1fab9699-a0ca-419f-b75a-e85a2a38badb",
+        "targetActivityId": "4e39d487-9b51-4114-bf50-0f32f594fdd2",
+        "outcome": "Approve"
+      },
+      {
+        "sourceActivityId": "1fab9699-a0ca-419f-b75a-e85a2a38badb",
+        "targetActivityId": "c9cd94d6-1619-4a64-a458-f7ec0de6d3fd",
+        "outcome": "Reject"
+      },
+      {
+        "sourceActivityId": "c9cd94d6-1619-4a64-a458-f7ec0de6d3fd",
+        "targetActivityId": "e5fa9329-18ae-4e11-acc3-1c1cfa266a75",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "be15f500-5f5c-4e95-99ec-442b597276d8",
+        "targetActivityId": "072ef0f5-aea5-4d6d-8f26-60a12eef531b",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "e5fa9329-18ae-4e11-acc3-1c1cfa266a75",
+        "targetActivityId": "2960071e-b215-4a47-b5f7-5f52faf9cba7",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "072ef0f5-aea5-4d6d-8f26-60a12eef531b",
+        "targetActivityId": "405fe7a3-ce04-439e-befa-772c22a04e17",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "2960071e-b215-4a47-b5f7-5f52faf9cba7",
+        "targetActivityId": "5837a0cc-5042-4403-9f29-79438896bddc",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "c0064660-a0bb-44fd-93fd-2e657ae7dc68",
+        "targetActivityId": "4ed8991b-b296-4782-a39c-2a9d7022fa4d",
+        "outcome": "To Accountant"
+      },
+      {
+        "sourceActivityId": "4ed8991b-b296-4782-a39c-2a9d7022fa4d",
+        "targetActivityId": "1fab9699-a0ca-419f-b75a-e85a2a38badb",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "5837a0cc-5042-4403-9f29-79438896bddc",
+        "targetActivityId": "53d543d8-7d2c-45e9-8513-381473314610",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "405fe7a3-ce04-439e-befa-772c22a04e17",
+        "targetActivityId": "b5aa4b9d-f380-46a4-846e-537a28f26d26",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "4e39d487-9b51-4114-bf50-0f32f594fdd2",
+        "targetActivityId": "de0cefb9-a61d-434f-9fff-aec33dfbd70a",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "de0cefb9-a61d-434f-9fff-aec33dfbd70a",
+        "targetActivityId": "be15f500-5f5c-4e95-99ec-442b597276d8",
+        "outcome": "To Requester"
+      },
+      {
+        "sourceActivityId": "de0cefb9-a61d-434f-9fff-aec33dfbd70a",
+        "targetActivityId": "312e4c11-e5e4-4929-ba60-4d60d527433f",
+        "outcome": "To HR"
+      },
+      {
+        "sourceActivityId": "312e4c11-e5e4-4929-ba60-4d60d527433f",
+        "targetActivityId": "072ef0f5-aea5-4d6d-8f26-60a12eef531b",
+        "outcome": "Done"
+      },
+      {
+        "sourceActivityId": "8e6705ca-c42e-4f50-a0f0-ddbb492e5b59",
+        "targetActivityId": "8f97d0da-227f-448a-a822-47005187bfa2",
+        "outcome": "Done"
+      }
+    ],
+    "id": "3a1622f0-70a2-0dde-8904-c119131d0732"
+  },
+  "propertyDefinitions": [
+    {
+      "name": "AmountOfMoney",
+      "type": "Text",
+      "isRequired": true,
+      "id": "b0af44c1-b679-4d58-a501-f9cd3c56a4eb"
+    },
+    {
+      "name": "Reason",
+      "type": "RichText",
+      "isRequired": true,
+      "id": "a5535b8c-ed2f-4642-a339-fa817b27de80"
+    }
+  ]
+}

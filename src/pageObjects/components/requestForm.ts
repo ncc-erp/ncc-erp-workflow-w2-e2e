@@ -1,3 +1,4 @@
+import { API } from "../../data/apis";
 import { RequestFormType } from "../../data/requestTemplate.data";
 import { BaseComponent } from "../base.component";
 
@@ -36,6 +37,9 @@ export default class RequestForm extends BaseComponent {
   }
 
   async submit() {
+    const rsPromise = this.page.waitForResponse(API.createNewRequest);
     await this.saveBtn.click();
+    const rs = await rsPromise;
+    return await rs.json();
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Browser, Page } from "@playwright/test";
+import { Browser, Page, TestInfo } from "@playwright/test";
 import get from "lodash.get";
 import { test as base, createBdd, DataTable } from "playwright-bdd";
 
@@ -86,7 +86,13 @@ export { expect, Locator, Page, Response } from "@playwright/test";
 
 export const { Given: GivenBase, When: WhenBase, Then: ThenBase } = createBdd(test);
 // override support bdd
-type FixtureType = { PageObjects: PageObjects; WorldObject: WorldObject; page: Page; browser: Browser };
+type FixtureType = {
+  PageObjects: PageObjects;
+  WorldObject: WorldObject;
+  page: Page;
+  browser: Browser;
+  $testInfo: TestInfo;
+};
 export const Given = (
   pattern: DefineStepPattern,
   fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>
@@ -114,9 +120,9 @@ export const Then = (
 // private function
 
 const proxyFn = (fn: (fixtures: FixtureType, ...args: ParametersExceptFirst<StepConfig["fn"]>) => Promise<any>) => {
-  return ({ PageObjects, WorldObject, page, browser }, ...args) => {
+  return ({ PageObjects, WorldObject, page, browser, $testInfo }, ...args) => {
     const data = convertDataTest(args, WorldObject);
-    return fn({ PageObjects, WorldObject, page, browser }, ...data).then((response) => {
+    return fn({ PageObjects, WorldObject, page, browser, $testInfo }, ...data).then((response) => {
       if (response) {
         // set global
         const key = args.find((f) => typeof f === "string" && f.match(/__global\[(.+)\]/));

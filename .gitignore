@@ -5,8 +5,10 @@ node_modules/
 /allure-results/
 /blob-report/
 /playwright/.cache/
+downloads
 .features-gen
 .auth
 tests-out
 results.json
 .env
+.local
