@@ -71,7 +71,7 @@ Feature: User create a new request
         | name                  | displayName                        | title                                          | path                              | color   | label           |
         | Test Import Input_e2e | Test Import Input Display Name_e2e | Advance Payment Request: {{AmountOfMoney}} VNĐ | upload/test-import-input-e2e.json | #01713e | Workflow Detail |
 
-    @mode:serial @admin
+  @mode:serial @admin
   Rule: Change workflow status
 
     Background:
@@ -91,7 +91,7 @@ Feature: User create a new request
       When I click on "Unpublish" option in Setting menu of workflow with name as "<name>"
       Then I should see Published field of the "<name>" workflow as "false"
 
-    @mode:serial @admin
+  @mode:serial @admin
   Rule: Delete workflow function
 
     Background:
@@ -114,7 +114,7 @@ Feature: User create a new request
       And I click on Yes button to delete the workflow
       Then I should see a record with name as "<name>", display name as "<displayName>", and "<publish>" publish status "not displayed"
 
-    @admin
+  @admin
   Rule: Manage Request Template Input
 
     Background:
@@ -147,9 +147,9 @@ Feature: User create a new request
       And I click on "Define Input" option in the menu item display
       And I input the property below to the workflow
         | row | name        | type     | required |
-        | 1   | MoneyAmount | RichText | true     |
-        | 2   | Reason      | RichText | false    |
-        | 3   | TestInput   | RichText | true     |
+        |   1 | MoneyAmount | RichText | true     |
+        |   2 | Reason      | RichText | false    |
+        |   3 | TestInput   | RichText | true     |
       Then I open Action modal popup of workflow with name as "<name>" to see the property display
         | label          |
         | Money Amount * |
@@ -167,15 +167,15 @@ Feature: User create a new request
       And I click on "Define Input" option in the menu item display
       And I input the property below to the workflow
         | row | name        | type     | required |
-        | 1   | MoneyAmount | RichText | true     |
-        | 2   | Reason      | RichText | false    |
-        | 3   | TestInput   | RichText | true     |
+        |   1 | MoneyAmount | RichText | true     |
+        |   2 | Reason      | RichText | false    |
+        |   3 | TestInput   | RichText | true     |
       And I click on "Define Input" option in Setting menu of workflow with name as "<name>"
       And I input the property below to the workflow
         | row | name          | type     | required |
-        | 1   | AmountOfMoney | Text     | true     |
-        | 2   | Reason        | Text     | true     |
-        | 3   | TestInput     | RichText | true     |
+        |   1 | AmountOfMoney | Text     | true     |
+        |   2 | Reason        | Text     | true     |
+        |   3 | TestInput     | RichText | true     |
       Then I open Action modal popup of workflow with name as "<name>" to see the property display
         | label             |
         | Amount Of Money * |
@@ -193,8 +193,8 @@ Feature: User create a new request
       And I click on "Define Input" option in the menu item display
       And I input the property below to the workflow
         | row | name        | type     | required |
-        | 1   | MoneyAmount | RichText | true     |
-        | 2   | Reason      | RichText | false    |
+        |   1 | MoneyAmount | RichText | true     |
+        |   2 | Reason      | RichText | false    |
       And I open Define Input popup of "<name>" workflow to remove property
         | name        |
         | MoneyAmount |
@@ -206,9 +206,9 @@ Feature: User create a new request
         | name                     | displayName                           | label           |
         | Test Remove Property_e2e | Test Remove Property Display Name_e2e | Workflow Detail |
 
-    @cleanup
-    @admin
+  @cleanup @admin
   Rule: Clean up data
+
     Scenario Outline: Scenario Outline name: Delete data test
       When I am on "RequestTemplatePage"
       And I delete the workflow with name as "<workflowName>"

@@ -21,6 +21,7 @@ export default class RequestTemplatePage extends BasePage {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
     this.createWorkflowPopup = new Form(this.page);
+    this.requestTemplate = new RequestTemplate(this.page);
   }
 
   async clickAddRequest(requestName: string) {
