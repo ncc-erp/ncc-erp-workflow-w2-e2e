@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const filePath = path.join(__dirname, ".local/data.json");
-
+fs.mkdirSync(path.join(__dirname, ".local"), { recursive: true });
 // Function to read data from JSON file
 const readData = (): Record<string, any> => {
   if (fs.existsSync(filePath)) {
