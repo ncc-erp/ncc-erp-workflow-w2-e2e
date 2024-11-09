@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import { waitLoading } from "../utils/waitLoading";
 import Button from "./components/button";
 import Form from "./components/form";
 import Header from "./components/header";
@@ -28,6 +29,7 @@ export abstract class BasePage {
 
   async open(path?: string) {
     await this.page.goto(path || this.path);
+    await waitLoading(this.page);
   }
 
   async verifyPageLocated() {

@@ -56,7 +56,7 @@ export default class RequestTemplatePage extends BasePage {
   async import(path: string) {
     // Import workflow and workflow input have some steps in common
     await this.importInput(path);
-    await this.button.clickByName("Create");
+    await Promise.all([this.page.waitForResponse(API.listAll), this.button.clickByName("Create")]);
   }
 
   async importInput(path: string) {
