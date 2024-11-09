@@ -1,6 +1,6 @@
-import { authAdminFile, authUserFile } from "../../../data/users.data";
-import { expect, test } from "../../../pageObjects/page.fixture";
-import requests from "../mock/list-request.json";
+import { authAdminFile, authUserFile } from "../../data/users.data";
+import { expect, test } from "../../pageObjects/page.fixture";
+import requests from "./mock/list-request.json";
 
 async function takeSnapshot(page) {
   await expect(page).toHaveScreenshot({ fullPage: true });
