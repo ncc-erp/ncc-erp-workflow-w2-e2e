@@ -74,24 +74,24 @@ export default class RequestTemplatePage extends BasePage {
     expectedPublish: string,
     expectedStatus: string
   ) {
+    // wait render
     const workflowRow = this.page.locator("tbody > tr");
-    const workflowCount = await workflowRow.count();
-    let actualStatus = "not displayed";
-    for (let i = 1; i <= workflowCount; i++) {
-      const actualDisplayName = workflowRow.nth(i).locator("td:nth-child(1)").innerText();
-      const actualName = workflowRow.nth(i).locator("td:nth-child(2)").innerText();
-      const actualPublish = workflowRow.nth(i).locator("td:nth-child(4)").innerText();
-
-      if (
-        (await actualDisplayName) === expectedDisplayName &&
-        (await actualName) === expectedName &&
-        (await actualPublish) === expectedPublish
-      ) {
-        actualStatus = "displayed";
-        break;
-      }
+    // filter rightRow
+    const rowFound = workflowRow
+      .filter({
+        hasText: expectedName,
+      })
+      .filter({
+        hasText: expectedDisplayName,
+      })
+      .filter({
+        hasText: expectedPublish,
+      });
+    if (expectedStatus == "displayed") {
+      await expect(rowFound).toBeVisible();
+    } else {
+      await expect(rowFound).toBeHidden();
     }
-    expect(actualStatus).toBe(expectedStatus);
   }
 
   async fillWorkflowField(label: string, value: string) {
