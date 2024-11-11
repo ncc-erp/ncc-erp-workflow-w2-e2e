@@ -24,6 +24,19 @@ export default class DetailTaskPopup extends BaseComponent {
     return this.host.locator('[data-testid="WeaknessPoints"] textarea');
   }
 
+  public get approveNote() {
+    return this.host.locator('[data-testid="Note"] textarea');
+  }
+
+  async approveResignation(note) {
+    await this.approveBtn.click();
+    if (note && typeof note === "string") {
+      await this.approveNote.fill(note);
+    }
+    await this.confirmBtn.click();
+    await this.page.waitForResponse(API.approveTask);
+  }
+
   async approve(strengthPoints?, weaknessPoints?) {
     await this.approveBtn.click();
     if (strengthPoints && typeof strengthPoints === "string") {

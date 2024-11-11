@@ -53,3 +53,11 @@ export function getRandomContent() {
 export function getRandomDevice() {
   return `${faker.vehicle.bicycle()}`;
 }
+
+export function getRandomPastDate() {
+  return `${faker.date.past()}`;
+}
+
+export function getRandomFutureDate() {
+  return `${faker.date.future()}`;
+}

@@ -66,8 +66,29 @@ export interface ProbationaryConfirmationRequest {
   getTitle: () => string;
 }
 
+export interface AdvancePaymentRequestForm {
+  AmountOfMoney: InputItem;
+  Reason: InputItem;
+  getTitle: () => string;
+}
+
+export interface UnlockTimesheetRequestForm {
+  TimeUnlock: InputItem;
+  Reason: InputItem;
+  getTitle: () => string;
+}
+
+export interface ResignationRequestForm {
+  DesiredLastWorkingDay: InputItem;
+  Reason: InputItem;
+  getTitle: () => string;
+}
+
 export type RequestFormType =
   | DeviceRequestForm
   | ChangeOfficeRequestForm
   | OfficeEquipmentRequestForm
-  | ProbationaryConfirmationRequest;
+  | ProbationaryConfirmationRequest
+  | AdvancePaymentRequestForm
+  | UnlockTimesheetRequestForm
+  | ResignationRequestForm;

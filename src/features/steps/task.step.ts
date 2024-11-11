@@ -37,6 +37,11 @@ When(
   }
 );
 
+When("I approve request with id {TestData} with note {string}", async ({ PageObjects }, id: string, note: string) => {
+  await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
+  await PageObjects.TaskPage.detailTaskPopup.approveResignation(note);
+});
+
 Given(
   "{string} approve the request {string}, current state {string} success",
   async ({ browser }, userType: string, id: string, currentState?: string) => {
