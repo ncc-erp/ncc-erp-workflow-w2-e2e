@@ -4,6 +4,9 @@ import adminRequests from "./mock/request/my-request-admin.json";
 import userRequests from "./mock/request/my-request-user.json";
 
 async function takeSnapshot(page) {
+  await page.waitForLoadState("domcontentloaded");
+  // eslint-disable-next-line playwright/no-networkidle
+  await page.waitForLoadState("networkidle");
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 

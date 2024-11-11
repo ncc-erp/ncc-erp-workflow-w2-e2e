@@ -3,6 +3,9 @@ import { expect, test } from "../../pageObjects/page.fixture";
 import requests from "./mock/list-request.json";
 
 async function takeSnapshot(page) {
+  await page.waitForLoadState("domcontentloaded");
+  // eslint-disable-next-line playwright/no-networkidle
+  await page.waitForLoadState("networkidle");
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
