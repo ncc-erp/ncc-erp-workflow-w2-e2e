@@ -8,6 +8,9 @@ import rejectedTaskList from "./mock/task/rejected-task-list.json";
 const emptyTaskList = { totalCount: 0, items: [] };
 
 async function takeSnapshot(page) {
+  await page.waitForLoadState("domcontentloaded");
+  // eslint-disable-next-line playwright/no-networkidle
+  await page.waitForLoadState("networkidle");
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
