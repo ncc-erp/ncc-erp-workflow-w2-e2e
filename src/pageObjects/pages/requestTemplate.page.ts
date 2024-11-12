@@ -111,6 +111,8 @@ export default class RequestTemplatePage extends BasePage {
         this.page.waitForResponse(API.listAll),
         this.menuItem.clickByName(option),
       ]);
+    } else if (option === "Define Input") {
+      await Promise.all([this.page.waitForResponse(API.workflowInputDefinition), this.menuItem.clickByName(option)]);
     } else {
       await this.menuItem.clickByName(option);
     }
@@ -266,7 +268,7 @@ export default class RequestTemplatePage extends BasePage {
     for (let i = 1; i <= workflowCount; i++) {
       await this.openSettingMenuByWorkflowName(workflowName);
       await this.clickOptionInSettingMenu("Delete");
-      await this.button.clickByName("Yes");
+      await Promise.all([this.page.waitForResponse(API.deleteWorkflow), this.button.clickByName("Yes")]);
     }
   }
   async clickCreateNewTemplate() {

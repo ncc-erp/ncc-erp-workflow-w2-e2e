@@ -1,8 +1,8 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { BasePage } from "../base.page";
-import Table from "./../components/table";
 import MyRequest from "./../components/myRequests";
 import RequestSettingMenu from "./../components/requestSettingMenu";
+import Table from "./../components/table";
 export default class MyRequestPage extends BasePage {
   public table: Table;
   public myRequest: MyRequest;
@@ -37,5 +37,14 @@ export default class MyRequestPage extends BasePage {
 
   async viewRequestDetail(id: string) {
     await this.myRequest.clickRequestById(id);
+  }
+
+  async verifyNewWorkflowInTypeDropdown(workflowName: string, status: string) {
+    const typeDropdown = this.page.getByRole("combobox").nth(0);
+    await typeDropdown.click();
+    if (status === "displayed") await expect(typeDropdown).toContainText(workflowName);
+    else {
+      await expect(typeDropdown).not.toContainText(workflowName);
+    }
   }
 }
