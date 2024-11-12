@@ -1,4 +1,4 @@
-import { expect, test } from "../../../pageObjects/page.fixture";
+import { expect, test } from "../../pageObjects/page.fixture";
 
 test.describe("login page", () => {
   test.beforeEach(async ({ PageObjects }) => {

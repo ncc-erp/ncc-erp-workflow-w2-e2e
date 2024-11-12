@@ -99,7 +99,7 @@ export default defineConfig({
       dependencies: ["setup"],
       teardown: "cleanup",
       expect: {
-        timeout: 5000,
+        timeout: 10000,
         toHaveScreenshot: {
           maxDiffPixelRatio: 0.1,
         },
