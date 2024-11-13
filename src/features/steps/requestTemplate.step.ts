@@ -155,6 +155,7 @@ When(
   async ({ PageObjects }, option: string) => {
     await Promise.all([
       PageObjects.RequestTemplatePage.page.waitForResponse(API.changeWorkflowStatus),
+      PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll),
       PageObjects.RequestTemplatePage.menuItem.clickByName(option),
     ]);
   }

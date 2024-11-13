@@ -42,8 +42,9 @@ export default class MyRequestPage extends BasePage {
   async verifyNewWorkflowInTypeDropdown(workflowName: string, status: string) {
     const typeDropdown = this.page.getByRole("combobox").nth(0);
     await typeDropdown.click();
-    if (status === "displayed") await expect(typeDropdown).toContainText(workflowName);
-    else {
+    if (status === "displayed") {
+      await expect(typeDropdown).toContainText(workflowName);
+    } else {
       await expect(typeDropdown).not.toContainText(workflowName);
     }
   }
