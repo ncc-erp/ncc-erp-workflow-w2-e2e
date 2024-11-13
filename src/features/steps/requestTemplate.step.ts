@@ -107,7 +107,6 @@ When("I click on Property Type dropdown list of property {string}", async ({ Pag
 Then(
   "I should see Published field of the {string} workflow as {string}",
   async ({ PageObjects }, workflowName: string, status: string) => {
-    await waitLoading(PageObjects.RequestTemplatePage.page);
     await PageObjects.RequestTemplatePage.verifyWorkflowStatus(workflowName, status);
   }
 );
