@@ -1,5 +1,7 @@
+import { AdvancePaymentRequestForm } from "../../data/requestTemplate.data";
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
+import { verifyMail } from "../../utils/email";
 
 // 1. Missing step definition for "src\features\changeOfficeRequest.feature:9:7"
 Then(
@@ -33,13 +35,13 @@ When(
   "I approve request with id {TestData} with strength points {string} and weekness points {string}",
   async ({ PageObjects }, id: string, strengthPoints?: string, weeknessPoints?: string) => {
     await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-    await PageObjects.TaskPage.detailTaskPopup.approve(strengthPoints, weeknessPoints);
+    await PageObjects.TaskPage.detailTaskPopup.approve({ strengthPoints, weeknessPoints });
   }
 );
 
 When("I approve request with id {TestData} with note {string}", async ({ PageObjects }, id: string, note: string) => {
   await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-  await PageObjects.TaskPage.detailTaskPopup.approveResignation(note);
+  await PageObjects.TaskPage.detailTaskPopup.approve({ note });
 });
 
 Given(
@@ -80,7 +82,7 @@ Given(
     await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
       await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-      await PageObjects.TaskPage.detailTaskPopup.approve(strengthPoints, weeknessPoints);
+      await PageObjects.TaskPage.detailTaskPopup.approve({ strengthPoints, weeknessPoints });
       await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, currentState);
     });
   }
@@ -96,5 +98,25 @@ When(
   "I reject request by drag with id {string} and reason {string}",
   async ({ PageObjects }, id: string, reason: string) => {
     await PageObjects.TaskPage.dragToRejectCol(id, reason);
+  }
+);
+
+Then(
+  "I should see an email send to {string} with subject {TestData}",
+  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
+    verifyMail(email, advancePaymentRequest.getNotificationSubject());
+  }
+);
+
+Then(
+  "I should see an approved email send to {string} with subject {TestData}",
+  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
+    verifyMail(email, advancePaymentRequest.getApprovedSubject());
+  }
+);
+Then(
+  "I should see a reject email send to {string} with subject {TestData}",
+  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
+    verifyMail(email, advancePaymentRequest.getRejectedSubject());
   }
 );
