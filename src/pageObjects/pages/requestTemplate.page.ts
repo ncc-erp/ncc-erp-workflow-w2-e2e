@@ -9,20 +9,25 @@ import { BasePage } from "../base.page";
 import Form from "../components/form";
 import RequestTemplate from "../components/requestTemplate";
 import RequestTemplateSettingMenu from "../components/requestTemplateSettingMenu";
+import WorkflowTypeDropdown from "../components/workflowTypeDropdown";
 import { API } from "./../../data/apis";
 import RequestForm from "./../components/requestForm";
+import MyRequestPage from "./myRequest.page";
+import TaskPage from "./task.page";
 
 export default class RequestTemplatePage extends BasePage {
   public requestTemplate: RequestTemplate;
   public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
+  workflowTypeDropdown: WorkflowTypeDropdown;
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
     this.createWorkflowPopup = new Form(this.page);
     this.requestTemplate = new RequestTemplate(this.page);
     this.requestTemplateSettingMenu = new RequestTemplateSettingMenu(this.page);
+    this.workflowTypeDropdown = new WorkflowTypeDropdown(this.page);
   }
 
   async clickAddRequest(requestName: string) {
@@ -97,9 +102,16 @@ export default class RequestTemplatePage extends BasePage {
   }
 
   async openSettingMenuByWorkflowName(workflowName: string) {
-    await waitLoading(this.page);
-    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(0).click();
+    await this.page
+      .locator("tbody > tr")
+      .filter({
+        hasText: workflowName,
+      })
+      .locator("button")
+      .nth(0)
+      .click();
   }
+
   async openActionPopupByWorkflowName(workflowName: string) {
     await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(1).click();
   }
@@ -281,5 +293,30 @@ export default class RequestTemplatePage extends BasePage {
   async clickMenuButton(id: string, btnName: string) {
     await this.requestTemplate.clickSettingButtonById(id);
     (await this.requestTemplateSettingMenu.menuButton(btnName)).click();
+  }
+
+  async verifyNewWorkflowInTypeDropDown(workflowDisplayName: string, status: string, dataTable: DataTable) {
+    const pageNames = dataTable.hashes();
+    for (const { pageName } of pageNames) {
+      let pageInstance;
+      if (pageName === "MyRequestPage") {
+        console.log("Initializing MyRequestPage");
+        pageInstance = new MyRequestPage(this.page);
+      } else if (pageName === "TaskPage") {
+        console.log("Initializing TaskPage");
+        pageInstance = new TaskPage(this.page);
+      }
+
+      if (pageInstance) {
+        console.log(`Opening ${pageName}`);
+        await pageInstance.open();
+        await pageInstance.verifyPageLocated();
+        await waitLoading(pageInstance.page);
+        console.log(`Verifying workflow dropdown on ${pageName}`);
+        await this.workflowTypeDropdown.verifyNewWorkflowInTypeDropdown(workflowDisplayName, status);
+      } else {
+        console.warn(`No page instance found for: ${pageName}`);
+      }
+    }
   }
 }

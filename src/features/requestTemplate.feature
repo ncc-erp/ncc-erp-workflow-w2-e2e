@@ -86,14 +86,19 @@ Feature: User create a new request
       And I open Setting menu of workflow with name as "<name>"
       And I click on "Publish" option in the menu item to change workflow status
       Then I should see Published field of the "<name>" workflow as "true"
-      And  I should see "<displayName>" workflow "displayed" in the Type dropdown on Request page and Task page
-
+      And  I should see "<displayName>" workflow "displayed" in the Type dropdown on the page
+        |page         |
+        |MyRequestPage|
+        |TaskPage     |
 
     Scenario: I can unpublish a workflow success
       When I open Setting menu of workflow with name as "<name>"
       And I click on "Unpublish" option in the menu item to change workflow status
       Then I should see Published field of the "<name>" workflow as "false"
-      And  I should see "<displayName>" workflow "not displayed" in the Type dropdown on Request page and Task page
+      And I should see "<displayName>" workflow "not displayed" in the Type dropdown on the page
+        |page         |
+        |MyRequestPage|
+        |TaskPage     |
 
     @mode:serial @admin
   Rule: Delete workflow function

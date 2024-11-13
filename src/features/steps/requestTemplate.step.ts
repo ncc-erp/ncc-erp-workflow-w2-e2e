@@ -3,7 +3,6 @@ import { API } from "../../data/apis";
 import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authUserFile } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
-import { waitLoading } from "../../utils/waitLoading";
 
 // User create Device Request "*testData[random_device_request]__global[deviceRequest2]" success
 Given(
@@ -141,12 +140,9 @@ When("I open Setting menu of workflow with name as {string}", async ({ PageObjec
 });
 
 Then(
-  "I should see {string} workflow {string} in the Type dropdown on Request page and Task page",
-  async ({ PageObjects }, workflowDisplayName: string, status: string) => {
-    await PageObjects.MyRequestPage.open();
-    await PageObjects.MyRequestPage.verifyPageLocated();
-    await waitLoading(PageObjects.MyRequestPage.page); // page not auto reload
-    await PageObjects.MyRequestPage.verifyNewWorkflowInTypeDropdown(workflowDisplayName, status);
+  "I should see {string} workflow {string} in the Type dropdown on the page",
+  async ({ PageObjects }, workflowDisplayName: string, status: string, dataTable: DataTable) => {
+    await PageObjects.RequestTemplatePage.verifyNewWorkflowInTypeDropDown(workflowDisplayName, status, dataTable);
   }
 );
 
@@ -155,7 +151,6 @@ When(
   async ({ PageObjects }, option: string) => {
     await Promise.all([
       PageObjects.RequestTemplatePage.page.waitForResponse(API.changeWorkflowStatus),
-      PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll),
       PageObjects.RequestTemplatePage.menuItem.clickByName(option),
     ]);
   }
