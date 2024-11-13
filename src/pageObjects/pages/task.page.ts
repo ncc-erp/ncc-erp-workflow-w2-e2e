@@ -34,7 +34,6 @@ export default class TaskPage extends BasePage {
 
   async tableView() {
     await this.page.getByRole("button", { name: "Call Sage" }).nth(1).click();
-    await this.page.waitForResponse(API.listTask);
   }
 
   async filterByStatus(status: string) {
@@ -43,6 +42,7 @@ export default class TaskPage extends BasePage {
 
   async approveRequestInTableMode(id: string) {
     await this.tableView();
+    await this.page.waitForResponse(API.listTask);
     await this.table.clickSettingButtonByInstanceId(id);
     await this.menuItem.clickByName("Approve");
     await this.button.clickByName("Confirm");
@@ -51,6 +51,7 @@ export default class TaskPage extends BasePage {
 
   async rejectRequestInTableMode(id: string, reason: string) {
     await this.tableView();
+    await this.page.waitForResponse(API.listTask);
     await this.table.clickSettingButtonByInstanceId(id);
     await this.menuItem.clickByName("Reject");
     await this.rejectPopup.reject(reason);
