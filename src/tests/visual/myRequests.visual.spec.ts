@@ -1,9 +1,12 @@
-import { authAdminFile, authUserFile } from "../../../data/users.data";
-import { expect, test } from "../../../pageObjects/page.fixture";
-import userRequests from "../mock/request/my-request-user.json";
-import adminRequests from "../mock/request/my-request-admin.json";
+import { authAdminFile, authUserFile } from "../../data/users.data";
+import { expect, test } from "../../pageObjects/page.fixture";
+import adminRequests from "./mock/request/my-request-admin.json";
+import userRequests from "./mock/request/my-request-user.json";
 
 async function takeSnapshot(page) {
+  await page.waitForLoadState("domcontentloaded");
+  // eslint-disable-next-line playwright/no-networkidle
+  await page.waitForLoadState("networkidle");
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 

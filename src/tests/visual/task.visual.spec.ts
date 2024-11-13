@@ -1,13 +1,16 @@
-import { authAdminFile, authPmFile, authUserFile } from "../../../data/users.data";
-import { expect, test } from "../../../pageObjects/page.fixture";
-import pendingTaskList from "../mock/task/pending-task-list.json";
-import approvedTaskList from "../mock/task/approved-task-list.json";
-import rejectedTaskList from "../mock/task/rejected-task-list.json";
+import { authAdminFile, authPmFile, authUserFile } from "../../data/users.data";
+import { expect, test } from "../../pageObjects/page.fixture";
+import approvedTaskList from "./mock/task/approved-task-list.json";
+import pendingTaskList from "./mock/task/pending-task-list.json";
+import rejectedTaskList from "./mock/task/rejected-task-list.json";
 
 // Define empty task list mock data
 const emptyTaskList = { totalCount: 0, items: [] };
 
 async function takeSnapshot(page) {
+  await page.waitForLoadState("domcontentloaded");
+  // eslint-disable-next-line playwright/no-networkidle
+  await page.waitForLoadState("networkidle");
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
