@@ -95,7 +95,6 @@ Feature: User create a new request
       Then I should see Published field of the "<name>" workflow as "false"
       And  I should see "<displayName>" workflow "not displayed" in the Type dropdown on Request page and Task page
 
-
     @mode:serial @admin
   Rule: Delete workflow function
 
