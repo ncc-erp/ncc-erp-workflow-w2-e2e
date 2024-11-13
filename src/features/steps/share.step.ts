@@ -6,6 +6,7 @@ import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
+import WorkflowTypeDropdown from "../../pageObjects/components/workflowTypeDropdown";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
 
@@ -82,4 +83,14 @@ When("I close popup with label as {string}", async ({ page }, label: string) => 
 When("I click on {string} option in the menu item display", async ({ page }, option: string) => {
   const menuItem = new MenuItem(page);
   await menuItem.clickByName(option);
+});
+
+Given("I click on Type dropdown", async ({ page }) => {
+  const workflowTypeDropdown = new WorkflowTypeDropdown(page);
+  await workflowTypeDropdown.typeDropdown().click();
+});
+
+Given("I should see these option below Type dropdown", async ({ page }, dataTable: DataTable) => {
+  const workflowTypeDropdown = new WorkflowTypeDropdown(page);
+  await workflowTypeDropdown.verifyTypeDropdownOptions(dataTable);
 });
