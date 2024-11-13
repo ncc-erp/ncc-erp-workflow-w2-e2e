@@ -86,8 +86,8 @@ Feature: User create a new request
       And I open Setting menu of workflow with name as "<name>"
       And I click on "Publish" option in the menu item to change workflow status
       Then I should see Published field of the "<name>" workflow as "true"
-      And  I should see "<displayName>" workflow "displayed" in the Type dropdown on the page
-        |page         |
+      And I should see "<displayName>" workflow "displayed" in the Type dropdown on the page
+        |pageName     |
         |MyRequestPage|
         |TaskPage     |
 
@@ -96,7 +96,7 @@ Feature: User create a new request
       And I click on "Unpublish" option in the menu item to change workflow status
       Then I should see Published field of the "<name>" workflow as "false"
       And I should see "<displayName>" workflow "not displayed" in the Type dropdown on the page
-        |page         |
+        |pageName     |
         |MyRequestPage|
         |TaskPage     |
 
@@ -179,7 +179,8 @@ Feature: User create a new request
         |   1 | MoneyAmount | RichText | true     |
         |   2 | Reason      | RichText | false    |
         |   3 | TestInput   | RichText | true     |
-      And I click on "Define Input" option in Setting menu of workflow with name as "<name>"
+      And I open Setting menu of workflow with name as "<name>"
+      And I click on "Define Input" option in the menu item display
       And I input the property below to the workflow
         | row | name          | type     | required |
         |   1 | AmountOfMoney | Text     | true     |

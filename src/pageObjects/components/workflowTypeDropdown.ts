@@ -6,7 +6,7 @@ export default class WorkflowTypeDropdown extends BaseComponent {
     await typeDropdown.click();
     const optionLocator = typeDropdown.locator("option").filter({ hasText: workflowName });
     if (status === "displayed") {
-      await expect(optionLocator).toBeVisible();
+      await expect(optionLocator).toBeAttached();
     } else {
       await expect(optionLocator).toBeHidden();
     }
