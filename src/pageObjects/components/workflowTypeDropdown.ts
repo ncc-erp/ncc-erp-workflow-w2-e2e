@@ -20,4 +20,8 @@ export default class WorkflowTypeDropdown extends BaseComponent {
     const actualOptions = (await this.typeDropdown().innerText()).split("\n").map((option) => option);
     expect(actualOptions).toEqual(expectedOptions);
   }
+
+  async clickByName(name: string) {
+    await this.typeDropdown().selectOption(name);
+  }
 }

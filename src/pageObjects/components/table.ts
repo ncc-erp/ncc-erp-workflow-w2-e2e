@@ -32,6 +32,13 @@ export default class Table extends BaseComponent {
     await expect(cell).toContainText(text);
   }
 
+  async verifyCellOfCol(col: number, text: string) {
+    const cells = await this.getColumnValues(col);
+    for (const cell of cells) {
+      expect(cell).toContain(text);
+    }
+  }
+
   async verifyTextInCol(col: number, text: string) {
     const cells = await this.getColumnValues(col);
     expect(cells.join(",")).toContain(text);

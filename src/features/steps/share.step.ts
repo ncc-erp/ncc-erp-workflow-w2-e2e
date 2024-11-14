@@ -94,3 +94,13 @@ Given("I should see these option below Type dropdown", async ({ page }, dataTabl
   const workflowTypeDropdown = new WorkflowTypeDropdown(page);
   await workflowTypeDropdown.verifyTypeDropdownOptions(dataTable);
 });
+
+Given("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
+  const workflowTypeDropdown = new WorkflowTypeDropdown(page);
+  await workflowTypeDropdown.clickByName(option);
+});
+
+Then("I should see all title with tag as {string} display", async ({ page }, workflowDisplayName: string) => {
+  const workflowTag = new WorkflowTag(page);
+  await workflowTag.verifyWorkflowTag(workflowDisplayName);
+});

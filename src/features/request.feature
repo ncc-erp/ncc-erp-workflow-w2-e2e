@@ -20,6 +20,22 @@ Feature: Request
         | Resignation Request               |
         | Unlock Timesheet Request          |
         | WFH Request                       |
+
+    Scenario Outline: I can filter by Workflow Type success
+      And I click on "<option>" from the Type dropdown
+      And I click on "Only my request" button
+      Then I should see all title with tag as "<option>" display
+
+      Examples:
+        | option                            |
+        | Advance Payment Request           |
+        | Change Office Request             |
+        | Device Request                    |
+        | Office Equipment Request          |
+        | Probationary Confirmation Request |
+        | Resignation Request               |
+        | Unlock Timesheet Request          |
+        | WFH Request                       |
 # Admin Cancel
 
   @admin
