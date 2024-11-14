@@ -34,10 +34,11 @@ Feature: Advance Payment Request
 
     Background:
       Given User create "Advance Payment Request" with "*testData.random_advance_payment_request__global[co3]" success
-      And "Accountant" approve the request "*global[co3].response.id", current state "Accountant Reviews" success
 
-    Scenario: I should see an email notification when the Advance Payment Request is approved
+    Scenario: I should see an email notification when the Advance Payment Request is Approved
+      When "Accountant" approve the request "*global[co3].response.id", current state "Accountant Reviews" success
       Then I should see an approved email send to "*testData.users.user.username" with subject "*testData.random_advance_payment_request"
 
     Scenario: I should see an email notification when the Advance Payment Request is rejected
+      When "Accountant" reject the request "*global[co3].response.id", current state "Accountant Reviews" success with reason "test reason"
       Then I should see a reject email send to "*testData.users.user.username" with subject "*testData.random_advance_payment_request"

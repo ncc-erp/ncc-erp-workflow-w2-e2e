@@ -1,3 +1,4 @@
+import { API } from "../../data/apis";
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
 
@@ -21,12 +22,18 @@ Then(
 // 2. Missing step definition for "src\features\changeOfficeRequest.feature:12:7"
 When("I approve request with id {string}", async ({ PageObjects }, id: string) => {
   await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-  await PageObjects.TaskPage.detailTaskPopup.approve();
+  await Promise.all([
+    PageObjects.TaskPage.page.waitForResponse(API.listTask),
+    PageObjects.TaskPage.detailTaskPopup.approve(),
+  ]);
 });
 // 3. Missing step definition for "src\features\changeOfficeRequest.feature:16:7"
 When("I reject request with id {string} with reason {string}", async ({ PageObjects }, id: string, reason: string) => {
   await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-  await PageObjects.TaskPage.detailTaskPopup.reject(reason);
+  await Promise.all([
+    PageObjects.TaskPage.page.waitForResponse(API.listTask),
+    PageObjects.TaskPage.detailTaskPopup.reject(reason),
+  ]);
 });
 
 When(
@@ -49,7 +56,10 @@ Given(
     await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
       await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-      await PageObjects.TaskPage.detailTaskPopup.approve();
+      await Promise.all([
+        PageObjects.TaskPage.page.waitForResponse(API.listTask),
+        PageObjects.TaskPage.detailTaskPopup.approve(),
+      ]);
       await PageObjects.TaskPage.taskBoard.verifyHasTaskById(1, id, users.user.name, currentState);
     });
   }
@@ -61,7 +71,10 @@ Given(
     await BrowserControl.withAuth(browser, authFile, async ({ PageObjects }) => {
       await PageObjects.TaskPage.open();
       await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-      await PageObjects.TaskPage.detailTaskPopup.reject(reason);
+      await Promise.all([
+        PageObjects.TaskPage.page.waitForResponse(API.listTask),
+        PageObjects.TaskPage.detailTaskPopup.reject(reason),
+      ]);
       await PageObjects.TaskPage.taskBoard.verifyHasTaskById(2, id, users.user.name, currentState);
     });
   }
