@@ -21,7 +21,7 @@ export default class TaskPage extends BasePage {
 
   async dragToApproveCol(id: string) {
     await this.taskBoard.dragItemIdToCol(id, 0, 1);
-    await this.button.clickByName("Confirm");
+    await this.page.click('button:has-text("Confirm")');
   }
 
   async dragToRejectCol(id: string, reason: string) {
