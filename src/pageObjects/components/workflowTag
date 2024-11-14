@@ -1,8 +1,0 @@
-import { expect } from "@playwright/test";
-import { BaseComponent } from "../base.component";
-export default class WorkflowTag extends BaseComponent {
-  async verifyWorkflowTag(workflow: string) {
-    const workflowTag = this.page.locator('div[class*="_title"]');
-    await expect(workflowTag).toContainText(workflow);
-  }
-}
