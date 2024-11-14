@@ -1,7 +1,5 @@
-import { AdvancePaymentRequestForm } from "../../data/requestTemplate.data";
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
-import { verifyMail } from "../../utils/email";
 
 // 1. Missing step definition for "src\features\changeOfficeRequest.feature:9:7"
 Then(
@@ -98,25 +96,5 @@ When(
   "I reject request by drag with id {string} and reason {string}",
   async ({ PageObjects }, id: string, reason: string) => {
     await PageObjects.TaskPage.dragToRejectCol(id, reason);
-  }
-);
-
-Then(
-  "I should see an email send to {string} with subject {TestData}",
-  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
-    verifyMail(email, advancePaymentRequest.getNotificationSubject());
-  }
-);
-
-Then(
-  "I should see an approved email send to {string} with subject {TestData}",
-  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
-    verifyMail(email, advancePaymentRequest.getApprovedSubject());
-  }
-);
-Then(
-  "I should see a reject email send to {string} with subject {TestData}",
-  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
-    verifyMail(email, advancePaymentRequest.getRejectedSubject());
   }
 );

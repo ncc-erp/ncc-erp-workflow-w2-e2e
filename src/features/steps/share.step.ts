@@ -8,6 +8,8 @@ import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
+import { AdvancePaymentRequestForm } from "../../data/requestTemplate.data";
+import { verifyMail } from "../../utils/email";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -83,3 +85,23 @@ When("I click on {string} option in the menu item display", async ({ page }, opt
   const menuItem = new MenuItem(page);
   await menuItem.clickByName(option);
 });
+
+Then(
+  "I should see an email send to {string} with subject {TestData}",
+  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
+    verifyMail(email, advancePaymentRequest.getNotificationSubject());
+  }
+);
+
+Then(
+  "I should see an approved email send to {string} with subject {TestData}",
+  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
+    verifyMail(email, advancePaymentRequest.getApprovedSubject());
+  }
+);
+Then(
+  "I should see a reject email send to {string} with subject {TestData}",
+  async ({}, email: string, advancePaymentRequest: AdvancePaymentRequestForm) => {
+    verifyMail(email, advancePaymentRequest.getRejectedSubject());
+  }
+);

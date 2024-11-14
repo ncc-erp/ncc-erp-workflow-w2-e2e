@@ -10,7 +10,7 @@ export const authCeoFile = path.join(__dirname, "../.auth/ceo.json");
 export const authHrFile = path.join(__dirname, "../.auth/hr.json");
 export const authAccountantFile = path.join(__dirname, "../.auth/accountant.json");
 export const authHPMFile = path.join(__dirname, "../.auth/hpm.json");
-export const authSdFile = path.join(__dirname, "../.auth/sd.json");
+export const authSaodoFile = path.join(__dirname, "../.auth/saodo.json");
 export const users = {
   user: {
     username: "manh.nguyenvan@ncc.asia",
@@ -72,10 +72,10 @@ export const users = {
     name: "Thu Le Anh",
     authFile: authHPMFile,
   },
-  sd: {
+  saodo: {
     username: "anh.daovan@ncc.asia",
     password: "1q2w3E*",
     name: "Anh Dao Van",
-    authFile: authSdFile,
+    authFile: authSaodoFile,
   },
 };
