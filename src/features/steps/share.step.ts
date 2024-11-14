@@ -111,3 +111,8 @@ Given("I click on Status dropdown", async ({ page }) => {
   const statusDropdown = new StatusDropdown(page);
   await statusDropdown.locator().click();
 });
+
+Then("I click on {string} from the Status dropdown", async ({ page }, option: string) => {
+  const statusDropdown = new StatusDropdown(page);
+  await statusDropdown.locator().selectOption(option);
+});

@@ -44,7 +44,9 @@ Feature: Request
 
     Scenario Outline: I can filter by status success
       And I click on "<option>" from the Status dropdown
-      Then I should see all request with status as "<option>" display
+      Then I should see all request with status as "<option>" display in Request page
+
+      Examples:
         | option   |
         | Approved |
         | Rejected |

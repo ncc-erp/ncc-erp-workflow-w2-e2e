@@ -1,5 +1,5 @@
-import { BrowserControl, Then, When } from "../../pageObjects/page.fixture";
 import { users } from "../../data/users.data";
+import { BrowserControl, Then, When } from "../../pageObjects/page.fixture";
 
 Then("I should see {TestData} on my request page", async ({ PageObjects }, id: string) => {
   /// verify get request
@@ -51,3 +51,10 @@ When("{string} cancel request with id {TestData}", async ({ browser }, userType:
     await PageObjects.MyRequestPage.cancelRequest(id);
   });
 });
+
+Then(
+  "I should see all request with status as {string} display in Request page",
+  async ({ PageObjects }, status: string) => {
+    await PageObjects.MyRequestPage.verifyFilterStatus(status);
+  }
+);
