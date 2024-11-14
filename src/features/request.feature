@@ -24,7 +24,7 @@ Feature: Request
     Scenario Outline: I can filter by Workflow Type success
       And I click on "<option>" from the Type dropdown
       And I click on "Only my request" button
-      Then I should see all title with tag as "<option>" display
+      Then I should see all request with tag as "<option>" display
 
       Examples:
         | option                            |

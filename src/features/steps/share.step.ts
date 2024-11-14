@@ -6,6 +6,7 @@ import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
+import WorkflowTag from "../../pageObjects/components/workflowTag";
 import WorkflowTypeDropdown from "../../pageObjects/components/workflowTypeDropdown";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
@@ -100,7 +101,7 @@ Given("I click on {string} from the Type dropdown", async ({ page }, option: str
   await workflowTypeDropdown.clickByName(option);
 });
 
-Then("I should see all title with tag as {string} display", async ({ page }, workflowDisplayName: string) => {
+Then("I should see all request with tag as {string} display", async ({ page }, workflowDisplayName: string) => {
   const workflowTag = new WorkflowTag(page);
   await workflowTag.verifyWorkflowTag(workflowDisplayName);
 });
