@@ -17,6 +17,7 @@ export default class RequestTemplatePage extends BasePage {
   public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
+
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
@@ -214,17 +215,12 @@ export default class RequestTemplatePage extends BasePage {
 
   async verifyPropertyTypeDropdown(propertyName: string, dataTable: DataTable) {
     const propertyCount = await this.page.getByText("Property Name *").count();
-    const expectedOptions = dataTable.rows().map((row) => row[0]);
     for (let i = 0; i < propertyCount; i++) {
       if (
         (await this.form.getFormGroupByLabel("Property Name").nth(i).getByRole("textbox").inputValue()) === propertyName
       ) {
-        const actualOptions = (
-          await this.form.getFormGroupByLabel("Property Type").nth(i).getByRole("combobox").innerText()
-        )
-          .split("\n")
-          .map((option) => option);
-        expect(actualOptions).toEqual(expectedOptions);
+        const propertyTypeLocator = this.form.getFormGroupByLabel("Property Type").nth(i).getByRole("combobox");
+        await this.dropdown.verifyDropdownOptions(propertyTypeLocator, dataTable);
         break;
       }
     }

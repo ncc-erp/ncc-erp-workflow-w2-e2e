@@ -6,6 +6,7 @@ import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
+import StatusDropdown from "../../pageObjects/components/statusDropdown";
 import WorkflowTag from "../../pageObjects/components/workflowTag";
 import WorkflowTypeDropdown from "../../pageObjects/components/workflowTypeDropdown";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
@@ -91,9 +92,9 @@ Given("I click on Type dropdown", async ({ page }) => {
   await workflowTypeDropdown.typeDropdown().click();
 });
 
-Given("I should see these option below Type dropdown", async ({ page }, dataTable: DataTable) => {
-  const workflowTypeDropdown = new WorkflowTypeDropdown(page);
-  await workflowTypeDropdown.verifyTypeDropdownOptions(dataTable);
+Given("I should see these option below Status dropdown", async ({ page }, dataTable: DataTable) => {
+  const statusDropdown = new StatusDropdown(page);
+  await statusDropdown.verifyStatusDropdownOptions(dataTable);
 });
 
 Given("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
@@ -104,4 +105,9 @@ Given("I click on {string} from the Type dropdown", async ({ page }, option: str
 Then("I should see all request with tag as {string} display", async ({ page }, workflowDisplayName: string) => {
   const workflowTag = new WorkflowTag(page);
   await workflowTag.verifyWorkflowTag(workflowDisplayName);
+});
+
+Given("I click on Status dropdown", async ({ page }) => {
+  const statusDropdown = new StatusDropdown(page);
+  await statusDropdown.locator().click();
 });

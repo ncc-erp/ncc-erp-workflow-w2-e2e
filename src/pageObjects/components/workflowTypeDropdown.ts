@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
 import { BaseComponent } from "../base.component";
 export default class WorkflowTypeDropdown extends BaseComponent {
   public typeDropdown() {
@@ -13,12 +12,6 @@ export default class WorkflowTypeDropdown extends BaseComponent {
     } else {
       await expect(optionLocator).toBeHidden();
     }
-  }
-
-  async verifyTypeDropdownOptions(dataTable: DataTable) {
-    const expectedOptions = dataTable.rows().map((row) => row[0]);
-    const actualOptions = (await this.typeDropdown().innerText()).split("\n").map((option) => option);
-    expect(actualOptions).toEqual(expectedOptions);
   }
 
   async clickByName(name: string) {

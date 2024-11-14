@@ -8,19 +8,6 @@ Feature: Request
       Given I am on "MyRequestPage"
       And I click on Type dropdown
 
-    Scenario: Verify Type dropdown options
-      Then I should see these option below Type dropdown
-        | option                            |
-        | All types                         |
-        | Advance Payment Request           |
-        | Change Office Request             |
-        | Device Request                    |
-        | Office Equipment Request          |
-        | Probationary Confirmation Request |
-        | Resignation Request               |
-        | Unlock Timesheet Request          |
-        | WFH Request                       |
-
     Scenario Outline: I can filter by Workflow Type success
       And I click on "<option>" from the Type dropdown
       And I click on "Only my request" button
@@ -36,6 +23,22 @@ Feature: Request
         | Resignation Request               |
         | Unlock Timesheet Request          |
         | WFH Request                       |
+
+  @admin
+  Rule: As admin, I want to manage Status filter success
+
+    Background:
+      Given I am on "MyRequestPage"
+      And I click on Status dropdown
+
+    Scenario: Verify Status dropdown options
+      Then I should see these option below Status dropdown
+        | option     |
+        | All status |
+        | Approved   |
+        | Rejected   |
+        | Pending    |
+        | Canceled   |
 # Admin Cancel
 
   @admin
