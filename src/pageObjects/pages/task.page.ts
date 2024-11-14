@@ -40,19 +40,21 @@ export default class TaskPage extends BasePage {
     await this.page.getByRole("combobox").nth(1).selectOption(status);
   }
 
-  async approveRequestInTableMode(id: string) {
+  async prepareApproveOrRejectInTable(id: string) {
     await this.tableView();
     await this.page.waitForResponse(API.listTask);
     await this.table.clickSettingButtonByInstanceId(id);
+  }
+
+  async approveRequestInTableMode(id: string) {
+    await this.prepareApproveOrRejectInTable(id);
     await this.menuItem.clickByName("Approve");
     await this.button.clickByName("Confirm");
     await this.page.waitForResponse(API.approveTask);
   }
 
   async rejectRequestInTableMode(id: string, reason: string) {
-    await this.tableView();
-    await this.page.waitForResponse(API.listTask);
-    await this.table.clickSettingButtonByInstanceId(id);
+    await this.prepareApproveOrRejectInTable(id);
     await this.menuItem.clickByName("Reject");
     await this.rejectPopup.reject(reason);
   }
