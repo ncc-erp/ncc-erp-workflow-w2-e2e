@@ -40,7 +40,10 @@ When(
   "I approve request with id {TestData} with strength points {string} and weekness points {string}",
   async ({ PageObjects }, id: string, strengthPoints?: string, weeknessPoints?: string) => {
     await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
-    await PageObjects.TaskPage.detailTaskPopup.approve({ strengthPoints, weeknessPoints });
+    await Promise.all([
+      PageObjects.TaskPage.page.waitForResponse(API.listTask),
+      PageObjects.TaskPage.detailTaskPopup.approve({ strengthPoints, weeknessPoints }),
+    ]);
   }
 );
 
