@@ -6,6 +6,7 @@ Feature: Request
 
     Background:
       Given I am on "MyRequestPage"
+      And I click on "Only my request" button
       And I click on Type dropdown
 
     Scenario Outline: I can filter by Workflow Type success
@@ -29,6 +30,7 @@ Feature: Request
 
     Background:
       Given I am on "MyRequestPage"
+      And I click on "Only my request" button
       And I click on Status dropdown
 
     Scenario: Verify Status dropdown options
@@ -39,6 +41,15 @@ Feature: Request
         | Rejected   |
         | Pending    |
         | Canceled   |
+
+    Scenario Outline: I can filter by status success
+      And I click on "<option>" from the Status dropdown
+      Then I should see all request with status as "<option>" display
+        | option   |
+        | Approved |
+        | Rejected |
+        | Pending  |
+        | Canceled |
 # Admin Cancel
 
   @admin
