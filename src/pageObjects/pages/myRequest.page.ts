@@ -1,8 +1,8 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "../base.page";
-import Table from "./../components/table";
 import MyRequest from "./../components/myRequests";
 import RequestSettingMenu from "./../components/requestSettingMenu";
+import Table from "./../components/table";
 export default class MyRequestPage extends BasePage {
   public table: Table;
   public myRequest: MyRequest;

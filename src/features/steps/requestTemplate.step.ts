@@ -2,6 +2,7 @@ import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
 import { API } from "../../data/apis";
 import { DeviceRequestForm } from "../../data/requestTemplate.data";
 import { authUserFile } from "../../data/users.data";
+import WorkflowTypeDropdown from "../../pageObjects/components/workflowTypeDropdown";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
 
 // User create Device Request "*testData[random_device_request]__global[deviceRequest2]" success
@@ -138,3 +139,26 @@ When("I click on Yes button to delete the workflow", async ({ PageObjects }) => 
 When("I open Setting menu of workflow with name as {string}", async ({ PageObjects }, workflowName: string) => {
   await PageObjects.RequestTemplatePage.openSettingMenuByWorkflowName(workflowName);
 });
+
+Then(
+  "I should see {string} workflow {string} in the Type dropdown on the page",
+  async ({ PageObjects }, workflowDisplayName: string, status: string, dataTable: DataTable) => {
+    const pageNames = dataTable.hashes();
+    for (const { pageName } of pageNames) {
+      await PageObjects[pageName].open();
+      await PageObjects[pageName].verifyPageLocated();
+      const workflowTypeDropdown = new WorkflowTypeDropdown(PageObjects[pageName].page);
+      await workflowTypeDropdown.verifyNewWorkflowInTypeDropdown(workflowDisplayName, status);
+    }
+  }
+);
+
+When(
+  "I click on {string} option in the menu item to change workflow status",
+  async ({ PageObjects }, option: string) => {
+    await Promise.all([
+      PageObjects.RequestTemplatePage.page.waitForResponse(API.changeWorkflowStatus),
+      PageObjects.RequestTemplatePage.menuItem.clickByName(option),
+    ]);
+  }
+);

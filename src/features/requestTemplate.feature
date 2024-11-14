@@ -84,14 +84,23 @@ Feature: User create a new request
       When I create a workflow with name as "<name>" and display name as "<displayName>"
       And I close popup with label as "<label>"
       And I open Setting menu of workflow with name as "<name>"
-      And I click on "Publish" option in the menu item display
+      And I click on "Publish" option in the menu item to change workflow status
       Then I should see Published field of the "<name>" workflow as "true"
+      And I should see "<displayName>" workflow "displayed" in the Type dropdown on the page
+        |pageName     |
+        |MyRequestPage|
+        |TaskPage     |
 
     Scenario: I can unpublish a workflow success
-      When I click on "Unpublish" option in Setting menu of workflow with name as "<name>"
+      When I open Setting menu of workflow with name as "<name>"
+      And I click on "Unpublish" option in the menu item to change workflow status
       Then I should see Published field of the "<name>" workflow as "false"
+      And I should see "<displayName>" workflow "not displayed" in the Type dropdown on the page
+        |pageName     |
+        |MyRequestPage|
+        |TaskPage     |
 
-  @mode:serial @admin
+    @mode:serial @admin
   Rule: Delete workflow function
 
     Background:
@@ -170,7 +179,8 @@ Feature: User create a new request
         |   1 | MoneyAmount | RichText | true     |
         |   2 | Reason      | RichText | false    |
         |   3 | TestInput   | RichText | true     |
-      And I click on "Define Input" option in Setting menu of workflow with name as "<name>"
+      And I open Setting menu of workflow with name as "<name>"
+      And I click on "Define Input" option in the menu item display
       And I input the property below to the workflow
         | row | name          | type     | required |
         |   1 | AmountOfMoney | Text     | true     |

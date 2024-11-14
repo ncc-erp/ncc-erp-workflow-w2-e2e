@@ -97,9 +97,16 @@ export default class RequestTemplatePage extends BasePage {
   }
 
   async openSettingMenuByWorkflowName(workflowName: string) {
-    await waitLoading(this.page);
-    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(0).click();
+    await this.page
+      .locator("tbody > tr")
+      .filter({
+        hasText: workflowName,
+      })
+      .locator("button")
+      .nth(0)
+      .click();
   }
+
   async openActionPopupByWorkflowName(workflowName: string) {
     await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(1).click();
   }
@@ -111,6 +118,8 @@ export default class RequestTemplatePage extends BasePage {
         this.page.waitForResponse(API.listAll),
         this.menuItem.clickByName(option),
       ]);
+    } else if (option === "Define Input") {
+      await Promise.all([this.page.waitForResponse(API.workflowInputDefinition), this.menuItem.clickByName(option)]);
     } else {
       await this.menuItem.clickByName(option);
     }
@@ -227,7 +236,7 @@ export default class RequestTemplatePage extends BasePage {
       if (
         (await this.form.getFormGroupByLabel("Property Name").nth(i).getByRole("textbox").inputValue()) === propertyName
       ) {
-        await this.form.getFormGroupByLabel("Property Type").nth(i).getByRole("combobox").click();
+        await this.form.getFormGroupByLabel("Property Type").nth(i).locator("select").click();
         break;
       }
     }
@@ -266,7 +275,7 @@ export default class RequestTemplatePage extends BasePage {
     for (let i = 1; i <= workflowCount; i++) {
       await this.openSettingMenuByWorkflowName(workflowName);
       await this.clickOptionInSettingMenu("Delete");
-      await this.button.clickByName("Yes");
+      await Promise.all([this.page.waitForResponse(API.deleteWorkflow), this.button.clickByName("Yes")]);
     }
   }
   async clickCreateNewTemplate() {
