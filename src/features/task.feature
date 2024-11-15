@@ -34,6 +34,8 @@ Feature: Task
         | Resignation Request               |
         | Unlock Timesheet Request          |
         | WFH Request                       |
+  # @admin
+  # Rule: As admin, I want to toggle between board view and list task view success
 
   @admin
   Rule: As admin, I want to manage Type filter success
@@ -49,3 +51,14 @@ Feature: Task
         | Pending    |
         | Approved   |
         | Rejected   |
+
+    Scenario Outline: I can filter by status success
+      And I click on "<option>" from the Status dropdown
+      And I switch to Table View mode
+      Then I should see all request with status as "<option>" display in Task page
+
+      Examples:
+        | option   |
+        | Pending  |
+        | Approved |
+        | Rejected |
