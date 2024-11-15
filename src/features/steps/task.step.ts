@@ -1,3 +1,4 @@
+import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
 
@@ -101,4 +102,12 @@ Then(
 
 Given("I switch to Table View mode", async ({ PageObjects }) => {
   await PageObjects.TaskPage.tableView();
+});
+
+Then("I should see these option below Time dropdown", async ({ PageObjects }, dataTable: DataTable) => {
+  await PageObjects.TaskPage.verifyTimeDropdownOptions(dataTable);
+});
+
+Given("I click on Time dropdown", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.timeDropDown.click();
 });

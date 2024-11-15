@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { DataTable } from "playwright-bdd";
 import { BasePage } from "../base.page";
 import RejectPopup from "../components/rejectPopup";
 import Table from "../components/table";
@@ -19,6 +20,10 @@ export default class TaskPage extends BasePage {
     this.table = new Table(page);
   }
 
+  public get timeDropDown() {
+    return this.page.getByRole("combobox").nth(2);
+  }
+
   async dragToApproveCol(id: string) {
     await this.taskBoard.dragItemIdToCol(id, 0, 1);
   }
@@ -37,5 +42,9 @@ export default class TaskPage extends BasePage {
 
   async verifyFilterStatus(status: string) {
     await this.table.verifyCellOfCol(5, status);
+  }
+
+  async verifyTimeDropdownOptions(dataTable: DataTable) {
+    await this.dropdown.verifyDropdownOptions(this.timeDropDown, dataTable);
   }
 }

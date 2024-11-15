@@ -70,8 +70,8 @@ Feature: Task
 
     Scenario: Verify Time dropdown options
       Then I should see these option below Time dropdown
-        | option     |
-        | All status |
-        | Pending    |
-        | Approved   |
-        | Rejected   |
+        | option   |
+        | All date |
+        |   1 week |
+        |  1 month |
+        | 3 months |
