@@ -70,9 +70,6 @@ export interface AdvancePaymentRequestForm {
   AmountOfMoney: InputItem;
   Reason: InputItem;
   getTitle: () => string;
-  getNotificationSubject: () => string;
-  getApprovedSubject: () => string;
-  getRejectedSubject: () => string;
 }
 
 export interface UnlockTimesheetRequestForm {
