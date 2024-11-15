@@ -52,6 +52,7 @@ Feature: Request
         | Rejected |
         | Pending  |
         | Canceled |
+        # cmt to sync
 # Admin Cancel
 
   @admin
