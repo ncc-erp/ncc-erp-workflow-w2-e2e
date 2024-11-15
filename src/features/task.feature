@@ -34,8 +34,6 @@ Feature: Task
         | Resignation Request               |
         | Unlock Timesheet Request          |
         | WFH Request                       |
-  # @admin
-  # Rule: As admin, I want to toggle between board view and list task view success
 
   @admin
   Rule: As admin, I want to manage Type filter success
@@ -51,7 +49,6 @@ Feature: Task
         | Pending    |
         | Approved   |
         | Rejected   |
-        # show trace test
 
     Scenario Outline: I can filter by status success
       And I click on "<option>" from the Status dropdown
@@ -63,3 +60,18 @@ Feature: Task
         | Pending  |
         | Approved |
         | Rejected |
+
+  @admin
+  Rule: As admin, I want to manage Type filter success
+
+    Background:
+      Given I am on "TaskPage"
+      And I click on Time dropdown
+
+    Scenario: Verify Time dropdown options
+      Then I should see these option below Time dropdown
+        | option     |
+        | All status |
+        | Pending    |
+        | Approved   |
+        | Rejected   |
