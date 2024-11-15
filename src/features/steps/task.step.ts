@@ -81,15 +81,24 @@ Given(
   }
 );
 
-// 1. Missing step definition for "src\features\task.feature:9:7"
 When("I approve request by drag with id {string}", async ({ PageObjects }, id: string) => {
   await PageObjects.TaskPage.dragToApproveCol(id);
 });
 
-// 2. Missing step definition for "src\features\task.feature:13:7"
 When(
   "I reject request by drag with id {string} and reason {string}",
   async ({ PageObjects }, id: string, reason: string) => {
     await PageObjects.TaskPage.dragToRejectCol(id, reason);
   }
 );
+
+Then(
+  "I should see all request with status as {string} display in Task page",
+  async ({ PageObjects }, status: string) => {
+    await PageObjects.TaskPage.verifyFilterStatus(status);
+  }
+);
+
+Given("I switch to Table View mode", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.tableView();
+});
