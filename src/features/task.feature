@@ -51,6 +51,7 @@ Feature: Task
         | Pending    |
         | Approved   |
         | Rejected   |
+        # show trace test
 
     Scenario Outline: I can filter by status success
       And I click on "<option>" from the Status dropdown
