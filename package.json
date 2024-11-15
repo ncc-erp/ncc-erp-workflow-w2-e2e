@@ -35,7 +35,6 @@
     "@typescript-eslint/parser": "^8.5.0",
     "allure-commandline": "^2.30.0",
     "allure-playwright": "^3.0.0-beta.12",
-    "bddgen": "^1.0.5",
     "check-tests": "^0.9.5",
     "concurrently": "^9.0.1",
     "dotenv": "^16.4.5",
@@ -44,10 +43,10 @@
     "eslint-plugin-prettier": "^5.2.1",
     "find-free-ports": "^3.1.1",
     "husky": "^9.1.6",
-    "lighthouse": "^9.3.1",
+    "lighthouse": "^9.6.8",
     "lodash.get": "^4.4.2",
     "nodemon": "^3.1.6",
-    "playwright-bdd": "^7.5.0",
+    "playwright-bdd": "^7.4.0",
     "playwright-lighthouse": "^2.2.2",
     "typescript": "^5.6.2"
   }
