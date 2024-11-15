@@ -17,26 +17,23 @@ Feature: Task
 
     Background:
       Given I am on "TaskPage"
+      And Following test data
+        | option                  |
+        | Advance Payment Request |
       And I click on "Only my task" button
       And I click on Type dropdown
-
-    Scenario Outline: I can filter by Workflow Type success
       And I click on "<option>" from the Type dropdown
+
+    Scenario: I can filter in Board view success
+      And I am at Board view mode
       Then I should see all request with tag as "<option>" display
 
-      Examples:
-        | option                            |
-        | Advance Payment Request           |
-        | Change Office Request             |
-        | Device Request                    |
-        | Office Equipment Request          |
-        | Probationary Confirmation Request |
-        | Resignation Request               |
-        | Unlock Timesheet Request          |
-        | WFH Request                       |
+    Scenario: I can filter in List Task view success
+      And I am at List Task view mode
+      Then I should see all request with tag as "<option>" display
 
   @admin
-  Rule: As admin, I want to manage Type filter success
+  Rule: As admin, I want to manage Status filter success
 
     Background:
       Given I am on "TaskPage"
@@ -52,7 +49,7 @@ Feature: Task
 
     Scenario Outline: I can filter by status success
       And I click on "<option>" from the Status dropdown
-      And I switch to Table View mode
+      And I am at Board view mode
       Then I should see all request with status as "<option>" display in Task page
 
       Examples:
@@ -62,7 +59,7 @@ Feature: Task
         | Rejected |
 
   @admin
-  Rule: As admin, I want to manage Type filter success
+  Rule: As admin, I want to manage Time filter success
 
     Background:
       Given I am on "TaskPage"

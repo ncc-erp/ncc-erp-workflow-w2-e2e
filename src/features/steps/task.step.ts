@@ -100,8 +100,8 @@ Then(
   }
 );
 
-Given("I switch to Table View mode", async ({ PageObjects }) => {
-  await PageObjects.TaskPage.tableView();
+Given("I am at Board view mode", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.boardView();
 });
 
 Then("I should see these option below Time dropdown", async ({ PageObjects }, dataTable: DataTable) => {
@@ -110,4 +110,8 @@ Then("I should see these option below Time dropdown", async ({ PageObjects }, da
 
 Given("I click on Time dropdown", async ({ PageObjects }) => {
   await PageObjects.TaskPage.timeDropDown.click();
+});
+
+Given("I am at List Task view mode", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.tableView();
 });

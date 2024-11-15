@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { DataTable } from "playwright-bdd";
+import { waitLoading } from "../../utils/waitLoading";
 import { BasePage } from "../base.page";
 import RejectPopup from "../components/rejectPopup";
 import Table from "../components/table";
@@ -34,10 +35,12 @@ export default class TaskPage extends BasePage {
   }
   async boardView() {
     await this.page.getByRole("button", { name: "Call Sage" }).nth(0).click();
+    await waitLoading(this.page);
   }
 
   async tableView() {
     await this.page.getByRole("button", { name: "Call Sage" }).nth(1).click();
+    await waitLoading(this.page);
   }
 
   async verifyFilterStatus(status: string) {

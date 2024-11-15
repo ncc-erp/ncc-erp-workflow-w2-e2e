@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import { BaseComponent } from "../base.component";
 export default class WorkflowTypeDropdown extends BaseComponent {
   public typeDropdown() {
-    return this.page.locator("role=combobox").nth(0);
+    return this.page.getByRole("combobox").nth(0);
   }
   async verifyNewWorkflowInTypeDropdown(workflowName: string, status: string) {
     await this.typeDropdown().click();
