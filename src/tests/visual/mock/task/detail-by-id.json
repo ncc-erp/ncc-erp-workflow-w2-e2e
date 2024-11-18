@@ -1,0 +1,229 @@
+{
+  "3a1623a4-c35c-49fe-b537-546f1fb7bfdd": {
+    "tasks": {
+      "id": "3a1623a4-c35c-49fe-b537-546f1fb7bfdd",
+      "workflowInstanceId": "3a1623a4-bfc2-9d71-97c1-f760e87f4f0d",
+      "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+      "email": null,
+      "status": 0,
+      "name": "WFH Request",
+      "description": "PM Reviews",
+      "dynamicActionData": null,
+      "reason": null,
+      "creationTime": "2024-11-09T15:08:11.996764Z",
+      "title": "",
+      "requestId": "3a1623a4-c35c-49fe-b537-546f1fb7bfdd",
+      "otherActionSignals": null,
+      "emailTo": ["trung.doduc@ncc.asia", "trung.dotrong@ncc.asia", "hieu.dohoang@ncc.asia", "tien.nguyenhuu@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#c2709c",
+        "titleTemplate": "[ĐN][support]: 03/01/2025,25/11/2024,22/02/2025"
+      }
+    },
+    "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.dotrong@ncc.asia", "hieu.dohoang@ncc.asia", "trung.doduc@ncc.asia"],
+    "otherActionSignals": null,
+    "input": {
+      "Request": {
+        "CurrentOffice": "ĐN",
+        "Project": "support",
+        "Reason": "Canis iste veritatis.\nAdopto accommodo cras capto aranea celer.",
+        "Dates": "13/10/2025,30/01/2025,23/03/2025",
+        "shortHeader": ""
+      },
+      "RequestUser": {
+        "email": "manh.nguyenvan@ncc.asia",
+        "targetStaffEmail": null,
+        "name": "Manh Nguyen Van",
+        "project": null,
+        "pm": "hieu.dohoang@ncc.asia",
+        "headOfOfficeEmail": "thien.dang@ncc.asia",
+        "projectCode": "fintech-control-tower",
+        "branchName": "Đà Nẵng",
+        "branchCode": "ĐN",
+        "id": "3a066c35-7394-ba74-3996-5a334798dc95",
+        "ceoEmails": ["nhan.huynhba@ncc.asia"],
+        "itEmails": [
+          "huy.nguyenhuuminh@ncc.asia",
+          "thien.dang@ncc.asia",
+          "thiet.nguyenba@ncc.asia",
+          "manh.nguyenvan@ncc.asia"
+        ],
+        "directorEmails": [
+          "tung.nguyen@ncc.asia",
+          "hieu.dohoang@ncc.asia",
+          "tien.nguyenhuu@ncc.asia",
+          "dai.trinhduc@ncc.asia",
+          "linh.nguyen@ncc.asia",
+          "duy.nguyenxuan@ncc.asia",
+          "thien.dang@ncc.asia"
+        ],
+        "hrEmails": [
+          "manh.nguyenvan@ncc.asia",
+          "thien.dang@ncc.asia",
+          "chi.trantung@ncc.asia",
+          "giang.tranminhchau@ncc.asia"
+        ],
+        "saleEmails": ["huy.nguyenhuuminh@ncc.asia", "thien.dang@ncc.asia"],
+        "hpmEmails": ["thien.dang@ncc.asia", "thu.leanh@ncc.asia"],
+        "saoDoEmails": ["thien.dang@ncc.asia", "hongdiem@gmail.com", "anh.daovan@ncc.asia"],
+        "accountantEmails": ["thien.dang@ncc.asia", "tin.trananh@ncc.asia"]
+      },
+      "EmailTemplate": "\n<div style=\"margin: 13px 0\"><b>Văn phòng đang làm việc: </b>Đà Nẵng</div>\n<div style=\"margin: 13px 0\"><b>Dự án: </b>Support</div>\n<div style=\"margin: 13px 0\"><b>PM: </b>Tiến Nguyễn Hữu, Trung Đỗ Trọng, Trung Đỗ Đức, Hiếu Đỗ Hoàng</div>\n<div style=\"margin: 13px 0\"><b>WFH các ngày: </b>13/10/2025,30/01/2025,23/03/2025</div>\n<div style=\"margin: 13px 0; display: flex\"><b>Lý do:</b>&#160;Canis iste veritatis.\nAdopto accommodo cras capto aranea celer.</div>\n"
+    }
+  },
+  "3a1623a5-d7e4-8817-b17f-123b2e1bb6ab": {
+    "tasks": {
+      "id": "3a1623a5-d7e4-8817-b17f-123b2e1bb6ab",
+      "workflowInstanceId": "3a1623a5-d45f-3000-31bf-f8f197c05caa",
+      "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+      "email": null,
+      "status": 1,
+      "name": "WFH Request",
+      "description": "PM Reviews",
+      "dynamicActionData": null,
+      "reason": null,
+      "creationTime": "2024-11-09T15:09:22.78873Z",
+      "title": "",
+      "requestId": "3a1623a5-d7e4-8817-b17f-123b2e1bb6ab",
+      "otherActionSignals": null,
+      "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.doduc@ncc.asia", "hieu.dohoang@ncc.asia", "trung.dotrong@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#c2709c",
+        "titleTemplate": "[ĐN][support]: 03/03/2025,07/05/2025,14/06/2025"
+      }
+    },
+    "emailTo": ["trung.doduc@ncc.asia", "trung.dotrong@ncc.asia", "tien.nguyenhuu@ncc.asia", "hieu.dohoang@ncc.asia"],
+    "otherActionSignals": null,
+    "input": {
+      "Request": {
+        "CurrentOffice": "ĐN",
+        "Project": "support",
+        "Reason": "Facilis quisquam conservo animi pauper ratione.\nApud alter infit textilis cubitum tersus creptio.\nAmplus cariosus a thesis demonstro.",
+        "Dates": "24/07/2025,18/05/2025,30/04/2025",
+        "shortHeader": ""
+      },
+      "RequestUser": {
+        "email": "manh.nguyenvan@ncc.asia",
+        "targetStaffEmail": null,
+        "name": "Manh Nguyen Van",
+        "project": null,
+        "pm": "hieu.dohoang@ncc.asia",
+        "headOfOfficeEmail": "thien.dang@ncc.asia",
+        "projectCode": "fintech-control-tower",
+        "branchName": "Đà Nẵng",
+        "branchCode": "ĐN",
+        "id": "3a066c35-7394-ba74-3996-5a334798dc95",
+        "ceoEmails": ["nhan.huynhba@ncc.asia"],
+        "itEmails": [
+          "huy.nguyenhuuminh@ncc.asia",
+          "thien.dang@ncc.asia",
+          "thiet.nguyenba@ncc.asia",
+          "manh.nguyenvan@ncc.asia"
+        ],
+        "directorEmails": [
+          "tung.nguyen@ncc.asia",
+          "hieu.dohoang@ncc.asia",
+          "tien.nguyenhuu@ncc.asia",
+          "dai.trinhduc@ncc.asia",
+          "linh.nguyen@ncc.asia",
+          "duy.nguyenxuan@ncc.asia",
+          "thien.dang@ncc.asia"
+        ],
+        "hrEmails": [
+          "manh.nguyenvan@ncc.asia",
+          "thien.dang@ncc.asia",
+          "chi.trantung@ncc.asia",
+          "giang.tranminhchau@ncc.asia"
+        ],
+        "saleEmails": ["huy.nguyenhuuminh@ncc.asia", "thien.dang@ncc.asia"],
+        "hpmEmails": ["thien.dang@ncc.asia", "thu.leanh@ncc.asia"],
+        "saoDoEmails": ["thien.dang@ncc.asia", "hongdiem@gmail.com", "anh.daovan@ncc.asia"],
+        "accountantEmails": ["thien.dang@ncc.asia", "tin.trananh@ncc.asia"]
+      },
+      "EmailTemplate": "\n<div style=\"margin: 13px 0\"><b>Văn phòng đang làm việc: </b>Đà Nẵng</div>\n<div style=\"margin: 13px 0\"><b>Dự án: </b>Support</div>\n<div style=\"margin: 13px 0\"><b>PM: </b>Tiến Nguyễn Hữu, Trung Đỗ Trọng, Trung Đỗ Đức, Hiếu Đỗ Hoàng</div>\n<div style=\"margin: 13px 0\"><b>WFH các ngày: </b>24/07/2025,18/05/2025,30/04/2025</div>\n<div style=\"margin: 13px 0; display: flex\"><b>Lý do:</b>&#160;Facilis quisquam conservo animi pauper ratione.\nApud alter infit textilis cubitum tersus creptio.\nAmplus cariosus a thesis demonstro.</div>\n",
+      "DynamicDataByTask": []
+    }
+  },
+  "3a1623a5-d350-6622-1c14-1185b9dbb2d9": {
+    "tasks": {
+      "id": "3a1623a5-d350-6622-1c14-1185b9dbb2d9",
+      "workflowInstanceId": "3a1623a5-cf90-458f-cca2-db4874b79efa",
+      "workflowDefinitionId": "3a059dc6-a381-3cc5-b6ff-7a6559d1adf7",
+      "email": null,
+      "status": 2,
+      "name": "WFH Request",
+      "description": "PM Reviews",
+      "dynamicActionData": null,
+      "reason": "reason test",
+      "creationTime": "2024-11-09T15:09:21.616926Z",
+      "title": "",
+      "requestId": "3a1623a5-d350-6622-1c14-1185b9dbb2d9",
+      "otherActionSignals": null,
+      "emailTo": ["trung.doduc@ncc.asia", "trung.dotrong@ncc.asia", "tien.nguyenhuu@ncc.asia", "hieu.dohoang@ncc.asia"],
+      "author": "3a066c35-7394-ba74-3996-5a334798dc95",
+      "authorName": "Manh Nguyen Van",
+      "updatedBy": null,
+      "settings": {
+        "color": "#c2709c",
+        "titleTemplate": "[ĐN][support]: 14/06/2025,12/09/2025,03/11/2025"
+      }
+    },
+    "emailTo": ["tien.nguyenhuu@ncc.asia", "trung.doduc@ncc.asia", "hieu.dohoang@ncc.asia", "trung.dotrong@ncc.asia"],
+    "otherActionSignals": null,
+    "input": {
+      "Request": {
+        "CurrentOffice": "ĐN",
+        "Project": "support",
+        "Reason": "Quas illum claudeo vinco caelestis cui compono libero quas audentia.\nStillicidium volubilis incidunt.\nStrenuus alii commemoro amplus.",
+        "Dates": "10/12/2024,09/05/2025,01/01/2025",
+        "shortHeader": ""
+      },
+      "RequestUser": {
+        "email": "manh.nguyenvan@ncc.asia",
+        "targetStaffEmail": null,
+        "name": "Manh Nguyen Van",
+        "project": null,
+        "pm": "hieu.dohoang@ncc.asia",
+        "headOfOfficeEmail": "thien.dang@ncc.asia",
+        "projectCode": "fintech-control-tower",
+        "branchName": "Đà Nẵng",
+        "branchCode": "ĐN",
+        "id": "3a066c35-7394-ba74-3996-5a334798dc95",
+        "ceoEmails": ["nhan.huynhba@ncc.asia"],
+        "itEmails": [
+          "huy.nguyenhuuminh@ncc.asia",
+          "thien.dang@ncc.asia",
+          "thiet.nguyenba@ncc.asia",
+          "manh.nguyenvan@ncc.asia"
+        ],
+        "directorEmails": [
+          "tung.nguyen@ncc.asia",
+          "hieu.dohoang@ncc.asia",
+          "tien.nguyenhuu@ncc.asia",
+          "dai.trinhduc@ncc.asia",
+          "linh.nguyen@ncc.asia",
+          "duy.nguyenxuan@ncc.asia",
+          "thien.dang@ncc.asia"
+        ],
+        "hrEmails": [
+          "manh.nguyenvan@ncc.asia",
+          "thien.dang@ncc.asia",
+          "chi.trantung@ncc.asia",
+          "giang.tranminhchau@ncc.asia"
+        ],
+        "saleEmails": ["huy.nguyenhuuminh@ncc.asia", "thien.dang@ncc.asia"],
+        "hpmEmails": ["thien.dang@ncc.asia", "thu.leanh@ncc.asia"],
+        "saoDoEmails": ["thien.dang@ncc.asia", "hongdiem@gmail.com", "anh.daovan@ncc.asia"],
+        "accountantEmails": ["thien.dang@ncc.asia", "tin.trananh@ncc.asia"]
+      },
+      "EmailTemplate": "\n<div style=\"margin: 13px 0\"><b>Văn phòng đang làm việc: </b>Đà Nẵng</div>\n<div style=\"margin: 13px 0\"><b>Dự án: </b>Support</div>\n<div style=\"margin: 13px 0\"><b>PM: </b>Tiến Nguyễn Hữu, Trung Đỗ Trọng, Trung Đỗ Đức, Hiếu Đỗ Hoàng</div>\n<div style=\"margin: 13px 0\"><b>WFH các ngày: </b>10/12/2024,09/05/2025,01/01/2025</div>\n<div style=\"margin: 13px 0; display: flex\"><b>Lý do:</b>&#160;Quas illum claudeo vinco caelestis cui compono libero quas audentia.\nStillicidium volubilis incidunt.\nStrenuus alii commemoro amplus.</div>\n",
+      "DynamicDataByTask": []
+    }
+  }
+}
