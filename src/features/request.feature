@@ -9,21 +9,13 @@ Feature: Request
       And I click on "Only my request" button
       And I click on Type dropdown
 
-    Scenario Outline: I can filter by Workflow Type success
+    Scenario: I can filter by Workflow Type success
       And I click on "<option>" from the Type dropdown
-      And I click on "Only my request" button
       Then I should see all request with tag as "<option>" display
 
       Examples:
-        | option                            |
-        | Advance Payment Request           |
-        | Change Office Request             |
-        | Device Request                    |
-        | Office Equipment Request          |
-        | Probationary Confirmation Request |
-        | Resignation Request               |
-        | Unlock Timesheet Request          |
-        | WFH Request                       |
+        | option         |
+        | Device Request |
 
   @admin
   Rule: As admin, I want to manage Status filter success

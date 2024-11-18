@@ -93,12 +93,9 @@ When(
   }
 );
 
-Then(
-  "I should see all request with status as {string} display in Task page",
-  async ({ PageObjects }, status: string) => {
-    await PageObjects.TaskPage.verifyFilterStatus(status);
-  }
-);
+Then("I should see all request with status as {string} display in table", async ({ PageObjects }, status: string) => {
+  await PageObjects.TaskPage.verifyFilterStatusInTableView(status);
+});
 
 Given("I am at Board view mode", async ({ PageObjects }) => {
   await PageObjects.TaskPage.boardView();
@@ -114,4 +111,8 @@ Given("I click on Time dropdown", async ({ PageObjects }) => {
 
 Given("I am at List Task view mode", async ({ PageObjects }) => {
   await PageObjects.TaskPage.tableView();
+});
+
+Then("I should see only request in {string} column display", async ({ PageObjects }, status: string) => {
+  await PageObjects.TaskPage.verifyStatusFilterInBoardView(status);
 });

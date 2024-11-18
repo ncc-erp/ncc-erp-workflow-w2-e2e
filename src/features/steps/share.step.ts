@@ -89,7 +89,7 @@ When("I click on {string} option in the menu item display", async ({ page }, opt
 
 Given("I click on Type dropdown", async ({ page }) => {
   const workflowTypeDropdown = new WorkflowTypeDropdown(page);
-  await workflowTypeDropdown.typeDropdown().click();
+  await workflowTypeDropdown.typeDropdown.click();
 });
 
 Given("I should see these option below Status dropdown", async ({ page }, dataTable: DataTable) => {
@@ -97,9 +97,10 @@ Given("I should see these option below Status dropdown", async ({ page }, dataTa
   await statusDropdown.verifyStatusDropdownOptions(dataTable);
 });
 
-Given("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
+When("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
   const workflowTypeDropdown = new WorkflowTypeDropdown(page);
-  await workflowTypeDropdown.clickByName(option);
+  await workflowTypeDropdown.typeDropdown.click();
+  await workflowTypeDropdown.typeDropdown.selectOption(option);
 });
 
 Then("I should see all request with tag as {string} display", async ({ page }, workflowDisplayName: string) => {
@@ -109,10 +110,11 @@ Then("I should see all request with tag as {string} display", async ({ page }, w
 
 Given("I click on Status dropdown", async ({ page }) => {
   const statusDropdown = new StatusDropdown(page);
-  await statusDropdown.locator().click();
+  await statusDropdown.locator.click();
 });
 
-Then("I click on {string} from the Status dropdown", async ({ page }, option: string) => {
+When("I click on {string} from the Status dropdown", async ({ page }, option: string) => {
   const statusDropdown = new StatusDropdown(page);
-  await statusDropdown.locator().selectOption(option);
+  await statusDropdown.locator.click();
+  await statusDropdown.locator.selectOption(option);
 });

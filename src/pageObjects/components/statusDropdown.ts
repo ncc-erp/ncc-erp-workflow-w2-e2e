@@ -9,11 +9,11 @@ export default class StatusDropdown extends BaseComponent {
     this.dropdown = new Dropdown(page);
   }
 
-  public locator() {
+  public get locator() {
     return this.page.getByRole("combobox").nth(1);
   }
 
   async verifyStatusDropdownOptions(dataTable: DataTable) {
-    await this.dropdown.verifyDropdownOptions(this.locator(), dataTable);
+    await this.dropdown.verifyDropdownOptions(this.locator, dataTable);
   }
 }

@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { DataTable } from "playwright-bdd";
 import { waitLoading } from "../../utils/waitLoading";
 import { BasePage } from "../base.page";
@@ -43,11 +43,28 @@ export default class TaskPage extends BasePage {
     await waitLoading(this.page);
   }
 
-  async verifyFilterStatus(status: string) {
+  async verifyFilterStatusInTableView(status: string) {
     await this.table.verifyCellOfCol(5, status);
   }
 
   async verifyTimeDropdownOptions(dataTable: DataTable) {
     await this.dropdown.verifyDropdownOptions(this.timeDropDown, dataTable);
+  }
+
+  async verifyStatusFilterInBoardView(status: string) {
+    const columns = {
+      Pending: this.page.getByTestId("board-view").getByTestId("board-col").nth(0),
+      Approved: this.page.getByTestId("board-view").getByTestId("board-col").nth(1),
+      Rejected: this.page.getByTestId("board-view").getByTestId("board-col").nth(2),
+    };
+
+    for (const [key, column] of Object.entries(columns)) {
+      const boardItems = column.locator('[data-testid="board-item"]');
+      if (key === status) {
+        await expect(boardItems).not.toHaveCount(0); // Expect items in the selected column
+      } else {
+        await expect(boardItems).toHaveCount(0); // Expect no items in other columns
+      }
+    }
   }
 }

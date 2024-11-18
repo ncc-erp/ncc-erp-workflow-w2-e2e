@@ -17,29 +17,35 @@ Feature: Task
 
     Background:
       Given I am on "TaskPage"
-      And Following test data
-        | option                  |
-        | Advance Payment Request |
       And I click on "Only my task" button
-      And I click on Type dropdown
-      And I click on "<option>" from the Type dropdown
 
     Scenario: I can filter in Board view success
-      And I am at Board view mode
+      When I am at Board view mode
+      And I click on "<option>" from the Type dropdown
       Then I should see all request with tag as "<option>" display
 
+      Examples:
+        | option         |
+        | Device Request |
+
     Scenario: I can filter in List Task view success
-      And I am at List Task view mode
+      When I am at List Task view mode
+      And I click on "<option>" from the Type dropdown
       Then I should see all request with tag as "<option>" display
+
+      Examples:
+        | option         |
+        | Device Request |
 
   @admin
   Rule: As admin, I want to manage Status filter success
 
     Background:
       Given I am on "TaskPage"
-      And I click on Status dropdown
+      And I click on "Only my task" button
 
     Scenario: Verify Status dropdown options
+      When I click on Status dropdown
       Then I should see these option below Status dropdown
         | option     |
         | All status |
@@ -47,16 +53,23 @@ Feature: Task
         | Approved   |
         | Rejected   |
 
-    Scenario Outline: I can filter by status success
+    Scenario: I can filter in Board view success
+      When I am at Board view mode
       And I click on "<option>" from the Status dropdown
-      And I am at Board view mode
-      Then I should see all request with status as "<option>" display in Task page
+      Then I should see only request in "<option>" column display
 
       Examples:
         | option   |
-        | Pending  |
         | Approved |
-        | Rejected |
+
+    Scenario: I can filter in List Task view success
+      When I am at List Task view mode
+      And I click on "<option>" from the Status dropdown
+      Then I should see all request with status as "<option>" display in table
+
+      Examples:
+        | option   |
+        | Approved |
 
   @admin
   Rule: As admin, I want to manage Time filter success

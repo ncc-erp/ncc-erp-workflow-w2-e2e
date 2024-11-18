@@ -1,5 +1,4 @@
 import { API } from "../../data/apis";
-import { waitLoading } from "../../utils/waitLoading";
 import { BaseComponent } from "../base.component";
 
 export default class DetailTaskPopup extends BaseComponent {
@@ -35,7 +34,6 @@ export default class DetailTaskPopup extends BaseComponent {
     }
     await this.confirmBtn.click();
     await this.page.waitForResponse(API.approveTask);
-    await waitLoading(this.page);
   }
 
   async reject(reason: string) {
