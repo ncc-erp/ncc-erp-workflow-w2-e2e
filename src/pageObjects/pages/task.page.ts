@@ -76,7 +76,7 @@ export default class TaskPage extends BasePage {
 
   async openMenuAction(id: string) {
     await this.tableView();
-    await Promise.all([this.page.waitForResponse(API.listTask), this.table.clickSettingButtonByInstanceId(id)]);
+    await this.table.clickSettingButtonByInstanceId(id);
   }
 
   async approveRequestInTableMode(id: string) {
