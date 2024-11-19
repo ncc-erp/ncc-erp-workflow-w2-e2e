@@ -19,11 +19,6 @@ export type Mail = Result & {
   body: string;
 };
 
-export const enum Status {
-  Approved = "Approved",
-  Rejected = "Rejected",
-}
-
 const FIVE_MINUTES = 5 * 60 * 1000;
 const getListMail = async (email: string, page = 0, limit = 100): Promise<ListEmail> => {
   const queryParam = new URLSearchParams({
