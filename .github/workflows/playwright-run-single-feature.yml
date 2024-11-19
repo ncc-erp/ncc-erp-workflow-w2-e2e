@@ -1,0 +1,32 @@
+name: Playwright Tests Run Single Feature
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to run the workflow"
+        required: true
+        default: "main"
+      grep:
+        description: "test to grep"
+        required: true
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: bddgen test cases
+        run: |
+          npx bddgen
+      - name: Run test
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          SMTP_URL: "https://api.smtpbucket.com/emails"
+        run: npx playwright test --grep "${{ github.event.inputs.grep }}"
