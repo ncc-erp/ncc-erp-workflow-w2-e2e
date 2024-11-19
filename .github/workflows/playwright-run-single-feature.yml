@@ -29,4 +29,4 @@ jobs:
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           SMTP_URL: "https://api.smtpbucket.com/emails"
-        run: npx playwright test --grep "${{ github.event.inputs.feature_name }}"
+        run: npx playwright test --grep "${{ github.event.inputs.grep }}"
