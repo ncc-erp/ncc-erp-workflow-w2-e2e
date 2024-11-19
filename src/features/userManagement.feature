@@ -13,4 +13,14 @@ Feature: User Management
 
     Scenario: Admin can edit user info success
 
-  Rule: As user, I want to see if my info is changed
+  Rule: As user, I want to log in with new username success
+
+    Background: Admin edit username of user success
+
+    Scenario: I can log in with new username success
+
+    Scenario: I cannot log in with old username
+
+  Rule: As user, I want to see if my name is changed
+
+    Scenario: Verify user name changed
