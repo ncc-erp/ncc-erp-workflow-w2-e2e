@@ -9,7 +9,7 @@ Feature: Advance Payment Request
 
     Scenario: I should see the request with pending status on my tasks and an notification email send to me
       Then I should see request is "pending" with id "*global[co1].response.id" and state "Accountant Reviews" on tasks page
-      And I should see an email send to "*testData.users.accountant.username" with subject "[Advance Payment Request] [Manh Nguyen Van - manh.nguyenvan@ncc.asia]"
+      And I should see an email send to "*testData.users.accountant.username" with subject "*global[co1].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co1].response.id"
@@ -27,7 +27,7 @@ Feature: Advance Payment Request
       And "Accountant" approve the request "*global[co2].response.id", current state "Accountant Reviews" success
 
     Scenario: I should see an email notification when the Advance Payment Request is approved
-      Then I should see an email send to "*testData.users.hr.username" with subject "[Advance Payment Request] [Manh Nguyen Van] - manh.nguyenvan@ncc.asia]"
+      Then I should see an email send to "*testData.users.hr.username" with subject "*global[co2].getApprovedSubject"
 
   @user
   Rule: As user, I want to receive an email notification when the Advance Payment Request is approved
@@ -37,8 +37,8 @@ Feature: Advance Payment Request
 
     Scenario: I should see an email notification when the Advance Payment Request is Approved
       When "Accountant" approve the request "*global[co3].response.id", current state "Accountant Reviews" success
-      Then I should see an email send to "*testData.users.user.username" with subject "[Advance Payment Request] [Manh Nguyen Van] - manh.nguyenvan@ncc.asia]"
+      Then I should see an email send to "*testData.users.user.username" with subject "*global[co3].getApprovedSubject"
 
     Scenario: I should see an email notification when the Advance Payment Request is rejected
       When "Accountant" reject the request "*global[co3].response.id", current state "Accountant Reviews" success with reason "test reason"
-      Then I should see an email send to "*testData.users.user.username" with subject "[Advance Payment Request] Rejected - [Manh Nguyen Van - manh.nguyenvan@ncc.asia]"
+      Then I should see an email send to "*testData.users.user.username" with subject "*global[co3].getRejectedSubject"
