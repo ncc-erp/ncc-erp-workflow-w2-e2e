@@ -1,5 +1,6 @@
 import { expect, Page } from "@playwright/test";
 import { DataTable } from "playwright-bdd";
+import { API } from "../../data/apis";
 import { waitLoading } from "../../utils/waitLoading";
 import { BasePage } from "../base.page";
 import RejectPopup from "../components/rejectPopup";
@@ -27,6 +28,7 @@ export default class TaskPage extends BasePage {
 
   async dragToApproveCol(id: string) {
     await this.taskBoard.dragItemIdToCol(id, 0, 1);
+    await this.page.click('button:has-text("Confirm")');
   }
 
   async dragToRejectCol(id: string, reason: string) {
@@ -66,5 +68,27 @@ export default class TaskPage extends BasePage {
         await expect(boardItems).toHaveCount(0); // Expect no items in other columns
       }
     }
+  }
+
+  async filterByStatus(status: string) {
+    await this.page.getByRole("combobox").nth(1).selectOption(status);
+  }
+
+  async openMenuAction(id: string) {
+    await this.tableView();
+    await Promise.all([this.page.waitForResponse(API.listTask), this.table.clickSettingButtonByInstanceId(id)]);
+  }
+
+  async approveRequestInTableMode(id: string) {
+    await this.openMenuAction(id);
+    await this.menuItem.clickByName("Approve");
+    await this.button.clickByName("Confirm");
+    await this.page.waitForResponse(API.approveTask);
+  }
+
+  async rejectRequestInTableMode(id: string, reason: string) {
+    await this.openMenuAction(id);
+    await this.menuItem.clickByName("Reject");
+    await this.rejectPopup.reject(reason);
   }
 }

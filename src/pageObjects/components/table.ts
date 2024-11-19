@@ -43,13 +43,24 @@ export default class Table extends BaseComponent {
     const cells = await this.getColumnValues(col);
     expect(cells.join(",")).toContain(text);
   }
+
   async verifyIdInTable(id: string) {
     const cell = this.host.locator(`[data-id="${id}"]`);
     await expect(cell).toBeVisible();
   }
 
+  async verifyInstanceIdInTable(id: string) {
+    const cell = this.host.locator(`[data-instance-id="${id}"]`);
+    await expect(cell).toBeVisible();
+  }
+
   async clickSettingButtonById(id: string) {
     const row = this.host.locator(`[data-id="${id}"]`);
+    await row.locator('[id^="menu-button"]').click();
+  }
+
+  async clickSettingButtonByInstanceId(id: string) {
+    const row = this.host.locator(`[data-instance-id="${id}"]`);
     await row.locator('[id^="menu-button"]').click();
   }
 }

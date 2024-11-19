@@ -19,6 +19,14 @@ Then(
     }
   }
 );
+
+Then(
+  "I should see {TestData} with status {string} on tasks page table mode",
+  async ({ PageObjects }, id: string, status: string) => {
+    await PageObjects.TaskPage.filterByStatus(status);
+    await PageObjects.TaskPage.table.verifyInstanceIdInTable(id);
+  }
+);
 // 2. Missing step definition for "src\features\changeOfficeRequest.feature:12:7"
 When("I approve request with id {string}", async ({ PageObjects }, id: string) => {
   await PageObjects.TaskPage.taskBoard.clickToBoardItemById(id, 0);
@@ -116,3 +124,15 @@ Given("I am at List Task view mode", async ({ PageObjects }) => {
 Then("I should see only request in {string} column display", async ({ PageObjects }, status: string) => {
   await PageObjects.TaskPage.verifyStatusFilterInBoardView(status);
 });
+When("I approve request in table mode with id {string}", async ({ PageObjects }, id: string) => {
+  await PageObjects.TaskPage.open();
+  await PageObjects.TaskPage.approveRequestInTableMode(id);
+});
+
+When(
+  "I reject request in table mode with id {string} and reason {string}",
+  async ({ PageObjects }, id: string, reason: string) => {
+    await PageObjects.TaskPage.open();
+    await PageObjects.TaskPage.rejectRequestInTableMode(id, reason);
+  }
+);

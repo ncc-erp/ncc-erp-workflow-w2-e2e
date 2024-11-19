@@ -7,4 +7,5 @@ export const API = {
   workflowInputDefinition: "api/app/external-resource/workflow-input-definition-property-types",
   saveWorkflowInput: "api/app/workflow-definition/save-workflow-input-definition",
   deleteWorkflow: /api\/app\/workflow-definition\/.*/,
+  listTask: "api/app/task/list",
 };
