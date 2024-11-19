@@ -3,20 +3,25 @@ import { BasePage } from "../base.page";
 import RejectPopup from "../components/rejectPopup";
 import DetailTaskPopup from "./../components/detailTaskPopup";
 import TaskBoard from "./../components/taskBoard";
+import Table from "../components/table";
+import { API } from "../../data/apis";
 
 export default class TaskPage extends BasePage {
   public taskBoard: TaskBoard;
   public detailTaskPopup: DetailTaskPopup;
   public rejectPopup: RejectPopup;
+  public table: Table;
   constructor(readonly page: Page) {
     super(page, "/tasks");
     this.taskBoard = new TaskBoard(page);
     this.detailTaskPopup = new DetailTaskPopup(page);
     this.rejectPopup = new RejectPopup(page);
+    this.table = new Table(page);
   }
 
   async dragToApproveCol(id: string) {
     await this.taskBoard.dragItemIdToCol(id, 0, 1);
+    await this.page.click('button:has-text("Confirm")');
   }
 
   async dragToRejectCol(id: string, reason: string) {
@@ -29,5 +34,27 @@ export default class TaskPage extends BasePage {
 
   async tableView() {
     await this.page.getByRole("button", { name: "Call Sage" }).nth(1).click();
+  }
+
+  async filterByStatus(status: string) {
+    await this.page.getByRole("combobox").nth(1).selectOption(status);
+  }
+
+  async openMenuAction(id: string) {
+    await this.tableView();
+    await Promise.all([this.page.waitForResponse(API.listTask), this.table.clickSettingButtonByInstanceId(id)]);
+  }
+
+  async approveRequestInTableMode(id: string) {
+    await this.openMenuAction(id);
+    await this.menuItem.clickByName("Approve");
+    await this.button.clickByName("Confirm");
+    await this.page.waitForResponse(API.approveTask);
+  }
+
+  async rejectRequestInTableMode(id: string, reason: string) {
+    await this.openMenuAction(id);
+    await this.menuItem.clickByName("Reject");
+    await this.rejectPopup.reject(reason);
   }
 }
