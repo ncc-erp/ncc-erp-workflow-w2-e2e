@@ -1,7 +1,6 @@
 import { expect, Page } from "@playwright/test";
 import { DataTable } from "playwright-bdd";
 import { API } from "../../data/apis";
-import { waitLoading } from "../../utils/waitLoading";
 import { BasePage } from "../base.page";
 import RejectPopup from "../components/rejectPopup";
 import Table from "../components/table";
@@ -36,13 +35,17 @@ export default class TaskPage extends BasePage {
     await this.rejectPopup.reject(reason);
   }
   async boardView() {
-    await this.page.getByRole("button", { name: "Call Sage" }).nth(0).click();
-    await waitLoading(this.page);
+    await Promise.all([
+      this.page.getByRole("button", { name: "Call Sage" }).nth(0).click(),
+      this.page.waitForResponse(API.listTask),
+    ]);
   }
 
   async tableView() {
-    await this.page.getByRole("button", { name: "Call Sage" }).nth(1).click();
-    await waitLoading(this.page);
+    await Promise.all([
+      this.page.getByRole("button", { name: "Call Sage" }).nth(1).click(),
+      this.page.waitForResponse(API.listTask),
+    ]);
   }
 
   async verifyFilterStatusInTableView(status: string) {
