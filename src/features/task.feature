@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Feature: WFH Request
 #   @pm
 #   Rule: As pm, I want to use drag/drop function for approve/reject tasks
@@ -86,11 +85,10 @@ Feature: Task
         |   1 week |
         |  1 month |
         | 3 months |
-=======
-Feature: Task
 
   @pm
   Rule: As pm, I want to use drag/drop function for approve/reject tasks
+
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest2]" success
       And I am on "TaskPage"
@@ -105,6 +103,7 @@ Feature: Task
 
   @pm
   Rule: As pm, I want to use table mode for approve/reject tasks
+
     Background:
       Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest3]" success
       And I am on "TaskPage"
@@ -116,4 +115,3 @@ Feature: Task
     Scenario: I can reject request success
       When I reject request in table mode with id "*global[wfhRequest3].response.id" and reason "test reason"
       Then I should see "*global[wfhRequest3].response.id" with status "Rejected" on tasks page table mode
->>>>>>> e5aa76de3bd59e91d75ff8d5995e5c97cf6d1567
