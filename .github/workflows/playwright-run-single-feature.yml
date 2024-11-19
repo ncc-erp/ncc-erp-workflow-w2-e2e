@@ -2,6 +2,10 @@ name: Playwright Tests Run Single Feature
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: "Branch to run the workflow"
+        required: true
+        default: "main"
       grep:
         description: "test to grep"
         required: true
