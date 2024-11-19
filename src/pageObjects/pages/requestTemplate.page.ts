@@ -78,14 +78,15 @@ export default class RequestTemplatePage extends BasePage {
     // filter rightRow
     const rowFound = workflowRow
       .filter({
-        hasText: expectedName,
+        has: this.page.locator(`td:nth-child(2):text-is("${expectedName}")`),
       })
       .filter({
-        hasText: expectedDisplayName,
+        has: this.page.locator(`td:nth-child(1):text-is("${expectedDisplayName}")`),
       })
       .filter({
-        hasText: expectedPublish,
+        has: this.page.locator(`td:nth-child(4):text-is("${expectedPublish}")`),
       });
+
     if (expectedStatus == "displayed") {
       await expect(rowFound).toBeVisible();
     } else {
@@ -101,7 +102,7 @@ export default class RequestTemplatePage extends BasePage {
     await this.page
       .locator("tbody > tr")
       .filter({
-        hasText: workflowName,
+        has: this.page.locator(`td:nth-child(2):text-is("${workflowName}")`),
       })
       .locator("button")
       .nth(0)
