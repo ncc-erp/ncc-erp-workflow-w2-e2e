@@ -7,7 +7,7 @@ export default class RejectPopup extends BaseComponent {
   }
 
   public get rejectReasonField() {
-    return this.host.getByRole("textbox");
+    return this.host.getByRole("alertdialog").getByRole("textbox");
   }
 
   async reject(reason: string) {

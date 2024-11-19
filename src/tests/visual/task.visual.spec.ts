@@ -3,6 +3,7 @@ import { expect, test } from "../../pageObjects/page.fixture";
 import approvedTaskList from "./mock/task/approved-task-list.json";
 import pendingTaskList from "./mock/task/pending-task-list.json";
 import rejectedTaskList from "./mock/task/rejected-task-list.json";
+import detailById from "./mock/task/detail-by-id.json";
 
 // Define empty task list mock data
 const emptyTaskList = { totalCount: 0, items: [] };
@@ -21,6 +22,11 @@ test.describe("Task page with data", () => {
     const taskResponses = [pendingTaskList, approvedTaskList, rejectedTaskList];
     await page.route("*/**/api/app/task/list", async (route) => {
       await route.fulfill({ json: taskResponses[taskCallCount++ % 3] });
+    });
+    await page.route("*/**/api/app/task/*/detail-by-id", async (route) => {
+      const url = route.request().url();
+      const taskId = url.split("/task/")[1].split("/detail-by-id")[0];
+      await route.fulfill({ json: detailById[taskId] });
     });
     await PageObjects.TaskPage.open();
   });
