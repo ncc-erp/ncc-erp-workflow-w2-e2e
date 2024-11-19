@@ -1,6 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 import { waitLoading } from "../utils/waitLoading";
 import Button from "./components/button";
+import Dropdown from "./components/dropdown";
 import Form from "./components/form";
 import Header from "./components/header";
 import MenuItem from "./components/menuItem";
@@ -13,6 +14,7 @@ export abstract class BasePage {
   public popup: Popup;
   public form: Form;
   public menuItem: MenuItem;
+  public dropdown: Dropdown;
 
   constructor(
     readonly page: Page,
@@ -25,6 +27,7 @@ export abstract class BasePage {
     this.popup = new Popup(this.page);
     this.form = new Form(this.page);
     this.menuItem = new MenuItem(this.page);
+    this.dropdown = new Dropdown(this.page);
   }
 
   async open(path?: string) {

@@ -1,3 +1,4 @@
+import { DataTable } from "playwright-bdd/dist/cucumber/DataTable";
 import { API } from "../../data/apis";
 import { users } from "../../data/users.data";
 import { BrowserControl, Given, Then, When } from "../../pageObjects/page.fixture";
@@ -110,12 +111,10 @@ Given(
   }
 );
 
-// 1. Missing step definition for "src\features\task.feature:9:7"
 When("I approve request by drag with id {string}", async ({ PageObjects }, id: string) => {
   await PageObjects.TaskPage.dragToApproveCol(id);
 });
 
-// 2. Missing step definition for "src\features\task.feature:13:7"
 When(
   "I reject request by drag with id {string} and reason {string}",
   async ({ PageObjects }, id: string, reason: string) => {
@@ -123,6 +122,29 @@ When(
   }
 );
 
+Then("I should see all request with status as {string} display in table", async ({ PageObjects }, status: string) => {
+  await PageObjects.TaskPage.verifyFilterStatusInTableView(status);
+});
+
+Given("I am at Board view mode", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.boardView();
+});
+
+Then("I should see these option below Time dropdown", async ({ PageObjects }, dataTable: DataTable) => {
+  await PageObjects.TaskPage.verifyTimeDropdownOptions(dataTable);
+});
+
+Given("I click on Time dropdown", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.timeDropDown.click();
+});
+
+Given("I am at List Task view mode", async ({ PageObjects }) => {
+  await PageObjects.TaskPage.tableView();
+});
+
+Then("I should see only request in {string} column display", async ({ PageObjects }, status: string) => {
+  await PageObjects.TaskPage.verifyStatusFilterInBoardView(status);
+});
 When("I approve request in table mode with id {string}", async ({ PageObjects }, id: string) => {
   await PageObjects.TaskPage.open();
   await PageObjects.TaskPage.approveRequestInTableMode(id);

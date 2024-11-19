@@ -1,13 +1,58 @@
 Feature: Request
 # Admin Filter
+
+  @admin
+  Rule: As admin, I want to manage Type filter success
+
+    Background:
+      Given I am on "MyRequestPage"
+      And I click on "Only my request" button
+      And I click on Type dropdown
+
+    Scenario: I can filter by Workflow Type success
+      And I click on "<option>" from the Type dropdown
+      Then I should see all request with tag as "<option>" display
+
+      Examples:
+        | option         |
+        | Device Request |
+
+  @admin
+  Rule: As admin, I want to manage Status filter success
+
+    Background:
+      Given I am on "MyRequestPage"
+      And I click on "Only my request" button
+      And I click on Status dropdown
+
+    Scenario: Verify Status dropdown options
+      Then I should see these option below Status dropdown
+        | option     |
+        | All status |
+        | Approved   |
+        | Rejected   |
+        | Pending    |
+        | Canceled   |
+
+    Scenario Outline: I can filter by status success
+      And I click on "<option>" from the Status dropdown
+      Then I should see all request with status as "<option>" display in Request page
+
+      Examples:
+        | option   |
+        | Approved |
+        | Rejected |
+        | Pending  |
+        | Canceled |
 # Admin Cancel
+
   @admin
   Rule: As Admin, I want to received a Request from my requests
 
     Background:
       Given User create "Device Request" with "*testData[random_device_request]__global[dr1]" success
       And I am on "MyRequestPage"
-    
+
     Scenario: I should see the request with pending status on all requests
       Then I should see "*global[dr1].response.id" with status "Pending" on all requests page
 
@@ -17,6 +62,7 @@ Feature: Request
       And "User" should see "*global[dr1].response.id" with status "Canceled" on my request page
 # User Filter
 # User Cancel
+
   @user
   Rule: As User, I want to see a Request from my requests
 

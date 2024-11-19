@@ -1,10 +1,12 @@
 import { expect } from "@playwright/test";
 import { BaseComponent } from "../base.component";
 export default class WorkflowTypeDropdown extends BaseComponent {
+  public get typeDropdown() {
+    return this.page.getByRole("combobox").nth(0);
+  }
   async verifyNewWorkflowInTypeDropdown(workflowName: string, status: string) {
-    const typeDropdown = this.page.locator("role=combobox").nth(0);
-    await typeDropdown.click();
-    const optionLocator = typeDropdown.locator("option").filter({ hasText: workflowName });
+    await this.typeDropdown.click();
+    const optionLocator = this.typeDropdown.locator("option").filter({ hasText: workflowName });
     if (status === "displayed") {
       await expect(optionLocator).toBeAttached();
     } else {

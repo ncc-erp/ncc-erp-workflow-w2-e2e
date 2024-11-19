@@ -6,6 +6,9 @@ import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
+import StatusDropdown from "../../pageObjects/components/statusDropdown";
+import WorkflowTag from "../../pageObjects/components/workflowTag";
+import WorkflowTypeDropdown from "../../pageObjects/components/workflowTypeDropdown";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
 import { verifyMail } from "../../utils/email";
@@ -83,6 +86,38 @@ When("I close popup with label as {string}", async ({ page }, label: string) => 
 When("I click on {string} option in the menu item display", async ({ page }, option: string) => {
   const menuItem = new MenuItem(page);
   await menuItem.clickByName(option);
+});
+
+Given("I click on Type dropdown", async ({ page }) => {
+  const workflowTypeDropdown = new WorkflowTypeDropdown(page);
+  await workflowTypeDropdown.typeDropdown.click();
+});
+
+Given("I should see these option below Status dropdown", async ({ page }, dataTable: DataTable) => {
+  const statusDropdown = new StatusDropdown(page);
+  await statusDropdown.verifyStatusDropdownOptions(dataTable);
+});
+
+When("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
+  const workflowTypeDropdown = new WorkflowTypeDropdown(page);
+  await workflowTypeDropdown.typeDropdown.click();
+  await workflowTypeDropdown.typeDropdown.selectOption(option);
+});
+
+Then("I should see all request with tag as {string} display", async ({ page }, workflowDisplayName: string) => {
+  const workflowTag = new WorkflowTag(page);
+  await workflowTag.verifyWorkflowTag(workflowDisplayName);
+});
+
+Given("I click on Status dropdown", async ({ page }) => {
+  const statusDropdown = new StatusDropdown(page);
+  await statusDropdown.locator.click();
+});
+
+When("I click on {string} from the Status dropdown", async ({ page }, option: string) => {
+  const statusDropdown = new StatusDropdown(page);
+  await statusDropdown.locator.click();
+  await statusDropdown.locator.selectOption(option);
 });
 
 Then("I should see an email send to {string} with subject {string}", async ({}, email: string, subject: string) => {

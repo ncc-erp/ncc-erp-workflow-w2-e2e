@@ -38,4 +38,8 @@ export default class MyRequestPage extends BasePage {
   async viewRequestDetail(id: string) {
     await this.myRequest.clickRequestById(id);
   }
+
+  async verifyFilterStatus(status: string) {
+    await this.table.verifyCellOfCol(6, status);
+  }
 }

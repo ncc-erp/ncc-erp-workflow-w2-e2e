@@ -17,6 +17,7 @@ export default class RequestTemplatePage extends BasePage {
   public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
+
   constructor(readonly page: Page) {
     super(page, "/request-templates");
     this.deviceRequestForm = new RequestForm(this.page);
@@ -77,14 +78,15 @@ export default class RequestTemplatePage extends BasePage {
     // filter rightRow
     const rowFound = workflowRow
       .filter({
-        hasText: expectedName,
+        has: this.page.locator(`td:nth-child(2):text-is("${expectedName}")`),
       })
       .filter({
-        hasText: expectedDisplayName,
+        has: this.page.locator(`td:nth-child(1):text-is("${expectedDisplayName}")`),
       })
       .filter({
-        hasText: expectedPublish,
+        has: this.page.locator(`td:nth-child(4):text-is("${expectedPublish}")`),
       });
+
     if (expectedStatus == "displayed") {
       await expect(rowFound).toBeVisible();
     } else {
@@ -100,7 +102,7 @@ export default class RequestTemplatePage extends BasePage {
     await this.page
       .locator("tbody > tr")
       .filter({
-        hasText: workflowName,
+        has: this.page.locator(`td:nth-child(2):text-is("${workflowName}")`),
       })
       .locator("button")
       .nth(0)
@@ -214,17 +216,12 @@ export default class RequestTemplatePage extends BasePage {
 
   async verifyPropertyTypeDropdown(propertyName: string, dataTable: DataTable) {
     const propertyCount = await this.page.getByText("Property Name *").count();
-    const expectedOptions = dataTable.rows().map((row) => row[0]);
     for (let i = 0; i < propertyCount; i++) {
       if (
         (await this.form.getFormGroupByLabel("Property Name").nth(i).getByRole("textbox").inputValue()) === propertyName
       ) {
-        const actualOptions = (
-          await this.form.getFormGroupByLabel("Property Type").nth(i).getByRole("combobox").innerText()
-        )
-          .split("\n")
-          .map((option) => option);
-        expect(actualOptions).toEqual(expectedOptions);
+        const propertyTypeLocator = this.form.getFormGroupByLabel("Property Type").nth(i).getByRole("combobox");
+        await this.dropdown.verifyDropdownOptions(propertyTypeLocator, dataTable);
         break;
       }
     }
