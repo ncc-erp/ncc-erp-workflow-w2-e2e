@@ -1,8 +1,11 @@
 import { faker } from "@faker-js/faker";
+import { AdvancePaymentRequestData } from "./advancePaymentRequest.data";
 import { ChangeOfficeRequestData } from "./changeOfficeRequest.data";
 import { DeviceRequestData } from "./deviceRequest.data";
 import { OfficeEquipmentRequestData } from "./officeEquiqmentRequest.data";
 import { ProbationaryConfirmationRequestData } from "./probationaryConfirmationRequest.data";
+import { ResignationRequestData } from "./resignationRequest.data";
+import { UnlockTimesheetRequestData } from "./unlockTimesheetRequest.data";
 import { users } from "./users.data";
 import { WfhRequestData } from "./wfhRequest.data";
 
@@ -27,6 +30,15 @@ export const testData = {
   },
   random_probationary_confirmation_request() {
     return ProbationaryConfirmationRequestData.user.getRandomData();
+  },
+  random_advance_payment_request() {
+    return AdvancePaymentRequestData.user.getRandomData();
+  },
+  random_unlock_timesheet_request() {
+    return UnlockTimesheetRequestData.user.getRandomData();
+  },
+  random_resignation_request() {
+    return ResignationRequestData.user.getRandomData();
   },
 };
 

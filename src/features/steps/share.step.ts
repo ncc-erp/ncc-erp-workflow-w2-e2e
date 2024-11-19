@@ -8,6 +8,7 @@ import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
+import { verifyMail } from "../../utils/email";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -82,4 +83,8 @@ When("I close popup with label as {string}", async ({ page }, label: string) => 
 When("I click on {string} option in the menu item display", async ({ page }, option: string) => {
   const menuItem = new MenuItem(page);
   await menuItem.clickByName(option);
+});
+
+Then("I should see an email send to {string} with subject {string}", async ({}, email: string, subject: string) => {
+  await verifyMail(email, subject);
 });
