@@ -21,7 +21,7 @@ export const AdvancePaymentRequestData = {
           return `[Advance Payment Request] [${users.user.name} - ${users.user.username}]`;
         },
         getApprovedSubject() {
-          return `[Advance Payment Request] Approved [${users.user.name}] - ${users.user.username}]`;
+          return `[Advance Payment Request] Approved - [${users.user.name}] - ${users.user.username}]`;
         },
         getRejectedSubject() {
           return `[Advance Payment Request] Rejected - [${users.user.name} - ${users.user.username}]`;
