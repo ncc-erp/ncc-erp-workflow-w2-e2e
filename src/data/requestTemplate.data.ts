@@ -76,6 +76,7 @@ export interface AdvancePaymentRequestForm {
   getNotificationSubject: () => string;
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
+  getApprovedNotiSubject: () => string;
 }
 
 export interface UnlockTimesheetRequestForm {

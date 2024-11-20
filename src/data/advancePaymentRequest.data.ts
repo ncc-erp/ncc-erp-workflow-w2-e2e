@@ -20,6 +20,9 @@ export const AdvancePaymentRequestData = {
         getNotificationSubject() {
           return `[Advance Payment Request] [${users.user.name} - ${users.user.username}]`;
         },
+        getApprovedNotiSubject() {
+          return `[Advance Payment Request] [${users.user.name}] - ${users.user.username}]`;
+        },
         getApprovedSubject() {
           return `[Advance Payment Request] Approved - [${users.user.name} - ${users.user.username}]`;
         },
