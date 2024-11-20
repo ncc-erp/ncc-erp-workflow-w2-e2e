@@ -6,7 +6,7 @@ const getEnvString = () =>
   ["BASE_URL"].map((key) => (process.env[key] ? `-e ${key}=${process.env[key]}` : "")).join(" ");
 
 try {
-  const files = glob("./k6/scenarios/**/*.js");
+  const files = glob("./k6/specs/**/*.js");
 
   if (!files.length) {
     console.log("No test files found.");

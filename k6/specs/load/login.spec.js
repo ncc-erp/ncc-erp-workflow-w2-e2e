@@ -1,5 +1,5 @@
 import { check, sleep } from "k6";
-import http from "k6/http";
+import { loginAPI } from "../../apis/auth.api.js";
 import { users } from "../../data/user.data.js";
 
 export const options = {
@@ -8,16 +8,7 @@ export const options = {
 };
 
 export default function () {
-  const user = users.user;
-
-  const payload = JSON.stringify({
-    userNameOrEmailAddress: user.username,
-    password: user.password,
-  });
-
-  const headers = { "Content-Type": "application/json" };
-
-  const response = http.post(`${__ENV.BASE_URL}api/app/auth/login-account`, payload, { headers });
+  const response = loginAPI(users.user);
 
   check(response, {
     "is status 200": (r) => r.status === 200,
