@@ -39,6 +39,9 @@ export interface ChangeOfficeRequestForm {
   StartDate: InputItem;
   EndDate: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 
 export interface WFHRequestForm {

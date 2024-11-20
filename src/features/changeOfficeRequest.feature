@@ -9,6 +9,7 @@ Feature: Change Office Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co1].response.id" and state "PM Reviews" on tasks page
+      And I should see an email send to "*testData.users.pm.username" with subject "*global[co1].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co1].response.id"
@@ -27,6 +28,7 @@ Feature: Change Office Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co2].response.id" and state "Current HoO Reviews" on tasks page
+      And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[co2].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co2].response.id"
@@ -45,6 +47,7 @@ Feature: Change Office Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co3].response.id" and state "Destination HoO Reviews" on tasks page
+      And I should see an email send to "*testData.users.gdvpv.username" with subject "*global[co3].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co3].response.id"
@@ -66,6 +69,7 @@ Feature: Change Office Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[co4].response.id" with status "Approved" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[co4].getApprovedSubject"
 
   @user
   Rule: As user, I want to see a Change Office Request is rejected
@@ -75,8 +79,9 @@ Feature: Change Office Request
       When "<userType>" reject the request "*global[<key>].response.id", current state "<state>" success with reason "<reason>"
       And I am on "MyRequestPage"
       Then I should see "*global[<key>].response.id" with status "Rejected" on my request page
-
+      And I should see an email send to "*testData.users.user.username" with subject "*global[<key>].getRejectedSubject"
       # title-format: As user, I want to see a Change Office Request is rejected > I should see the request with rejected status when <userType> rejected
+
       Examples:
         | userType | state                   | reason        | key  |
         | PM       | PM Reviews              | reason test 1 | key1 |

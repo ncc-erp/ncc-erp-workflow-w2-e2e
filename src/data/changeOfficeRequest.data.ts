@@ -1,5 +1,6 @@
 import { getRandomContent, getRandomDates } from "./fakerUtils";
 import { ChangeOfficeRequestForm } from "./requestTemplate.data";
+import { users } from "./users.data";
 
 export const ChangeOfficeRequestData = {
   user: {
@@ -30,6 +31,15 @@ export const ChangeOfficeRequestData = {
         },
         getTitle() {
           return `Change office from ${this.CurrentOffice.code} to ${this.DestinationOffice.code}`;
+        },
+        getNotificationSubject() {
+          return `[Change Office Request] [Đà Nẵng] - ${users.user.name}`;
+        },
+        getApprovedSubject() {
+          return `[Change Office Request] Approved - [Đà Nẵng] - ${users.user.name}`;
+        },
+        getRejectedSubject() {
+          return `[Change Office Request] Rejected - [Đà Nẵng] - ${users.user.name}`;
         },
       };
     },
