@@ -31,6 +31,9 @@ export interface DeviceRequestForm {
   Device: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 export interface ChangeOfficeRequestForm {
   CurrentOffice: InputItem;
@@ -60,6 +63,9 @@ export interface OfficeEquipmentRequestForm {
   Equipment: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 
 export interface ProbationaryConfirmationRequest {

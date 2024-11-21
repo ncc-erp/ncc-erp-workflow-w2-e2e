@@ -38,7 +38,7 @@ export const ProbationaryConfirmationRequestData = {
           return `Confirm for ${this.Staff.code} (${this.EndDate.value})`;
         },
         getNotificationSubject() {
-          return `[Probationary Confirmation Request] [Đà Nẵng] - ${users.user.username}`;
+          return `[Probationary Confirmation Request] [${this.CurrentOffice.value}] - ${users.user.username}`;
         },
       };
     },

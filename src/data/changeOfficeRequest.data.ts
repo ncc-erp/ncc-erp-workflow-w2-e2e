@@ -33,13 +33,13 @@ export const ChangeOfficeRequestData = {
           return `Change office from ${this.CurrentOffice.code} to ${this.DestinationOffice.code}`;
         },
         getNotificationSubject() {
-          return `[Change Office Request] [Đà Nẵng] - ${users.user.name}`;
+          return `[Change Office Request] [${this.CurrentOffice.value}] - ${users.user.name}`;
         },
         getApprovedSubject() {
-          return `[Change Office Request] Approved - [Đà Nẵng] - ${users.user.name}`;
+          return `[Change Office Request] Approved - [${this.CurrentOffice.value}] - ${users.user.name}`;
         },
         getRejectedSubject() {
-          return `[Change Office Request] Rejected - [Đà Nẵng] - ${users.user.name}`;
+          return `[Change Office Request] Rejected - [${this.CurrentOffice.value}] - ${users.user.name}`;
         },
       };
     },
