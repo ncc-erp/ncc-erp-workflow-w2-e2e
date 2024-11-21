@@ -50,6 +50,9 @@ export interface WFHRequestForm {
   Reason: InputItem;
   Dates: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 
 export interface OfficeEquipmentRequestForm {
@@ -84,6 +87,7 @@ export interface UnlockTimesheetRequestForm {
   TimeUnlock: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
 }
 
 export interface ResignationRequestForm {

@@ -1,5 +1,6 @@
 import { getRandomContent, getRandomPastDate } from "./fakerUtils";
 import { UnlockTimesheetRequestForm } from "./requestTemplate.data";
+import { users } from "./users.data";
 
 export const UnlockTimesheetRequestData = {
   user: {
@@ -15,6 +16,9 @@ export const UnlockTimesheetRequestData = {
         },
         getTitle() {
           return `Unlock Timesheet Request ${this.TimeUnlock.value}`;
+        },
+        getNotificationSubject() {
+          return `[Unlock Timesheet Request] [${users.user.name}] - ${users.user.username}`;
         },
       };
     },
