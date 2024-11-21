@@ -67,6 +67,7 @@ export interface ProbationaryConfirmationRequest {
   StartDate: InputItem;
   EndDate: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
 }
 
 export interface AdvancePaymentRequestForm {

@@ -9,6 +9,7 @@ Feature: Probationary Confirmation Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[pcr1].response.id" and state "PM Reviews" on tasks page
+      And I should see an email send to "*testData.users.pm.username" with subject "*global[pcr1].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[pcr1].response.id" with strength points "strength points test" and weekness points "weekness points test"
@@ -27,6 +28,7 @@ Feature: Probationary Confirmation Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[pcr2].response.id" and state "HoO Reviews" on tasks page
+      And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[pcr2].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[pcr2].response.id" with strength points "strength points test" and weekness points "weekness points test"
@@ -47,6 +49,7 @@ Feature: Probationary Confirmation Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[pcr3].response.id" and state "CEO Reviews" on tasks page
+      And I should see an email send to "*testData.users.ceo.username" with subject "*global[pcr3].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[pcr3].response.id" with strength points "" and weekness points ""
@@ -73,21 +76,21 @@ Feature: Probationary Confirmation Request
   Rule: As user, I want to see a Probationary Confirmation Request is rejected
 
     Background:
-        Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr4]" success
+      Given User create "Probationary Confirmation Request" with "*testData[random_probationary_confirmation_request]__global[pcr4]" success
 
     Scenario: I should see the request with rejected status when GDVPDN rejected
-        When "GDVPDN" reject the request "*global[pcr4].response.id", current state "HoO Reviews" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
+      When "GDVPDN" reject the request "*global[pcr4].response.id", current state "HoO Reviews" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
 
     Scenario: I should see the request with rejected status when PM rejected
-        When "PM" reject the request "*global[pcr4].response.id", current state "PM Reviews" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
+      When "PM" reject the request "*global[pcr4].response.id", current state "PM Reviews" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
 
     Scenario: I should see the request with rejected status when CEO rejected
-        When "GDVPDN" approve the request "*global[pcr4].response.id" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
-        And "PM" approve the request "*global[pcr4].response.id" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
-        And "CEO" reject the request "*global[pcr4].response.id", current state "CEO Reviews" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
+      When "GDVPDN" approve the request "*global[pcr4].response.id" with strength points "strength points test" and weekness points "weekness points test" success and current state "HoO Reviews"
+      And "PM" approve the request "*global[pcr4].response.id" with strength points "strength points test" and weekness points "weekness points test" success and current state "PM Reviews"
+      And "CEO" reject the request "*global[pcr4].response.id", current state "CEO Reviews" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[pcr4].response.id" with status "Rejected" on my request page
