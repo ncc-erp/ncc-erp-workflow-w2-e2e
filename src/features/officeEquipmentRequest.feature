@@ -29,8 +29,7 @@ Feature: Office Equipment Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[oer2].response.id" and state "IT Reviews" on tasks page
-      # And I should see an email send to "*testData.users.it.username" with subject "*global[oer2].getNotificationSubject"
-#  todo: change email
+      And I should see an email send to "*testData.users.it.username" with subject "*global[oer2].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[oer2].response.id"

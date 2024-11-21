@@ -100,6 +100,7 @@ export interface ResignationRequestForm {
   DesiredLastWorkingDay: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
 }
 
 export type RequestFormType =
