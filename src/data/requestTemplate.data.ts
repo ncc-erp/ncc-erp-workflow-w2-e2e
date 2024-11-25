@@ -31,6 +31,9 @@ export interface DeviceRequestForm {
   Device: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 export interface ChangeOfficeRequestForm {
   CurrentOffice: InputItem;
@@ -39,6 +42,9 @@ export interface ChangeOfficeRequestForm {
   StartDate: InputItem;
   EndDate: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 
 export interface WFHRequestForm {
@@ -47,6 +53,9 @@ export interface WFHRequestForm {
   Reason: InputItem;
   Dates: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 
 export interface OfficeEquipmentRequestForm {
@@ -54,6 +63,9 @@ export interface OfficeEquipmentRequestForm {
   Equipment: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
+  getApprovedSubject: () => string;
+  getRejectedSubject: () => string;
 }
 
 export interface ProbationaryConfirmationRequest {
@@ -64,6 +76,7 @@ export interface ProbationaryConfirmationRequest {
   StartDate: InputItem;
   EndDate: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
 }
 
 export interface AdvancePaymentRequestForm {
@@ -73,18 +86,21 @@ export interface AdvancePaymentRequestForm {
   getNotificationSubject: () => string;
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
+  getApprovedNotiSubject: () => string;
 }
 
 export interface UnlockTimesheetRequestForm {
   TimeUnlock: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
 }
 
 export interface ResignationRequestForm {
   DesiredLastWorkingDay: InputItem;
   Reason: InputItem;
   getTitle: () => string;
+  getNotificationSubject: () => string;
 }
 
 export type RequestFormType =

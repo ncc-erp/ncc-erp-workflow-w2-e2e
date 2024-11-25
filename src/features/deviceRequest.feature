@@ -9,6 +9,7 @@ Feature: Device Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[deviceRequest2].response.id" and state "PM Reviews" on tasks page
+      And I should see an email send to "*testData.users.pm.username" with subject "*global[deviceRequest2].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[deviceRequest2].response.id"
@@ -28,6 +29,7 @@ Feature: Device Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[deviceRequest3].response.id" and state "IT Reviews" on tasks page
+      # And I should see an email send to "*testData.users.it.username" with subject "*global[deviceRequest3].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[deviceRequest3].response.id"
@@ -48,20 +50,23 @@ Feature: Device Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[deviceRequest4].response.id" with status "Approved" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[deviceRequest4].getApprovedSubject"
 
   @user
   Rule: As a user, I want to see a Device Request is rejected
 
     Background:
-        Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest4]" success
+      Given User create "Device Request" with "*testData[random_device_request]__global[deviceRequest4]" success
 
     Scenario: I should see the request with rejected status when PM rejected
-        When "PM" reject the request "*global[deviceRequest4].response.id", current state "PM Reviews" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[deviceRequest4].response.id" with status "Rejected" on my request page
+      When "PM" reject the request "*global[deviceRequest4].response.id", current state "PM Reviews" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[deviceRequest4].response.id" with status "Rejected" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[deviceRequest4].getRejectedSubject"
 
     Scenario: I should see the request with rejected status when IT rejected
-        When "PM" approve the request "*global[deviceRequest4].response.id", current state "PM Reviews" success
-        And "IT" reject the request "*global[deviceRequest4].response.id", current state "IT Reviews" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[deviceRequest4].response.id" with status "Rejected" on my request page
+      When "PM" approve the request "*global[deviceRequest4].response.id", current state "PM Reviews" success
+      And "IT" reject the request "*global[deviceRequest4].response.id", current state "IT Reviews" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[deviceRequest4].response.id" with status "Rejected" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[deviceRequest4].getRejectedSubject"

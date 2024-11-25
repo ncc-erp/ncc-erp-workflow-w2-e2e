@@ -1,5 +1,6 @@
 import { getMultiFutureDates, getRandomContent } from "./fakerUtils";
 import { WFHRequestForm } from "./requestTemplate.data";
+import { users } from "./users.data";
 
 export const WfhRequestData = {
   user: {
@@ -25,6 +26,15 @@ export const WfhRequestData = {
         },
         getTitle() {
           return `[${this.CurrentOffice.code}][${this.Project.code}]: ${this.Dates.value.replaceAll(" ", "")}`;
+        },
+        getNotificationSubject() {
+          return `[WFH Request] [Support] - ${users.user.name}`;
+        },
+        getApprovedSubject() {
+          return `[WFH Request] Approved - [Support] - ${users.user.name}`;
+        },
+        getRejectedSubject() {
+          return `[WFH Request] Rejected - [Support] - ${users.user.name}`;
         },
       };
 

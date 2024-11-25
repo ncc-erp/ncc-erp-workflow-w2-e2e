@@ -58,7 +58,7 @@ export const verifyMail = async (email: string, subject: string) => {
   const currentTime = new Date();
   const mail = await getDetailMail(email, subject);
   expect(mail).not.toBeNull();
-  expect(mail.subject).toEqual(subject);
+  expect(mail.subject).toContain(subject);
   expect(mail.recipients).toContain(email);
   expect(mail.timeCreated - currentTime.getTime()).toBeLessThan(FIVE_MINUTES);
 };

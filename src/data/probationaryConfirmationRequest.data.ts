@@ -1,5 +1,6 @@
 import { getRandomContent, getRandomDatesForProbationaryConfirmation } from "./fakerUtils";
 import { ProbationaryConfirmationRequest } from "./requestTemplate.data";
+import { users } from "./users.data";
 
 export const ProbationaryConfirmationRequestData = {
   user: {
@@ -35,6 +36,9 @@ export const ProbationaryConfirmationRequestData = {
         },
         getTitle() {
           return `Confirm for ${this.Staff.code} (${this.EndDate.value})`;
+        },
+        getNotificationSubject() {
+          return `[Probationary Confirmation Request] [${this.CurrentOffice.value}] - ${users.user.username}`;
         },
       };
     },

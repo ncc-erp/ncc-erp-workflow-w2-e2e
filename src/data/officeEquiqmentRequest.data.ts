@@ -1,5 +1,6 @@
 import { getRandomContent, getRandomDevice } from "./fakerUtils";
 import { OfficeEquipmentRequestForm } from "./requestTemplate.data";
+import { users } from "./users.data";
 
 export const OfficeEquipmentRequestData = {
   user: {
@@ -20,6 +21,15 @@ export const OfficeEquipmentRequestData = {
         },
         getTitle() {
           return `[${this.CurrentOffice.code}]: ${this.Equipment.value}`;
+        },
+        getNotificationSubject() {
+          return `[Office Equipment Request] [${this.CurrentOffice.value}] - ${users.user.name}`;
+        },
+        getApprovedSubject() {
+          return `[Office Equipment Request] Approved - [${this.CurrentOffice.value}] - ${users.user.name}`;
+        },
+        getRejectedSubject() {
+          return `[Office Equipment Request] Rejected - [${this.CurrentOffice.value}] - ${users.user.name}`;
         },
       };
     },

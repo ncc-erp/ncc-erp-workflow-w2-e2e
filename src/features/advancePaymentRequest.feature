@@ -27,7 +27,7 @@ Feature: Advance Payment Request
       And "Accountant" approve the request "*global[co2].response.id", current state "Accountant Reviews" success
 
     Scenario: I should see an email notification when the Advance Payment Request is approved
-      Then I should see an email send to "*testData.users.hr.username" with subject "*global[co2].getApprovedSubject"
+      Then I should see an email send to "*testData.users.hr.username" with subject "*global[co2].getApprovedNotiSubject"
 
   @user
   Rule: As user, I want to receive an email notification when the Advance Payment Request is approved

@@ -9,6 +9,7 @@ Feature: WFH Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[wfhRequest2].response.id" and state "PM Reviews" on tasks page
+      And I should see an email send to "*testData.users.pm.username" with subject "*global[wfhRequest2].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[wfhRequest2].response.id"
@@ -28,6 +29,7 @@ Feature: WFH Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[wfhRequest3].response.id" and state "Branch Manager Reviews" on tasks page
+      And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[wfhRequest3].getNotificationSubject"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[wfhRequest3].response.id"
@@ -48,20 +50,23 @@ Feature: WFH Request
     Scenario: I should see the request with approved status on my requests
       When I am on "MyRequestPage"
       Then I should see "*global[wfhRequest4].response.id" with status "Approved" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[wfhRequest4].getApprovedSubject"
 
   @user
   Rule: As a user, I want to see a WFH is rejected
 
     Background:
-        Given  User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest4]" success
+      Given User create "WFH Request" with "*testData[random_wfh_request]__global[wfhRequest4]" success
 
     Scenario: I should see the request with rejected status when PM rejected
-        When "PM" reject the request "*global[wfhRequest4].response.id", current state "PM Reviews" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
+      When "PM" reject the request "*global[wfhRequest4].response.id", current state "PM Reviews" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[wfhRequest4].getRejectedSubject"
 
     Scenario: I should see the request with rejected status when GDVPDN rejected
-        When "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
-        And "GDVPDN" reject the request "*global[wfhRequest4].response.id", current state "Branch Manager Review" success with reason "reason test"
-        And I am on "MyRequestPage"
-        Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
+      When "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
+      And "GDVPDN" reject the request "*global[wfhRequest4].response.id", current state "Branch Manager Review" success with reason "reason test"
+      And I am on "MyRequestPage"
+      Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
+      And I should see an email send to "*testData.users.user.username" with subject "*global[wfhRequest4].getRejectedSubject"
