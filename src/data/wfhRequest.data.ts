@@ -1,3 +1,4 @@
+import { formatDate } from "../utils/komuNotification";
 import { getMultiFutureDates, getRandomContent } from "./fakerUtils";
 import { WFHRequestForm } from "./requestTemplate.data";
 import { users } from "./users.data";
@@ -5,6 +6,7 @@ import { users } from "./users.data";
 export const WfhRequestData = {
   user: {
     getRandomData(): WFHRequestForm {
+      const formattedDate = formatDate(new Date());
       const data: WFHRequestForm = {
         CurrentOffice: {
           type: "select",
@@ -35,6 +37,15 @@ export const WfhRequestData = {
         },
         getRejectedSubject() {
           return `[WFH Request] Rejected - [Support] - ${users.user.name}`;
+        },
+        getKomuMessage() {
+          return `\n**${users.user.name}** has send **WFH Request**:\n# ${formattedDate}\nOffice: ${this.CurrentOffice.value}\nProject: ${this.Project.value}\nPM: Tiến Nguyễn Hữu, Trung Đỗ Trọng, Trung Đỗ Đức, Hiếu Đỗ Hoàng\nWFH dates: ${this.Dates.value}`;
+        },
+        getApprovedKomuMessage() {
+          return `\nThe **WFH Request** of **${users.user.name}** has been approved by`;
+        },
+        getRejectedKomuMessage() {
+          return `\nThe **WFH Request** of **${users.user.name}** has been rejected by`;
         },
       };
 

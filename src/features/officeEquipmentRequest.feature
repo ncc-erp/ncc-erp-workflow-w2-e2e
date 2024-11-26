@@ -10,6 +10,7 @@ Feature: Office Equipment Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[oer1].response.id" and state "Branch Manager Reviews" on tasks page
       And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[oer1].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.gdvpdn.username" with message "*global[oer1].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[oer1].response.id"
@@ -30,6 +31,7 @@ Feature: Office Equipment Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[oer2].response.id" and state "IT Reviews" on tasks page
       And I should see an email send to "*testData.users.it.username" with subject "*global[oer2].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.it.username" with message "*global[oer2].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[oer2].response.id"
@@ -51,6 +53,7 @@ Feature: Office Equipment Request
       When I am on "MyRequestPage"
       Then I should see "*global[oer3].response.id" with status "Approved" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[oer3].getApprovedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[oer3].getApprovedKomuMessage"
 
   @user
   Rule: As a user, I want to see an Office Equipment Request is rejected
@@ -63,6 +66,7 @@ Feature: Office Equipment Request
       And I am on "MyRequestPage"
       Then I should see "*global[oer3].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[oer3].getRejectedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[oer3].getRejectedKomuMessage"
 
     Scenario: I should see the request with rejected status when IT rejected
       When "GDVPDN" approve the request "*global[oer3].response.id", current state "Branch Manager Reviews" success
@@ -70,3 +74,4 @@ Feature: Office Equipment Request
       And I am on "MyRequestPage"
       Then I should see "*global[oer3].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[oer3].getRejectedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[oer1].getRejectedKomuMessage"

@@ -35,8 +35,8 @@ export interface DeviceRequestForm {
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
   getKomuMessage(): string;
-  getApprovedKomuMessage(approvedBy: string): string;
-  getRejectedKomuMessage(rejectedBy: string): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 export interface ChangeOfficeRequestForm {
   CurrentOffice: InputItem;
@@ -49,8 +49,8 @@ export interface ChangeOfficeRequestForm {
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
   getKomuMessage(): string;
-  getApprovedKomuMessage(approvedBy: string): string;
-  getRejectedKomuMessage(rejectedBy: string): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 
 export interface WFHRequestForm {
@@ -62,6 +62,9 @@ export interface WFHRequestForm {
   getNotificationSubject: () => string;
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 
 export interface OfficeEquipmentRequestForm {
@@ -72,6 +75,9 @@ export interface OfficeEquipmentRequestForm {
   getNotificationSubject: () => string;
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 
 export interface ProbationaryConfirmationRequest {
@@ -83,6 +89,9 @@ export interface ProbationaryConfirmationRequest {
   EndDate: InputItem;
   getTitle: () => string;
   getNotificationSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 
 export interface AdvancePaymentRequestForm {
@@ -103,6 +112,9 @@ export interface UnlockTimesheetRequestForm {
   Reason: InputItem;
   getTitle: () => string;
   getNotificationSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 
 export interface ResignationRequestForm {
@@ -110,6 +122,9 @@ export interface ResignationRequestForm {
   Reason: InputItem;
   getTitle: () => string;
   getNotificationSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(): string;
+  getRejectedKomuMessage(): string;
 }
 
 export type RequestFormType =
