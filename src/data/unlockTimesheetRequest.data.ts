@@ -23,7 +23,7 @@ export const UnlockTimesheetRequestData = {
           return `[Unlock Timesheet Request] [${users.user.name}] - ${users.user.username}`;
         },
         getKomuMessage() {
-          return `\n**${users.user.name}** has send **Unlock Timesheet Request**:\n# ${formattedDate}\nUnlock time: ${this.TimeUnlock.value}`;
+          return `\n**${users.user.name}** has send **Unlock Timesheet Request**:\n# ${formattedDate}`;
         },
         getApprovedKomuMessage() {
           return `\nThe **Unlock Timesheet Request** of **${users.user.name}** has been approved by`;
