@@ -38,7 +38,7 @@ const getListNotification = async (
 };
 
 const findLatestNotification = (notifications: Notification[], message: string): Notification | null => {
-  const normalizedMessage = message.replace(/\n/g, "").trim();
+  const normalizedMessage = message ? message.replace(/\n/g, "").trim() : "";
 
   return (
     notifications

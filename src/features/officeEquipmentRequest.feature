@@ -74,4 +74,4 @@ Feature: Office Equipment Request
       And I am on "MyRequestPage"
       Then I should see "*global[oer3].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[oer3].getRejectedSubject"
-      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[oer1].getRejectedKomuMessage"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[oer3].getRejectedKomuMessage"

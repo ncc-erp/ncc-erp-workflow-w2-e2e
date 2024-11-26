@@ -39,7 +39,7 @@ export const WfhRequestData = {
           return `[WFH Request] Rejected - [Support] - ${users.user.name}`;
         },
         getKomuMessage() {
-          return `\n**${users.user.name}** has send **WFH Request**:\n# ${formattedDate}\nOffice: ${this.CurrentOffice.value}\nProject: ${this.Project.value}\nPM: Tiến Nguyễn Hữu, Trung Đỗ Trọng, Trung Đỗ Đức, Hiếu Đỗ Hoàng\nWFH dates: ${this.Dates.value}`;
+          return `\n**${users.user.name}** has send **WFH Request**:\n# ${formattedDate}\nOffice: ${this.CurrentOffice.value}\nProject: ${this.Project.value}\nPM: Tiến Nguyễn Hữu, Trung Đỗ Trọng, Trung Đỗ Đức, Hiếu Đỗ Hoàng\nWFH dates: ${this.Dates.value.replaceAll(" ", "")}`;
         },
         getApprovedKomuMessage() {
           return `\nThe **WFH Request** of **${users.user.name}** has been approved by`;
