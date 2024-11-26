@@ -10,6 +10,7 @@ Feature: Change Office Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co1].response.id" and state "PM Reviews" on tasks page
       And I should see an email send to "*testData.users.pm.username" with subject "*global[co1].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.pm.username" with message "*global[co1].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co1].response.id"
@@ -29,6 +30,7 @@ Feature: Change Office Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co2].response.id" and state "Current HoO Reviews" on tasks page
       And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[co2].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.gdvpdn.username" with message "*global[co2].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co2].response.id"
@@ -48,6 +50,7 @@ Feature: Change Office Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co3].response.id" and state "Destination HoO Reviews" on tasks page
       And I should see an email send to "*testData.users.gdvpv.username" with subject "*global[co3].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.gdvpv.username" with message "*global[co3].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co3].response.id"
@@ -70,6 +73,7 @@ Feature: Change Office Request
       When I am on "MyRequestPage"
       Then I should see "*global[co4].response.id" with status "Approved" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[co4].getApprovedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[co4].getApprovedKomuMessage"
 
   @user
   Rule: As user, I want to see a Change Office Request is rejected
@@ -80,6 +84,7 @@ Feature: Change Office Request
       And I am on "MyRequestPage"
       Then I should see "*global[<key>].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[<key>].getRejectedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[<key>].getRejectedKomuMessage"
       # title-format: As user, I want to see a Change Office Request is rejected > I should see the request with rejected status when <userType> rejected
 
       Examples:

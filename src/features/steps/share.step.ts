@@ -12,6 +12,7 @@ import WorkflowTypeDropdown from "../../pageObjects/components/workflowTypeDropd
 import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
 import { verifyMail } from "../../utils/email";
+import { verifyNotification } from "../../utils/komuNotification";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -123,3 +124,10 @@ When("I click on {string} from the Status dropdown", async ({ page }, option: st
 Then("I should see an email send to {string} with subject {string}", async ({}, email: string, subject: string) => {
   await verifyMail(email, subject);
 });
+
+Then(
+  "I should see a komu notification sent to {string} with message {string}",
+  async ({}, userName: string, message: string) => {
+    await verifyNotification(userName, message);
+  }
+);

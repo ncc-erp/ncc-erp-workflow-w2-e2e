@@ -34,6 +34,9 @@ export interface DeviceRequestForm {
   getNotificationSubject: () => string;
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(approvedBy: string): string;
+  getRejectedKomuMessage(rejectedBy: string): string;
 }
 export interface ChangeOfficeRequestForm {
   CurrentOffice: InputItem;
@@ -45,6 +48,9 @@ export interface ChangeOfficeRequestForm {
   getNotificationSubject: () => string;
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
+  getKomuMessage(): string;
+  getApprovedKomuMessage(approvedBy: string): string;
+  getRejectedKomuMessage(rejectedBy: string): string;
 }
 
 export interface WFHRequestForm {
@@ -87,6 +93,9 @@ export interface AdvancePaymentRequestForm {
   getApprovedSubject: () => string;
   getRejectedSubject: () => string;
   getApprovedNotiSubject: () => string;
+  getKomuMessage: () => string;
+  getApprovedKomuMessage: () => string;
+  getRejectedKomuMessage: () => string;
 }
 
 export interface UnlockTimesheetRequestForm {
