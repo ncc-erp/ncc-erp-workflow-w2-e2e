@@ -32,6 +32,7 @@ const getListNotification = async (
   if (fromTime) queryParam.append("fromTime", fromTime);
   if (toTime) queryParam.append("toTime", toTime);
 
+  await new Promise((r) => setTimeout(r, 1000));
   const response = await fetch(`${process.env.BASE_URL}api/app/komu/komu-message-log-list?${queryParam}`);
 
   return response.json();
