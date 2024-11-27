@@ -1,3 +1,4 @@
+import { formatDate } from "../utils/komuNotification";
 import { getRandomContent, getRandomDates } from "./fakerUtils";
 import { ChangeOfficeRequestForm } from "./requestTemplate.data";
 import { users } from "./users.data";
@@ -5,6 +6,7 @@ import { users } from "./users.data";
 export const ChangeOfficeRequestData = {
   user: {
     getRandomData(): ChangeOfficeRequestForm {
+      const formattedDate = formatDate(new Date());
       const { startDate, endDate } = getRandomDates();
       return {
         CurrentOffice: {
@@ -40,6 +42,15 @@ export const ChangeOfficeRequestData = {
         },
         getRejectedSubject() {
           return `[Change Office Request] Rejected - [${this.CurrentOffice.value}] - ${users.user.name}`;
+        },
+        getKomuMessage() {
+          return `\n**${users.user.name}** has send **Change Office Request**:\n# ${formattedDate}\nFrom office: ${this.CurrentOffice.value}\nTo office: ${this.DestinationOffice.value}\nStart Day: ${this.StartDate.value}\nEnd Day: ${this.EndDate.value}\n`;
+        },
+        getApprovedKomuMessage() {
+          return `\nThe **Change Office Request** of **${users.user.name}** has been approved by`;
+        },
+        getRejectedKomuMessage() {
+          return `\nThe **Change Office Request** of **${users.user.name}** has been rejected by`;
         },
       };
     },
