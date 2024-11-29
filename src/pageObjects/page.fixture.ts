@@ -11,6 +11,7 @@ import { users } from "../data/users.data";
 import LoginPage from "./pages/login.page";
 import MyRequestPage from "./pages/myRequest.page";
 import RequestTemplatePage from "./pages/requestTemplate.page";
+import Roles from "./pages/roles.page";
 import TaskPage from "./pages/task.page";
 import UserManagementPage from "./pages/useMananagement.page";
 
@@ -20,6 +21,7 @@ export type PageObjects = {
   MyRequestPage: MyRequestPage;
   TaskPage: TaskPage;
   UserManagementPage: UserManagementPage;
+  Roles: Roles;
 };
 const convertToPageObjects = (page: Page): PageObjects => {
   return {
@@ -28,6 +30,7 @@ const convertToPageObjects = (page: Page): PageObjects => {
     MyRequestPage: new MyRequestPage(page),
     TaskPage: new TaskPage(page),
     UserManagementPage: new UserManagementPage(page),
+    Roles: new Roles(page),
   };
 };
 
