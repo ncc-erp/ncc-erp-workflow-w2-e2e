@@ -10,6 +10,7 @@ Feature: WFH Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[wfhRequest2].response.id" and state "PM Reviews" on tasks page
       And I should see an email send to "*testData.users.pm.username" with subject "*global[wfhRequest2].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.pm.username" with message "*global[wfhRequest2].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[wfhRequest2].response.id"
@@ -30,6 +31,7 @@ Feature: WFH Request
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[wfhRequest3].response.id" and state "Branch Manager Reviews" on tasks page
       And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[wfhRequest3].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.gdvpdn.username" with message "*global[wfhRequest3].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[wfhRequest3].response.id"
@@ -51,6 +53,7 @@ Feature: WFH Request
       When I am on "MyRequestPage"
       Then I should see "*global[wfhRequest4].response.id" with status "Approved" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[wfhRequest4].getApprovedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[wfhRequest4].getApprovedKomuMessage"
 
   @user
   Rule: As a user, I want to see a WFH is rejected
@@ -63,6 +66,7 @@ Feature: WFH Request
       And I am on "MyRequestPage"
       Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[wfhRequest4].getRejectedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[wfhRequest4].getRejectedKomuMessage"
 
     Scenario: I should see the request with rejected status when GDVPDN rejected
       When "PM" approve the request "*global[wfhRequest4].response.id", current state "PM Reviews" success
@@ -70,3 +74,4 @@ Feature: WFH Request
       And I am on "MyRequestPage"
       Then I should see "*global[wfhRequest4].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[wfhRequest4].getRejectedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[wfhRequest4].getRejectedKomuMessage"
