@@ -6,7 +6,7 @@ Feature: User Management
     Scenario: I can search user by email
       Given I am on "UserManagementPage"
       When I input "<email>" into Email search box
-      # Then I should see a row with User Name as "<userName>", email as "<email>" and role as "<DefaultUser>" displayed
+      Then I should see a row with User Name as "<userName>", email as "<email>" and role as "<DefaultUser>" displayed
 
       Examples:
         | userName               | email                  | role        |
