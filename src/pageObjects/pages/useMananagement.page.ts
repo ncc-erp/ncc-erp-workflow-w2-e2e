@@ -35,16 +35,30 @@ export default class UserManagementPage extends BasePage {
     await this.menuItem.clickByName("Edit");
   }
 
-  async assignRole(role: string) {
+  async manageRole(action: string, role: string) {
     const roleCheckbox = await this.checkBox.getCheckboxByLabel(role);
-    await roleCheckbox.setChecked(true); // To check the checkbox
+    switch (action) {
+      case "assign":
+        await roleCheckbox.setChecked(true, { force: true });
+        break;
+      case "unassign":
+        await roleCheckbox.setChecked(false, { force: true });
+        break;
+    }
     await this.button.clickByName("Submit");
   }
 
-  async verifyIncludeRole(role: string) {
+  async verifyIncludeRole(status: string, role: string) {
     const userRow = this.page.locator("tbody > tr").filter({
       has: this.page.locator(`td:nth-child(4)`),
     });
-    await expect(userRow.filter({ hasText: role })).toBeVisible();
+    switch (status) {
+      case "displayed":
+        await expect(userRow.filter({ hasText: role })).toBeVisible();
+        break;
+      case "not displayed":
+        await expect(userRow.filter({ hasText: role })).toBeHidden();
+        break;
+    }
   }
 }

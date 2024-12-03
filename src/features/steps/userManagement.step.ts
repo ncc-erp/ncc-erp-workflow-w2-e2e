@@ -20,19 +20,19 @@ When("I open Edit user popup of the only user displayed", async ({ PageObjects }
   await PageObjects.UserManagementPage.openEditUserPopup();
 });
 
-When("I assign user with the role {string}", async ({ PageObjects }, role: string) => {
+When("I {string} user with the role {string}", async ({ PageObjects }, action: string, role: string) => {
   await PageObjects.UserManagementPage.popup.openTabByName("Roles");
-  await PageObjects.UserManagementPage.assignRole(role);
+  await PageObjects.UserManagementPage.manageRole(action, role);
 });
 
-Then("I should see the user role include role {string}", async ({ PageObjects }, role: string) => {
-  await PageObjects.UserManagementPage.verifyIncludeRole(role);
+Then("I should see role {string} {string} in the user role", async ({ PageObjects }, status: string, role: string) => {
+  await PageObjects.UserManagementPage.verifyIncludeRole(status, role);
 });
 
 Then(
-  "I want to see name of user as {string} in {string} role user list in Role page",
-  async ({ PageObjects }, name: string, role: string) => {
+  "I see name of user as {string} {string} in {string} role user list in Role page",
+  async ({ PageObjects }, name: string, status: string, role: string) => {
     await PageObjects.Roles.open();
-    await PageObjects.Roles.verifyRoleUserList(name, role);
+    await PageObjects.Roles.verifyRoleUserList(name, status, role);
   }
 );
