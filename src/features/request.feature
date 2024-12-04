@@ -55,12 +55,12 @@ Feature: Request
 
     Scenario: I should not see Cancel option for requests in Approved status
       When I click on "Approved" option from the Status dropdown
-      And I open Action popup of a request
+      And I open Action menu of a request
       Then I should not see Cancel option displayed in the popup
 
     Scenario: I should not see Cancel option for requests in Rejected status
       When I click on "Rejected" option from the Status dropdown
-      And I open Action popup of a request
+      And I open Action menu of a request
       Then I should not see Cancel option displayed in the popup
 
   @admin
@@ -77,7 +77,6 @@ Feature: Request
       When "Admin" cancel request with id "*global[dr1].response.id"
       Then I should see "*global[dr1].response.id" with status "Canceled" on all requests page
       And "User" should see "*global[dr1].response.id" with status "Canceled" on my request page
-# User Filter
 
   @user
   Rule: As user, I do not have "Only my request" button on My request page
@@ -87,7 +86,7 @@ Feature: Request
       Then I should not see "Only my request" button on My request page
 # User Cancel
 
-  @user
+  @user @user
   Rule: As User, I want to see a Request from my requests
 
     Background:

@@ -13,6 +13,7 @@ import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
 import { verifyMail } from "../../utils/email";
 import { verifyNotification } from "../../utils/komuNotification";
+import { waitLoading } from "../../utils/waitLoading";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -99,7 +100,7 @@ Given("I should see these option below Status dropdown", async ({ page }, dataTa
   await statusDropdown.verifyStatusDropdownOptions(dataTable);
 });
 
-When("I click on {string} option from the Type dropdown", async ({ page }, option: string) => {
+When("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
   const workflowTypeDropdown = new WorkflowTypeDropdown(page);
   await workflowTypeDropdown.typeDropdown.click();
   await workflowTypeDropdown.typeDropdown.selectOption(option);
@@ -119,6 +120,7 @@ When("I click on {string} option from the Status dropdown", async ({ page }, opt
   const statusDropdown = new StatusDropdown(page);
   await statusDropdown.locator.click();
   await statusDropdown.locator.selectOption(option);
+  await waitLoading(page);
 });
 
 Then("I should see an email send to {string} with subject {string}", async ({}, email: string, subject: string) => {
