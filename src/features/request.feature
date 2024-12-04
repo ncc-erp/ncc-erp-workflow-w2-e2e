@@ -35,7 +35,7 @@ Feature: Request
         | Canceled   |
 
     Scenario Outline: I can filter by status success
-      And I click on "<option>" from the Status dropdown
+      And I click on "<option>" option from the Status dropdown
       Then I should see all request with status as "<option>" display in Request page
 
       Examples:
@@ -45,6 +45,23 @@ Feature: Request
         | Pending  |
         | Canceled |
 # Admin Cancel
+
+  @admin
+  Rule: As an admin, I should not see 'Cancel' option for requests that are not in the 'Pending' status
+
+    Background:
+      Given I am on "MyRequestPage"
+      And I click on "Only my request" button
+
+    Scenario: I should not see Cancel option for requests in Approved status
+      When I click on "Approved" option from the Status dropdown
+      And I open Action popup of a request
+      Then I should not see Cancel option displayed in the popup
+
+    Scenario: I should not see Cancel option for requests in Rejected status
+      When I click on "Rejected" option from the Status dropdown
+      And I open Action popup of a request
+      Then I should not see Cancel option displayed in the popup
 
   @admin
   Rule: As Admin, I want to received a Request from my requests
@@ -61,6 +78,13 @@ Feature: Request
       Then I should see "*global[dr1].response.id" with status "Canceled" on all requests page
       And "User" should see "*global[dr1].response.id" with status "Canceled" on my request page
 # User Filter
+
+  @user
+  Rule: As user, I do not have "Only my request" button on My request page
+
+    Scenario: I should not see "Only my request" button on My request page
+      Given I am on "MyRequestPage"
+      Then I should not see "Only my request" button on My request page
 # User Cancel
 
   @user

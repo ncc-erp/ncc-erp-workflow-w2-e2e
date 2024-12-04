@@ -115,7 +115,7 @@ Given("I click on Status dropdown", async ({ page }) => {
   await statusDropdown.locator.click();
 });
 
-When("I click on {string} from the Status dropdown", async ({ page }, option: string) => {
+When("I click on {string} option from the Status dropdown", async ({ page }, option: string) => {
   const statusDropdown = new StatusDropdown(page);
   await statusDropdown.locator.click();
   await statusDropdown.locator.selectOption(option);
