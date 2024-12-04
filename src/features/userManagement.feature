@@ -30,8 +30,8 @@ Feature: User Management
     Background:
       Given I am on "UserManagementPage"
       And Following test data
-        | email                  | roleName | roleDisplayName | name           |
-        | anh.dothihong@ncc.asia | Admin    | admin           | an Do Thi Hong |
+        | email                  | roleName | roleDisplayName | name            |
+        | anh.dothihong@ncc.asia | Admin    | admin           | anh Do Thi Hong |
       And I input "<email>" into Email search box
       And I open Edit user popup of the only user displayed
 
