@@ -30,7 +30,7 @@ Then("I should see role {string} {string} in the user role", async ({ PageObject
 });
 
 Then(
-  "I see name of user as {string} {string} in {string} role user list in Role page",
+  "I should see name of user as {string} {string} in {string} role user list in Role page",
   async ({ PageObjects }, name: string, status: string, role: string) => {
     await PageObjects.Roles.open();
     await PageObjects.Roles.verifyRoleUserList(name, status, role);

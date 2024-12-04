@@ -52,7 +52,6 @@ export const verifyNotification = async (sendTo: string, message: string): Promi
   sendTo = sendTo.split("@")[0];
   const notifications = await getListNotification(sendTo);
   const notification = findLatestNotification(notifications, message);
-  console.log(message);
 
   expect(notification).not.toBeNull();
   if (notification) {

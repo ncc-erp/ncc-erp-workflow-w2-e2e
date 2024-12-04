@@ -23,15 +23,24 @@ Feature: User Management
       Examples:
         | role        |
         | DefaultUser |
-  # @admin
-  # Rule: As admin, I want to edit user role success
-  #   Scenario: When I tick on a role name, I should see name of user in the user list of the same role name
-  #     Given I am on "UserManagementPage"
-  #     When I input "<email>" into Email search box
-  #     And I open Edit user popup of the only user displayed
-  #     And I assign user with the role "<roleName>"
-  #     Then I should see the user role include role "<roleDisplayName>"
-  #     And I want to see name of user as "<name>" in "<roleDisplayName>" role user list in Role page
-  #     Examples:
-  #       | email                  | roleName | roleDisplayName | name           |
-  #       | anh.dothihong@ncc.asia | Admin    | admin           | an Do Thi Hong |
+
+  @admin @mode:serial
+  Rule: As admin, I want to edit user role success
+
+    Background:
+      Given I am on "UserManagementPage"
+      And Following test data
+        | email                  | roleName | roleDisplayName | name           |
+        | anh.dothihong@ncc.asia | Admin    | admin           | an Do Thi Hong |
+      And I input "<email>" into Email search box
+      And I open Edit user popup of the only user displayed
+
+    Scenario: When I check on a role name, I should see name of user in the user list of the same role name
+      When I "assign" user with the role "<roleName>"
+      Then I should see role "<roleDisplayName>" "displayed" in the user role
+      And I should see name of user as "<name>" "displayed" in "<roleDisplayName>" role user list in Role page
+
+    Scenario: When I uncheck on a role name, I should see name of user in the user list of the same role name
+      When I "unassign" user with the role "<roleName>"
+      Then I should see role "<roleDisplayName>" "not displayed" in the user role
+      And I should see name of user as "<name>" "not displayed" in "<roleDisplayName>" role user list in Role page
