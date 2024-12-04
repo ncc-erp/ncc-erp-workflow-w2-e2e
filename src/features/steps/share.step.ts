@@ -99,7 +99,7 @@ Given("I should see these option below Status dropdown", async ({ page }, dataTa
   await statusDropdown.verifyStatusDropdownOptions(dataTable);
 });
 
-When("I click on {string} from the Type dropdown", async ({ page }, option: string) => {
+When("I click on {string} option from the Type dropdown", async ({ page }, option: string) => {
   const workflowTypeDropdown = new WorkflowTypeDropdown(page);
   await workflowTypeDropdown.typeDropdown.click();
   await workflowTypeDropdown.typeDropdown.selectOption(option);
