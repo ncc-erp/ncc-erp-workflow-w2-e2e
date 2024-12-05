@@ -1,7 +1,7 @@
 import { Then, When } from "../../pageObjects/page.fixture";
 
 Then(
-  "I should see a row with User Name as {string} and email as {string}",
+  "I should see a row with User Name as {string} and email as {string} displayed",
   async ({ PageObjects }, userName: string, email: string) => {
     await PageObjects.UserManagementPage.verifyUser(userName, email);
   }

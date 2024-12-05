@@ -6,11 +6,11 @@ Feature: User Management
     Scenario: I can search user by email
       Given I am on "UserManagementPage"
       When I input "<email>" into Email search box
-      Then I should see a row with User Name as "<userName>" and email as "<email>" and role as "<role>" displayed
+      Then I should see a row with User Name as "<userName>" and email as "<email>" displayed
 
       Examples:
-        | userName               | email                  | role        |
-        | anh.dothihong@ncc.asia | anh.dothihong@ncc.asia | DefaultUser |
+        | userName               | email                  |
+        | anh.dothihong@ncc.asia | anh.dothihong@ncc.asia |
 
   @admin
   Rule: As admin, I want to manage Role filter success
