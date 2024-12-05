@@ -4,6 +4,7 @@ import path from "path";
 import { DataTable } from "playwright-bdd";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
+import LeftSideMenu from "../../pageObjects/components/leftSideMenu";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
 import StatusDropdown from "../../pageObjects/components/statusDropdown";
@@ -133,3 +134,9 @@ Then(
     await verifyNotification(userName, message);
   }
 );
+
+Then("I should see these Navigation Links on Left Side Menu", async ({ page }, dataTable: DataTable) => {
+  await waitLoading(page);
+  const leftSideMenu = new LeftSideMenu(page);
+  await leftSideMenu.verifyNavigationLinks(dataTable);
+});

@@ -5,8 +5,8 @@ export default class LeftSideMenu extends BaseComponent {
   async verifyNavigationLinks(dataTable: DataTable) {
     const navigationLinks = dataTable.hashes();
     for (const navigationLink of navigationLinks) {
-      const linkText = navigationLink.text; // Replace 'text' with the correct key if needed
-      await expect(this.page.locator("a").filter({ hasText: linkText })).toBeVisible();
+      const linkText = navigationLink.link;
+      await expect(this.page.locator(`a:text-is("${linkText}")`)).toBeVisible();
     }
   }
 }
