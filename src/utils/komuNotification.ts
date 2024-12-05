@@ -16,8 +16,8 @@ const FIVE_MINUTES = 5 * 60 * 1000;
 
 export function formatDate(date: Date): string {
   return date.toLocaleDateString("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
+    day: "numeric",
+    month: "numeric",
     year: "numeric",
   });
 }
@@ -31,12 +31,12 @@ const getListNotification = async (
   if (userName) queryParam.append("userName", userName);
   if (fromTime) queryParam.append("fromTime", fromTime);
   if (toTime) queryParam.append("toTime", toTime);
-
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   const response = await fetch(`${process.env.BASE_URL}api/app/komu/komu-message-log-list?${queryParam}`);
 
   return response.json();
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1";
 };
-
 const findLatestNotification = (notifications: Notification[], message: string): Notification | null => {
   const normalizedMessage = message ? message.replace(/\n/g, "").trim() : "";
 
