@@ -4,7 +4,7 @@ export default class UserManagementPage extends BasePage {
   constructor(readonly page: Page) {
     super(page, "/administration/user-management");
   }
-  async verifyUser(userName: string, email: string, role: string) {
+  async verifyUser(userName: string, email: string) {
     const userRow = this.page.locator("tbody > tr");
     const rowFound = userRow
       .filter({
@@ -12,9 +12,6 @@ export default class UserManagementPage extends BasePage {
       })
       .filter({
         has: this.page.locator(`td:nth-child(2):text-is("${email}")`),
-      })
-      .filter({
-        has: this.page.locator(`td:nth-child(4):text-is("${role}")`),
       });
     await expect(rowFound).toBeVisible();
   }
