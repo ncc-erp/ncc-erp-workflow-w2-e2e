@@ -135,8 +135,12 @@ Then(
   }
 );
 
-Then("I should see these Navigation Links on Left Side Menu", async ({ page }, dataTable: DataTable) => {
-  await waitLoading(page);
+Then("I should see these Navigation Links displayed on the Left Side Menu", async ({ page }, dataTable: DataTable) => {
   const leftSideMenu = new LeftSideMenu(page);
   await leftSideMenu.verifyNavigationLinks(dataTable);
+});
+
+When("I click on 2 accordion button on the left side menu", async ({ page }) => {
+  const leftSideMenu = new LeftSideMenu(page);
+  await leftSideMenu.clickAccordionButton();
 });

@@ -9,4 +9,12 @@ export default class LeftSideMenu extends BaseComponent {
       await expect(this.page.locator(`a:text-is("${linkText}")`)).toBeVisible();
     }
   }
+
+  async clickAccordionButton() {
+    const accordionButtons = this.page.locator('button[id*="accordion-button"]');
+    const count = await accordionButtons.count();
+    for (let i = 0; i < count; i++) {
+      await accordionButtons.nth(i).click();
+    }
+  }
 }
