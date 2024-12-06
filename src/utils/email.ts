@@ -26,6 +26,8 @@ const getListMail = async (email: string, page = 0, limit = 100): Promise<ListEm
     page: page.toString(),
     limit: limit.toString(),
   });
+
+  await new Promise((r) => setTimeout(r, 1000));
   const responseListEmail = await fetch(`${process.env.SMTP_URL}?${queryParam}`);
   return await responseListEmail.json();
 };

@@ -84,3 +84,11 @@ Feature: Change Office Request
       And I am on "MyRequestPage"
       Then I should see "*global[<key>].response.id" with status "Rejected" on my request page
       And I should see an email send to "*testData.users.user.username" with subject "*global[<key>].getRejectedSubject"
+      And I should see a komu notification sent to "*testData.users.user.username" with message "*global[<key>].getRejectedKomuMessage"
+      # title-format: As user, I want to see a Change Office Request is rejected > I should see the request with rejected status when <userType> rejected
+
+      Examples:
+        | userType | state                   | reason        | key  |
+        | PM       | PM Reviews              | reason test 1 | key1 |
+        | GDVPDN   | Current HoO Reviews     | reason test 2 | key2 |
+        | GDVPV    | Destination HoO Reviews | reason test 3 | key3 |
