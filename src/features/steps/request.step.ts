@@ -58,3 +58,15 @@ Then(
     await PageObjects.MyRequestPage.verifyFilterStatus(status);
   }
 );
+
+When("I open Action menu of a request", async ({ PageObjects }) => {
+  await PageObjects.MyRequestPage.openActionMenu();
+});
+
+Then("I should not see Cancel option displayed in the popup", async ({ PageObjects }) => {
+  await PageObjects.MyRequestPage.menuItem.verifyNotDisplayByName("Cancel");
+});
+
+Then("I should not see {string} button on My request page", async ({ PageObjects }, button: string) => {
+  await PageObjects.MyRequestPage.button.verifyNotDisplayByName(button);
+});

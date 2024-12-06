@@ -42,4 +42,9 @@ export default class MyRequestPage extends BasePage {
   async verifyFilterStatus(status: string) {
     await this.table.verifyCellOfCol(6, status);
   }
+
+  async openActionMenu() {
+    const actionMenuButton = this.page.locator("td").locator("button[id*=menu-button]").nth(0);
+    await actionMenuButton.click();
+  }
 }
