@@ -2,7 +2,7 @@ Feature: Request
 # Admin Filter
 
   @admin
-  Rule: As admin, I want to manage Type filter success
+  Rule: As Admin, I want to manage Type filter success
 
     Background:
       Given I am on "MyRequestPage"
@@ -18,7 +18,7 @@ Feature: Request
         | Device Request |
 
   @admin
-  Rule: As admin, I want to manage Status filter success
+  Rule: As Admin, I want to manage Status filter success
 
     Background:
       Given I am on "MyRequestPage"
@@ -47,7 +47,7 @@ Feature: Request
 # Admin Cancel
 
   @admin
-  Rule: As an admin, I should not see 'Cancel' option for requests that are not in the 'Pending' status
+  Rule: As Admin, I should not see 'Cancel' option for requests that are not in the 'Pending' status
 
     Background:
       Given I am on "MyRequestPage"
@@ -79,14 +79,14 @@ Feature: Request
       And "User" should see "*global[dr1].response.id" with status "Canceled" on my request page
 
   @user
-  Rule: As user, I do not have "Only my request" button on My request page
+  Rule: As User, I do not have "Only my request" button on My request page
 
     Scenario: I should not see "Only my request" button on My request page
       Given I am on "MyRequestPage"
       Then I should not see "Only my request" button on My request page
 # User Cancel
 
-  @user @user
+  @user
   Rule: As User, I want to see a Request from my requests
 
     Background:
@@ -99,3 +99,19 @@ Feature: Request
     Scenario: I can cancel the request success
       When I cancel request with id "*global[dr2].response.id"
       Then I should see "*global[dr2].response.id" with status "Canceled" on my request page
+
+  @user
+  Rule: As User, I should not see 'Cancel' option for requests that are not in the 'Pending' status
+
+    Background:
+      Given I am on "MyRequestPage"
+
+    Scenario: I should not see Cancel option for requests in Approved status
+      When I click on "Approved" option from the Status dropdown
+      And I open Action menu of a request
+      Then I should not see Cancel option displayed in the popup
+
+    Scenario: I should not see Cancel option for requests in Rejected status
+      When I click on "Rejected" option from the Status dropdown
+      And I open Action menu of a request
+      Then I should not see Cancel option displayed in the popup
