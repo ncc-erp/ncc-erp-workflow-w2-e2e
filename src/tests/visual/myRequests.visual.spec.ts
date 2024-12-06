@@ -3,14 +3,22 @@ import { expect, test } from "../../pageObjects/page.fixture";
 import adminRequests from "./mock/request/my-request-admin.json";
 import userRequests from "./mock/request/my-request-user.json";
 
-async function takeSnapshot(page) {
+async function takeSnapshot(page, viewport) {
+  await page.setViewportSize(viewport); // Apply the viewport size before taking a snapshot
   await page.waitForLoadState("domcontentloaded");
   // eslint-disable-next-line playwright/no-networkidle
   await page.waitForLoadState("networkidle");
   await expect(page).toHaveScreenshot({ fullPage: true });
 }
 
-// With data
+// Viewport sizes
+const viewports = [
+  { width: 1920, height: 1080 },
+  { width: 375, height: 667 },
+  { width: 768, height: 1024 },
+  { width: 1356, height: 960 },
+];
+
 test.describe("Request page with data", () => {
   test.beforeEach(async ({ PageObjects, page, storageState }) => {
     // mock
@@ -25,55 +33,59 @@ test.describe("Request page with data", () => {
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    viewports.forEach((viewport) => {
+      test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("request details popup snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.viewRequestDetail(userRequests.items[0].id);
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test(`request details popup snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.viewRequestDetail(userRequests.items[0].id);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("click cancel button snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
-      await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test(`click cancel button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
+        await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("click workflow button snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
-      await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test(`click workflow button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
+        await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    viewports.forEach((viewport) => {
+      test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("request details popup snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.viewRequestDetail(adminRequests.items[0].id);
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test(`request details popup snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.viewRequestDetail(adminRequests.items[0].id);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("click Only my request button snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.toggleRequestsView();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test(`click Only my request button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.toggleRequestsView();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("click cancel button snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.table.clickSettingButtonById(adminRequests.items[0].id);
-      await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test(`click cancel button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.table.clickSettingButtonById(adminRequests.items[0].id);
+        await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("click workflow button snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.table.clickSettingButtonById(adminRequests.items[0].id);
-      await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test(`click workflow button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.table.clickSettingButtonById(adminRequests.items[0].id);
+        await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 });
@@ -93,21 +105,25 @@ test.describe("Request page with empty data", () => {
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
+    viewports.forEach((viewport) => {
+      test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    viewports.forEach((viewport) => {
+      test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("click Only my request button snapshot", async ({ PageObjects }) => {
-      await PageObjects.MyRequestPage.toggleRequestsView();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test(`click Only my request button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.MyRequestPage.toggleRequestsView();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 });
