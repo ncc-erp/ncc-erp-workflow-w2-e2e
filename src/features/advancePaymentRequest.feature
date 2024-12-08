@@ -33,6 +33,7 @@ Feature: Advance Payment Request
 
   @user
   Rule: As user, I want to receive an email and a komu notification when the Advance Payment Request is approved
+
     Background:
       Given User create "Advance Payment Request" with "*testData.random_advance_payment_request__global[co3]" success
 
