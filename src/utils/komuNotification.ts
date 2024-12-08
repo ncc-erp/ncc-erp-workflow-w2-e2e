@@ -37,7 +37,6 @@ const getListNotification = async (
   return response.json();
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1";
 };
-
 const findLatestNotification = (notifications: Notification[], message: string): Notification | null => {
   const normalizedMessage = message ? message.replace(/\n/g, "").trim() : "";
 

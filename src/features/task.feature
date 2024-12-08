@@ -43,7 +43,7 @@ Feature: Task
 
     Scenario: I can filter in Board view success
       When I am at Board view mode
-      And I click on "<option>" from the Status dropdown
+      And I click on "<option>" option from the Status dropdown
       Then I should see only request in "<option>" column display
 
       Examples:
@@ -52,7 +52,7 @@ Feature: Task
 
     Scenario: I can filter in List Task view success
       When I am at List Task view mode
-      And I click on "<option>" from the Status dropdown
+      And I click on "<option>" option from the Status dropdown
       Then I should see all request with status as "<option>" display in table
 
       Examples:

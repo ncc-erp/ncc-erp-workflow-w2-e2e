@@ -4,6 +4,7 @@ import path from "path";
 import { DataTable } from "playwright-bdd";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
+import LeftSideMenu from "../../pageObjects/components/leftSideMenu";
 import EmailSearchBox from "../../pageObjects/components/emailSearchBox";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
@@ -14,6 +15,7 @@ import { expect, Given, Then, When } from "../../pageObjects/page.fixture";
 import { Storage } from "../../pageObjects/storage/storage";
 import { verifyMail } from "../../utils/email";
 import { verifyNotification } from "../../utils/komuNotification";
+import { waitLoading } from "../../utils/waitLoading";
 
 Given("I am on {string}", async ({ PageObjects }, page: string) => {
   await (PageObjects[page] as BasePage).open();
@@ -116,10 +118,11 @@ Given("I click on Status dropdown", async ({ page }) => {
   await statusDropdown.locator.click();
 });
 
-When("I click on {string} from the Status dropdown", async ({ page }, option: string) => {
+When("I click on {string} option from the Status dropdown", async ({ page }, option: string) => {
   const statusDropdown = new StatusDropdown(page);
   await statusDropdown.locator.click();
   await statusDropdown.locator.selectOption(option);
+  await waitLoading(page);
 });
 
 Then("I should see an email send to {string} with subject {string}", async ({}, email: string, subject: string) => {
@@ -133,7 +136,18 @@ Then(
   }
 );
 
+Then("I should see these Navigation Links displayed on the Left Side Menu", async ({ page }, dataTable: DataTable) => {
+  const leftSideMenu = new LeftSideMenu(page);
+  await leftSideMenu.verifyNavigationLinks(dataTable);
+});
+
+When("I click on 2 accordion button on the left side menu", async ({ page }) => {
+  const leftSideMenu = new LeftSideMenu(page);
+  await leftSideMenu.clickAccordionButton();
+});
+  
 When("I input {string} into Email search box", async ({ page }, email: string) => {
   const emailSearchBox = new EmailSearchBox(page);
   await emailSearchBox.searchByEmail(email);
 });
+
