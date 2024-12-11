@@ -4,8 +4,8 @@ import path from "path";
 import { DataTable } from "playwright-bdd";
 import { BasePage } from "../../pageObjects/base.page";
 import Button from "../../pageObjects/components/button";
-import LeftSideMenu from "../../pageObjects/components/leftSideMenu";
 import EmailSearchBox from "../../pageObjects/components/emailSearchBox";
+import LeftSideMenu from "../../pageObjects/components/leftSideMenu";
 import MenuItem from "../../pageObjects/components/menuItem";
 import Popup from "../../pageObjects/components/popup";
 import StatusDropdown from "../../pageObjects/components/statusDropdown";
@@ -145,9 +145,8 @@ When("I click on 2 accordion button on the left side menu", async ({ page }) => 
   const leftSideMenu = new LeftSideMenu(page);
   await leftSideMenu.clickAccordionButton();
 });
-  
+
 When("I input {string} into Email search box", async ({ page }, email: string) => {
   const emailSearchBox = new EmailSearchBox(page);
   await emailSearchBox.searchByEmail(email);
 });
-
