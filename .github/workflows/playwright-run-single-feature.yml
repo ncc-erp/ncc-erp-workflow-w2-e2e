@@ -26,3 +26,10 @@ jobs:
           BASE_URL: ${{ secrets.BASE_URL }}
           SMTP_URL: "https://api.smtpbucket.com/emails"
         run: npx playwright test --grep "${{ github.event.inputs.grep }}"
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
