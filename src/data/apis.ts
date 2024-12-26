@@ -9,4 +9,5 @@ export const API = {
   deleteWorkflow: /api\/app\/workflow-definition\/.*/,
   listTask: "api/app/task/list",
   filterUser: "api/app/users\\?filter=",
+  editUser: /api\/app\/users\/.*/,
 };
