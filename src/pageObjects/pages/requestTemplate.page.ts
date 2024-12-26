@@ -7,6 +7,7 @@ import { convertHexToRGB } from "../../utils/convertHexToRGB";
 import { waitLoading } from "../../utils/waitLoading";
 import { BasePage } from "../base.page";
 import Form from "../components/form";
+import LeftSideMenu from "../components/leftSideMenu";
 import RequestTemplate from "../components/requestTemplate";
 import RequestTemplateSettingMenu from "../components/requestTemplateSettingMenu";
 import { API } from "./../../data/apis";
@@ -17,6 +18,7 @@ export default class RequestTemplatePage extends BasePage {
   public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
+  public leftSideMenu: LeftSideMenu;
 
   constructor(readonly page: Page) {
     super(page, "/request-templates");
@@ -24,6 +26,7 @@ export default class RequestTemplatePage extends BasePage {
     this.createWorkflowPopup = new Form(this.page);
     this.requestTemplate = new RequestTemplate(this.page);
     this.requestTemplateSettingMenu = new RequestTemplateSettingMenu(this.page);
+    this.leftSideMenu = new LeftSideMenu(this.page);
   }
 
   async clickAddRequest(requestName: string) {
