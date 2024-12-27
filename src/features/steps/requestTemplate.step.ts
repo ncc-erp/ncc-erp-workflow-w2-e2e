@@ -118,6 +118,7 @@ When(
     await PageObjects.RequestTemplatePage.verifyWorkflowTitle(title);
     await PageObjects.RequestTemplatePage.verifyProperty(dataTable);
     await PageObjects.RequestTemplatePage.button.clickByName("Save");
+    await PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll);
   }
 );
 
@@ -158,6 +159,7 @@ When(
   async ({ PageObjects }, option: string) => {
     await Promise.all([
       PageObjects.RequestTemplatePage.page.waitForResponse(API.changeWorkflowStatus),
+      PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll),
       PageObjects.RequestTemplatePage.menuItem.clickByName(option),
     ]);
   }

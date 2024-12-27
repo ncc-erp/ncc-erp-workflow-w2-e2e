@@ -87,7 +87,7 @@ export default class RequestTemplatePage extends BasePage {
         has: this.page.locator(`td:nth-child(1):text-is("${expectedDisplayName}")`),
       })
       .filter({
-        has: this.page.locator(`td:nth-child(4):text-is("${expectedPublish}")`),
+        has: this.page.locator(`td:nth-child(4) > div:text-is("${expectedPublish}")`),
       });
 
     if (expectedStatus == "displayed") {
@@ -108,12 +108,12 @@ export default class RequestTemplatePage extends BasePage {
         has: this.page.locator(`td:nth-child(2):text-is("${workflowName}")`),
       })
       .locator("button")
-      .nth(0)
+      .nth(1)
       .click();
   }
 
   async openActionPopupByWorkflowName(workflowName: string) {
-    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(1).click();
+    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(0).click();
   }
 
   async clickOptionInSettingMenu(option: string) {
@@ -178,7 +178,7 @@ export default class RequestTemplatePage extends BasePage {
   async verifyFieldDisplayInActionPopup(dataTable: DataTable) {
     const labels = dataTable.hashes();
     for (const { label } of labels) {
-      await expect(this.page.getByText(label, { exact: true })).toBeVisible();
+      await expect(this.page.getByText(label)).toBeVisible();
     }
   }
 

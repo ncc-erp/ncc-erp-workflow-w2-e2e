@@ -7,6 +7,7 @@ export const API = {
   workflowInputDefinition: "api/app/external-resource/workflow-input-definition-property-types",
   saveWorkflowInput: "api/app/workflow-definition/save-workflow-input-definition",
   deleteWorkflow: /api\/app\/workflow-definition\/.*/,
+  cancelRequest: /api\/app\/workflow-instance\/.*\/cancel/,
   listTask: "api/app/task/list",
   filterUser: "api/app/users\\?filter=",
   editUser: /api\/app\/users\/.*/,
