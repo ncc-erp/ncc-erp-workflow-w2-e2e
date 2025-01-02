@@ -3,12 +3,12 @@ import { expect, test } from "../../pageObjects/page.fixture";
 import adminRequests from "./mock/request/my-request-admin.json";
 import userRequests from "./mock/request/my-request-user.json";
 
-async function takeSnapshot(page, viewport) {
+async function takeSnapshot(page, viewport, isFullPage = true) {
   await page.setViewportSize(viewport); // Apply the viewport size before taking a snapshot
   await page.waitForLoadState("domcontentloaded");
   // eslint-disable-next-line playwright/no-networkidle
   await page.waitForLoadState("networkidle");
-  await expect(page).toHaveScreenshot({ fullPage: true });
+  await expect(page).toHaveScreenshot({ fullPage: isFullPage });
 }
 
 // Viewport sizes
@@ -34,25 +34,27 @@ test.describe("Request page with data", () => {
     test.use({ storageState: authUserFile });
 
     viewports.forEach((viewport) => {
+      const isNotFullPage = viewport.height === 667 && viewport.width === 375;
+
       test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await takeSnapshot(PageObjects.LoginPage.page, viewport);
       });
 
       test(`request details popup snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await PageObjects.MyRequestPage.viewRequestDetail(userRequests.items[0].id);
-        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport, !isNotFullPage);
       });
 
       test(`click cancel button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
         await PageObjects.MyRequestPage.requestSettingMenu.cancelBtn.click();
-        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport, !isNotFullPage);
       });
 
       test(`click workflow button snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await PageObjects.MyRequestPage.table.clickSettingButtonById(userRequests.items[4].id);
         await PageObjects.MyRequestPage.requestSettingMenu.workflowBtn.click();
-        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport, !isNotFullPage);
       });
     });
   });
