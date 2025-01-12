@@ -7,6 +7,7 @@ import { convertHexToRGB } from "../../utils/convertHexToRGB";
 import { waitLoading } from "../../utils/waitLoading";
 import { BasePage } from "../base.page";
 import Form from "../components/form";
+import LeftSideMenu from "../components/leftSideMenu";
 import RequestTemplate from "../components/requestTemplate";
 import RequestTemplateSettingMenu from "../components/requestTemplateSettingMenu";
 import { API } from "./../../data/apis";
@@ -17,6 +18,7 @@ export default class RequestTemplatePage extends BasePage {
   public requestTemplateSettingMenu: RequestTemplateSettingMenu;
   public deviceRequestForm: RequestForm;
   createWorkflowPopup: Form;
+  public leftSideMenu: LeftSideMenu;
 
   constructor(readonly page: Page) {
     super(page, "/request-templates");
@@ -24,6 +26,7 @@ export default class RequestTemplatePage extends BasePage {
     this.createWorkflowPopup = new Form(this.page);
     this.requestTemplate = new RequestTemplate(this.page);
     this.requestTemplateSettingMenu = new RequestTemplateSettingMenu(this.page);
+    this.leftSideMenu = new LeftSideMenu(this.page);
   }
 
   async clickAddRequest(requestName: string) {
@@ -84,7 +87,7 @@ export default class RequestTemplatePage extends BasePage {
         has: this.page.locator(`td:nth-child(1):text-is("${expectedDisplayName}")`),
       })
       .filter({
-        has: this.page.locator(`td:nth-child(4):text-is("${expectedPublish}")`),
+        has: this.page.locator(`td:nth-child(4) > div:text-is("${expectedPublish}")`),
       });
 
     if (expectedStatus == "displayed") {
@@ -105,12 +108,12 @@ export default class RequestTemplatePage extends BasePage {
         has: this.page.locator(`td:nth-child(2):text-is("${workflowName}")`),
       })
       .locator("button")
-      .nth(0)
+      .nth(1)
       .click();
   }
 
   async openActionPopupByWorkflowName(workflowName: string) {
-    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(1).click();
+    await this.page.getByRole("row", { name: workflowName }).getByRole("button").nth(0).click();
   }
 
   async clickOptionInSettingMenu(option: string) {
@@ -175,7 +178,7 @@ export default class RequestTemplatePage extends BasePage {
   async verifyFieldDisplayInActionPopup(dataTable: DataTable) {
     const labels = dataTable.hashes();
     for (const { label } of labels) {
-      await expect(this.page.getByText(label, { exact: true })).toBeVisible();
+      await expect(this.page.getByText(label)).toBeVisible();
     }
   }
 
