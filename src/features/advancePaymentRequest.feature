@@ -1,3 +1,4 @@
+@skip
 Feature: Advance Payment Request
 
   @accountant

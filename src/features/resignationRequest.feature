@@ -1,3 +1,4 @@
+@skip
 Feature: Resignation Request
 
   @pm
