@@ -33,7 +33,7 @@ Then("I should see {string}", async ({ PageObjects }, page: string) => {
 });
 
 Then("I logout", async ({ PageObjects }) => {
-  await PageObjects.RequestTemplatePage.header.logout();
+  await PageObjects.RequestTemplatePage.leftSideMenu.logout();
 });
 ///
 

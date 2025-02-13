@@ -29,7 +29,7 @@ Feature: User create a new request
 
       Examples:
         | name            | displayName                  | publish | label           |
-        | Test Create_e2e | Test Create Display Name_e2e | false   | Workflow Detail |
+        | Test Create_e2e | Test Create Display Name_e2e | No      | Workflow Detail |
 
     Scenario: I can import a new workflow success
       When I import a workflow with file path as "<path>"
@@ -38,7 +38,7 @@ Feature: User create a new request
 
       Examples:
         | path                        | name            | displayName                  | publish | label           |
-        | upload/test-import-e2e.json | Test Import_e2e | Test Import Display Name_e2e | false   | Workflow Detail |
+        | upload/test-import-e2e.json | Test Import_e2e | Test Import Display Name_e2e | No      | Workflow Detail |
 
     Scenario: I can export a workflow input success
       When I import a workflow with file path as "<uploadPath>"
@@ -85,29 +85,29 @@ Feature: User create a new request
       And I close popup with label as "<label>"
       And I open Setting menu of workflow with name as "<name>"
       And I click on "Publish" option in the menu item to change workflow status
-      Then I should see Published field of the "<name>" workflow as "true"
+      Then I should see Published field of the "<name>" workflow as "Yes"
       And I should see "<displayName>" workflow "displayed" in the Type dropdown on the page
-        |pageName     |
-        |MyRequestPage|
-        |TaskPage     |
+        | pageName      |
+        | MyRequestPage |
+        | TaskPage      |
 
     Scenario: I can unpublish a workflow success
       When I open Setting menu of workflow with name as "<name>"
       And I click on "Unpublish" option in the menu item to change workflow status
-      Then I should see Published field of the "<name>" workflow as "false"
+      Then I should see Published field of the "<name>" workflow as "No"
       And I should see "<displayName>" workflow "not displayed" in the Type dropdown on the page
-        |pageName     |
-        |MyRequestPage|
-        |TaskPage     |
+        | pageName      |
+        | MyRequestPage |
+        | TaskPage      |
 
-    @mode:serial @admin
+  @mode:serial @admin
   Rule: Delete workflow function
 
     Background:
       Given I am on "RequestTemplatePage"
       And Following test data
         | name            | displayName                  | publish | label           |
-        | Test Delete_e2e | Test Delete Display Name_e2e | false   | Workflow Detail |
+        | Test Delete_e2e | Test Delete Display Name_e2e | No      | Workflow Detail |
 
     Scenario: I can cancel delete a workflow successfully
       When I create a workflow with name as "<name>" and display name as "<displayName>"

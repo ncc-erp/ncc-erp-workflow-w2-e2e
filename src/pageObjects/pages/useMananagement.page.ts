@@ -1,4 +1,5 @@
 import { expect, Page } from "@playwright/test";
+import { API } from "../../data/apis";
 import { BasePage } from "../base.page";
 export default class UserManagementPage extends BasePage {
   constructor(readonly page: Page) {
@@ -43,6 +44,7 @@ export default class UserManagementPage extends BasePage {
         break;
     }
     await this.button.clickByName("Submit");
+    await this.page.waitForResponse(API.editUser);
   }
 
   async verifyIncludeRole(status: string, role: string) {

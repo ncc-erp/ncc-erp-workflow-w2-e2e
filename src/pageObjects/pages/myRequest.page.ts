@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { API } from "../../data/apis";
 import { BasePage } from "../base.page";
 import MyRequest from "./../components/myRequests";
 import RequestSettingMenu from "./../components/requestSettingMenu";
@@ -33,6 +34,7 @@ export default class MyRequestPage extends BasePage {
     await this.table.clickSettingButtonById(id);
     await this.requestSettingMenu.cancelBtn.click();
     await this.requestSettingMenu.conrfirmYesBtn.click();
+    await this.page.waitForResponse(API.cancelRequest);
   }
 
   async viewRequestDetail(id: string) {
