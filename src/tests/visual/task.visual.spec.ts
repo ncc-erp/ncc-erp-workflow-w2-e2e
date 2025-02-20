@@ -1,19 +1,13 @@
 import { authAdminFile, authPmFile, authUserFile } from "../../data/users.data";
-import { expect, test } from "../../pageObjects/page.fixture";
+import { test } from "../../pageObjects/page.fixture";
 import approvedTaskList from "./mock/task/approved-task-list.json";
+import detailById from "./mock/task/detail-by-id.json";
 import pendingTaskList from "./mock/task/pending-task-list.json";
 import rejectedTaskList from "./mock/task/rejected-task-list.json";
-import detailById from "./mock/task/detail-by-id.json";
+import { takeSnapshot, VIEW_PORTS } from "./utils";
 
 // Define empty task list mock data
 const emptyTaskList = { totalCount: 0, items: [] };
-
-async function takeSnapshot(page) {
-  await page.waitForLoadState("domcontentloaded");
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState("networkidle");
-  await expect(page).toHaveScreenshot({ fullPage: true });
-}
 
 // Test cases with data
 test.describe("Task page with data", () => {
@@ -33,56 +27,62 @@ test.describe("Task page with data", () => {
 
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
-    test("board view snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("board view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("table view snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.tableView();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("table view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.tableView();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
-    test("board view snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("board view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("table view snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.tableView();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("table view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.tableView();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as PM", () => {
     test.use({ storageState: authPmFile });
 
-    test("pending task detail snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("pending task detail snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("approve task snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
-      await PageObjects.TaskPage.detailTaskPopup.approveBtn.click();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("approve task snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
+        await PageObjects.TaskPage.detailTaskPopup.approveBtn.click();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("reject task snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
-      await PageObjects.TaskPage.detailTaskPopup.rejectBtn.click();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("reject task snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(pendingTaskList.items[0].id, 0);
+        await PageObjects.TaskPage.detailTaskPopup.rejectBtn.click();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("approved task detail snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(approvedTaskList.items[0].id, 1);
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("approved task detail snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(approvedTaskList.items[0].id, 1);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("rejected task detail snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(rejectedTaskList.items[0].id, 2);
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("rejected task detail snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.taskBoard.clickToBoardByTaskId(rejectedTaskList.items[0].id, 2);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 });
@@ -100,25 +100,29 @@ test.describe("Task page with empty data", () => {
 
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
-    test("board view snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("board view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("table view snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.tableView();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("table view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.tableView();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
-    test("board view snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("board view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("table view snapshot", async ({ PageObjects }) => {
-      await PageObjects.TaskPage.tableView();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("table view snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.TaskPage.tableView();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 });

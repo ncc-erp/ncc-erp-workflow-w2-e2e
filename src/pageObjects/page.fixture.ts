@@ -79,13 +79,6 @@ export const test = base.extend<{ PageObjects: PageObjects; WorldObject: WorldOb
       // DataTests: [],
     });
   },
-  hooks: [
-    async ({ $testInfo }, use) => {
-      $testInfo.snapshotPath = (name: string) => `${$testInfo.file}-snapshots/${name}`;
-      await use();
-    },
-    { auto: true },
-  ],
 });
 
 export { expect, Locator, Page, Response } from "@playwright/test";

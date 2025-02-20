@@ -1,23 +1,8 @@
 import { authAdminFile, authUserFile } from "../../data/users.data";
-import { expect, test } from "../../pageObjects/page.fixture";
+import { test } from "../../pageObjects/page.fixture";
 import adminRequests from "./mock/request/my-request-admin.json";
 import userRequests from "./mock/request/my-request-user.json";
-
-async function takeSnapshot(page, viewport, isFullPage = true) {
-  await page.setViewportSize(viewport); // Apply the viewport size before taking a snapshot
-  await page.waitForLoadState("domcontentloaded");
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState("networkidle");
-  await expect(page).toHaveScreenshot({ fullPage: isFullPage });
-}
-
-// Viewport sizes
-const viewports = [
-  { width: 1920, height: 1080 },
-  { width: 375, height: 667 },
-  { width: 768, height: 1024 },
-  { width: 1356, height: 960 },
-];
+import { takeSnapshot, VIEW_PORTS } from "./utils";
 
 test.describe("Request page with data", () => {
   test.beforeEach(async ({ PageObjects, page, storageState }) => {
@@ -33,7 +18,7 @@ test.describe("Request page with data", () => {
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
 
-    viewports.forEach((viewport) => {
+    VIEW_PORTS.forEach((viewport) => {
       const isNotFullPage = viewport.height === 667 && viewport.width === 375;
 
       test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
@@ -62,7 +47,7 @@ test.describe("Request page with data", () => {
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
 
-    viewports.forEach((viewport) => {
+    VIEW_PORTS.forEach((viewport) => {
       test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await takeSnapshot(PageObjects.LoginPage.page, viewport);
       });
@@ -107,7 +92,7 @@ test.describe("Request page with empty data", () => {
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
 
-    viewports.forEach((viewport) => {
+    VIEW_PORTS.forEach((viewport) => {
       test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await takeSnapshot(PageObjects.LoginPage.page, viewport);
       });
@@ -117,7 +102,7 @@ test.describe("Request page with empty data", () => {
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
 
-    viewports.forEach((viewport) => {
+    VIEW_PORTS.forEach((viewport) => {
       test(`displays page snapshot ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
         await takeSnapshot(PageObjects.LoginPage.page, viewport);
       });
