@@ -1,13 +1,7 @@
 import { authAdminFile, authUserFile } from "../../data/users.data";
-import { expect, test } from "../../pageObjects/page.fixture";
+import { test } from "../../pageObjects/page.fixture";
 import requests from "./mock/list-request.json";
-
-async function takeSnapshot(page) {
-  await page.waitForLoadState("domcontentloaded");
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState("networkidle");
-  await expect(page).toHaveScreenshot({ fullPage: true });
-}
+import { takeSnapshot, VIEW_PORTS } from "./utils";
 
 // With data
 test.describe("Request template page with data", () => {
@@ -22,46 +16,50 @@ test.describe("Request template page with data", () => {
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("displays page snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("create new request snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickAddRequest(requests.items[0].name);
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("create new request snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickAddRequest(requests.items[0].name);
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("displays page snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("create new template snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickCreateNewTemplate();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("create new template snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickCreateNewTemplate();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("import new template snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickImportNewTemplate();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("import new template snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickImportNewTemplate();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("define input snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickMenuButton(requests.items[0].id, "Define Input");
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("define input snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickMenuButton(requests.items[0].id, "Define Input");
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("edit workflow snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickMenuButton(requests.items[0].id, "Edit Workflow");
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("edit workflow snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickMenuButton(requests.items[0].id, "Edit Workflow");
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("delete request snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickMenuButton(requests.items[0].id, "Delete");
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("delete request snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickMenuButton(requests.items[0].id, "Delete");
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 });
@@ -79,26 +77,30 @@ test.describe("Request template page with empty data", () => {
   test.describe("as user", () => {
     test.use({ storageState: authUserFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
+    VIEW_PORTS.forEach((viewport) => {
+      test("displays page snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 
   test.describe("as admin", () => {
     test.use({ storageState: authAdminFile });
 
-    test("displays page snapshot", async ({ PageObjects }) => {
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+    VIEW_PORTS.forEach((viewport) => {
+      test("displays page snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("create new template snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickCreateNewTemplate();
-      await takeSnapshot(PageObjects.LoginPage.page);
-    });
+      test("create new template snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickCreateNewTemplate();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
 
-    test("import new template snapshot", async ({ PageObjects }) => {
-      await PageObjects.RequestTemplatePage.clickImportNewTemplate();
-      await takeSnapshot(PageObjects.LoginPage.page);
+      test("import new template snapshot" + ` ${viewport.width}x${viewport.height}`, async ({ PageObjects }) => {
+        await PageObjects.RequestTemplatePage.clickImportNewTemplate();
+        await takeSnapshot(PageObjects.LoginPage.page, viewport);
+      });
     });
   });
 });

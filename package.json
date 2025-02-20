@@ -7,6 +7,7 @@
     "test": "npm run test:bdd",
     "test:debug": "playwright test --debug",
     "test:bdd": "npx bddgen && npx playwright test",
+    "test:visual": "npx bddgen && npx playwright test --grep \"visual\"",
     "watch:bdd": "nodemon -w ./src/features -w ./src/steps -e feature,js,ts --exec \"npx bddgen\"",
     "test:ui": "concurrently \"npm run watch:bdd\" \"npx playwright test --ui\"",
     "test:chrome": "playwright test --project=chromium",
