@@ -21,7 +21,7 @@ export async function takeSnapshot(page: Page, viewport?: IViewport, isFullPage 
   await expect.soft(page).toHaveScreenshot({
     fullPage: isFullPage,
     maxDiffPixels: 100, // Allow small pixel differences
-    threshold: 0.2, // Allow 20% difference in color changes // maximum can allows
+    threshold: 0.15, // Allow 15% difference in color changes // maximum can allows
   });
 }
 export async function takeSnapshots(page: Page, isFullPage = true) {
