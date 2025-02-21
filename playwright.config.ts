@@ -56,6 +56,9 @@ export default defineConfig({
     testIdAttribute: "data-testid",
     /* Retain video on failure */
     video: "retain-on-failure",
+    launchOptions: {
+      args: ["--font-render-hinting=none", "--disable-font-subpixel-positioning", "--disable-gpu"],
+    },
   },
   /* Configure projects for major browsers */
   projects: [

@@ -12,6 +12,16 @@ export const VIEW_PORTS: IViewport[] = [
 ];
 
 export async function takeSnapshot(page: Page, viewport?: IViewport, isFullPage = true) {
+  // Inject font smoothing
+  await page.addStyleTag({
+    content: `
+        * {
+          font-smoothing: antialiased;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+    `,
+  });
   if (viewport) {
     await page.setViewportSize(viewport); // Apply the viewport size before taking a snapshot
   }
