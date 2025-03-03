@@ -1,5 +1,5 @@
 import { ChangeOfficeRequestForm, Pointer } from "../../data/requestTemplate.data";
-import { authGDVPDNFile, authGDVPVFile, authPmFile, authUserFile, users } from "../../data/users.data";
+import { authGDVPDNFile, authGDVPVFile, authPm2File, authUserFile, users } from "../../data/users.data";
 import { BrowserControl, test } from "../../pageObjects/page.fixture";
 import { approveRequestSteps, testTaskAssigned, userCreateChangeOfficeRequestSteps } from "../../steps/request.step";
 import { ChangeOfficeRequestData } from "./../../data/changeOfficeRequest.data";
@@ -21,7 +21,7 @@ test.describe("As user, I want to create a Change Office Request @user", () => {
   {
     story: "As pm, I want to received a Change Office Request from my project",
     step: "PM Reviews",
-    authFile: authPmFile,
+    authFile: authPm2File,
     user: "pm",
   },
   {
@@ -61,7 +61,7 @@ test.describe("As user, I want to see a Change Office Request after PM, GDVP1, G
       dataNewRequest = await userCreateChangeOfficeRequestSteps(PageObjects);
     });
     // PM approve
-    await BrowserControl.withAuth(browser, authPmFile, async ({ PageObjects }) => {
+    await BrowserControl.withAuth(browser, authPm2File, async ({ PageObjects }) => {
       await approveRequestSteps(PageObjects, dataNewRequest.getTitle(), users.user.name, "PM Reviews");
     });
     // Current Office approve

@@ -1,6 +1,6 @@
 Feature: Change Office Request
 
-  @pm
+  @current_pm
   Rule: As pm, I want to received a Change Office Request from my project
 
     Background:
@@ -9,8 +9,8 @@ Feature: Change Office Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[co1].response.id" and state "PM Reviews" on tasks page
-      And I should see an email send to "*testData.users.pm.username" with subject "*global[co1].getNotificationSubject"
-      And I should see a komu notification sent to "*testData.users.pm.username" with message "*global[co1].getKomuMessage"
+      And I should see an email send to "*testData.users.current_pm.username" with subject "*global[co1].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.current_pm.username" with message "*global[co1].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[co1].response.id"
@@ -65,7 +65,7 @@ Feature: Change Office Request
 
     Background:
       Given User create "Change Office Request" with "*testData[random_change_office_request]__global[co4]" success
-      And "PM" approve the request "*global[co4].response.id", current state "PM Reviews" success
+      And "CURRENT_PM" approve the request "*global[co4].response.id", current state "PM Reviews" success
       And "GDVPDN" approve the request "*global[co4].response.id", current state "Current HoO Reviews" success
       And "GDVPV" approve the request "*global[co4].response.id", current state "Destination HoO Reviews" success
 
@@ -88,7 +88,7 @@ Feature: Change Office Request
       # title-format: As user, I want to see a Change Office Request is rejected > I should see the request with rejected status when <userType> rejected
 
       Examples:
-        | userType | state                   | reason        | key  |
-        | PM       | PM Reviews              | reason test 1 | key1 |
-        | GDVPDN   | Current HoO Reviews     | reason test 2 | key2 |
-        | GDVPV    | Destination HoO Reviews | reason test 3 | key3 |
+        | userType   | state                   | reason        | key  |
+        | CURRENT_PM | PM Reviews              | reason test 1 | key1 |
+        | GDVPDN     | Current HoO Reviews     | reason test 2 | key2 |
+        | GDVPV      | Destination HoO Reviews | reason test 3 | key3 |

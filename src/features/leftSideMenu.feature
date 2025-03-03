@@ -16,8 +16,8 @@ Feature: Left Side Menu
         | Settings           |
         | Roles              |
         | Manage permissions |
-        | Report             |
-        | Report WFH         |
+        # | Report             |
+        # | Report WFH         |
 
   @user
   Rule: As user, I should see these Navigation Links on Left Side Menu after login

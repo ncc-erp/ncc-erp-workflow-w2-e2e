@@ -2,6 +2,7 @@ import path from "path";
 
 export const authUserFile = path.join(__dirname, "../.auth/user.json");
 export const authPmFile = path.join(__dirname, "../.auth/pm.json");
+export const authPm2File = path.join(__dirname, "../.auth/pm2.json");
 export const authItFile = path.join(__dirname, "../.auth/it.json");
 export const authAdminFile = path.join(__dirname, "../.auth/admin.json");
 export const authGDVPDNFile = path.join(__dirname, "../.auth/gdvpdn.json");
@@ -17,6 +18,12 @@ export const users = {
     password: "1q2w3E*",
     name: "Manh Nguyen Van",
     authFile: authUserFile,
+  },
+  current_pm: {
+    username: "nhan.nguyenquang@ncc.asia",
+    password: "1q2w3E*",
+    name: "Nhan Nguyen Quang",
+    authFile: authPm2File,
   },
   pm: {
     username: "hieu.dohoang@ncc.asia",
