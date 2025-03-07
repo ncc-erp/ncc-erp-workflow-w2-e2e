@@ -98,15 +98,9 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
       dependencies: ["setup"],
       teardown: "cleanup",
-      snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
+      snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{platform}-{arg}{ext}",
       expect: {
         timeout: 10000,
-        toHaveScreenshot: {
-          maxDiffPixelRatio: 0.1,
-        },
-        toMatchSnapshot: {
-          maxDiffPixelRatio: 0.1,
-        },
       },
     },
     // {

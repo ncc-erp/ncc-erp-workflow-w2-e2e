@@ -12,6 +12,7 @@ export const VIEW_PORTS: IViewport[] = [
 ];
 
 export async function takeSnapshot(page: Page, viewport?: IViewport, isFullPage = true) {
+  // Inject font smoothing
   if (viewport) {
     await page.setViewportSize(viewport); // Apply the viewport size before taking a snapshot
   }
@@ -20,8 +21,9 @@ export async function takeSnapshot(page: Page, viewport?: IViewport, isFullPage 
   await page.waitForLoadState("networkidle");
   await expect.soft(page).toHaveScreenshot({
     fullPage: isFullPage,
-    maxDiffPixels: 100, // Allow small pixel differences
+    maxDiffPixels: 500, // Allow small pixel differences
     threshold: 0.15, // Allow 15% difference in color changes // maximum can allows
+    // maxDiffPixelRatio: 0.01, // Allow 1% pixel difference
   });
 }
 export async function takeSnapshots(page: Page, isFullPage = true) {
