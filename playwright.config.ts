@@ -56,9 +56,6 @@ export default defineConfig({
     testIdAttribute: "data-testid",
     /* Retain video on failure */
     video: "retain-on-failure",
-    launchOptions: {
-      args: ["--font-render-hinting=none", "--disable-font-subpixel-positioning", "--disable-gpu"],
-    },
   },
   /* Configure projects for major browsers */
   projects: [
@@ -101,15 +98,9 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
       dependencies: ["setup"],
       teardown: "cleanup",
-      snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
+      snapshotPathTemplate: "{testDir}/{platform}/{testFilePath}-snapshots/{arg}{ext}",
       expect: {
         timeout: 10000,
-        toHaveScreenshot: {
-          maxDiffPixelRatio: 0.1,
-        },
-        toMatchSnapshot: {
-          maxDiffPixelRatio: 0.1,
-        },
       },
     },
     // {
