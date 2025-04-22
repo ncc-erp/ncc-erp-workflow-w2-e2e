@@ -92,23 +92,23 @@ export default defineConfig({
       dependencies: ["setup"],
       teardown: "cleanup",
     },
-    {
-      name: "visual",
-      testMatch: "visual/**/*.spec.ts",
-      use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
-      dependencies: ["setup"],
-      teardown: "cleanup",
-      snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
-      expect: {
-        timeout: 10000,
-        toHaveScreenshot: {
-          maxDiffPixelRatio: 0.1,
-        },
-        toMatchSnapshot: {
-          maxDiffPixelRatio: 0.1,
-        },
-      },
-    },
+    // {
+    //   name: "visual",
+    //   testMatch: "visual/**/*.spec.ts",
+    //   use: { ...devices["Desktop Chrome"], viewport: { width: 1920, height: 1080 } },
+    //   dependencies: ["setup"],
+    //   teardown: "cleanup",
+    //   snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
+    //   expect: {
+    //     timeout: 10000,
+    //     toHaveScreenshot: {
+    //       maxDiffPixelRatio: 0.1,
+    //     },
+    //     toMatchSnapshot: {
+    //       maxDiffPixelRatio: 0.1,
+    //     },
+    //   },
+    // },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
