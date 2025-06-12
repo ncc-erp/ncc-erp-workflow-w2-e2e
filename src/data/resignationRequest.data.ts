@@ -20,7 +20,7 @@ export const ResignationRequestData = {
           return `Request for Resignation: Final Day ${this.DesiredLastWorkingDay.value}`;
         },
         getNotificationSubject() {
-          return `[Resignation Request] [Fintech Control Tower] - ${users.user.name}`;
+          return `[Resignation Request] [My Stays] - ${users.user.name}`;
         },
         getKomuMessage() {
           return `\n**${users.user.name}** has send **Resignation Request**:\n# ${formattedDate}`;
