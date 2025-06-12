@@ -43,7 +43,7 @@ export default class RequestTemplatePage extends BasePage {
 
     if (name == "Probationary Confirmation Request") {
       // this request not create directly
-      await new Promise<void>((r) => setTimeout(() => r(), 30000));
+      await new Promise<void>((r) => setTimeout(() => r(), 120000));
     }
     return {
       id: response.workflowInstanceId,
