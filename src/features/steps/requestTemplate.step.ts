@@ -131,9 +131,10 @@ When("I delete the workflow with name as {string}", async ({ PageObjects }, work
 });
 
 When("I click on Yes button to delete the workflow", async ({ PageObjects }) => {
-  const responsePromise = PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll);
-  await PageObjects.RequestTemplatePage.button.clickByName("Yes");
-  await responsePromise;
+  await Promise.all([
+    PageObjects.RequestTemplatePage.page.waitForResponse(API.listAll),
+    PageObjects.RequestTemplatePage.button.clickByName("Yes"),
+  ]);
 });
 
 When("I open Setting menu of workflow with name as {string}", async ({ PageObjects }, workflowName: string) => {
