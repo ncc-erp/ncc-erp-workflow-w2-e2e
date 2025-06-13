@@ -20,9 +20,9 @@ export const users = {
     authFile: authUserFile,
   },
   current_pm: {
-    username: "nhan.nguyenquang@ncc.asia",
+    username: "tien.nguyenhuu@ncc.asia",
     password: "1q2w3E*",
-    name: "Nhan Nguyen Quang",
+    name: "Tien Nguyen Huu",
     authFile: authPm2File,
   },
   pm: {
