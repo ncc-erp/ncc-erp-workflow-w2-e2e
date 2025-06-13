@@ -1,5 +1,5 @@
 Feature: Probationary Confirmation Request
-  # @skip  // TODO: after creating PCR PM current PM not receiving request
+  # @skip  // TODO: after creating PCR my project PM not receiving request
 
   @pm
   Rule: As pm, I want to received a Probationary Confirmation Request from my project
