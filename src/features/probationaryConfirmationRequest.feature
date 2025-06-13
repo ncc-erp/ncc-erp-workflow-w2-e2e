@@ -1,6 +1,6 @@
 Feature: Probationary Confirmation Request
 
-  @gdvpdn
+  @pm
   Rule: As pm, I want to received a Probationary Confirmation Request from my project  @skip  // TODO: after creating PCR PM current PM not receiving request
 
     Background:
