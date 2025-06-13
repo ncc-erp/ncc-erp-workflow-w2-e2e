@@ -9,8 +9,8 @@ Feature: Probationary Confirmation Request
 
     Scenario: I should see the request with pending status on my tasks
       Then I should see request is "pending" with id "*global[pcr1].response.id" and state "HoO Reviews" on tasks page
-      And I should see an email send to "*testData.users.pm.username" with subject "*global[pcr1].getNotificationSubject"
-      And I should see a komu notification sent to "*testData.users.pm.username" with message "*global[pcr1].getKomuMessage"
+      And I should see an email send to "*testData.users.gdvpdn.username" with subject "*global[pcr1].getNotificationSubject"
+      And I should see a komu notification sent to "*testData.users.gdvpdn.username" with message "*global[pcr1].getKomuMessage"
 
     Scenario: I can approve the request success
       When I approve request with id "*global[pcr1].response.id" with strength points "strength points test" and weekness points "weekness points test"
