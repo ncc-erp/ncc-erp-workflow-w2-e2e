@@ -16,8 +16,8 @@ export const ProbationaryConfirmationRequestData = {
         },
         Project: {
           type: "select",
-          value: "Fintech Control Tower",
-          code: "fintech control tower",
+          value: "My Stays",
+          code: "My Stays",
         },
         CurrentOffice: {
           type: "select",
